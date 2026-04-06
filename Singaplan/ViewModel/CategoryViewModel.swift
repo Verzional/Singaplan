@@ -15,12 +15,27 @@ final class CategoryViewModel {
     
     var mainCategories: [CategoryModel] = []
     var selectedCategories: Set<CategoryModel> = []
-
+    var searchText: String = ""
+    
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
         fetchData()
     }
-
+    
+    var filteredCategories: [CategoryModel] {
+        if searchText.isEmpty {
+            return mainCategories
+        } else {
+            return mainCategories.filter { parent in
+                let matchesParent = parent.title.localizedCaseInsensitiveContains(searchText)
+                let matchesChild = parent.subCategories.contains { child in
+                    child.title.localizedCaseInsensitiveContains(searchText)
+                }
+                return matchesParent || matchesChild
+            }
+        }
+    }
+    
     func fetchData() {
         let descriptor = FetchDescriptor<CategoryModel>(
             predicate: #Predicate { $0.parent == nil },
@@ -33,7 +48,7 @@ final class CategoryViewModel {
             print("Fetch failed: \(error)")
         }
     }
-
+    
     func toggle(_ category: CategoryModel) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)

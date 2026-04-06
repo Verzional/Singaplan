@@ -20,25 +20,30 @@ struct CategoryCreateView: View {
     
     var body: some View {
         NavigationStack{
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    ForEach(viewModel.mainCategories) { parent in
-                        VStack(alignment: .leading) {
-                            Text(parent.title).font(.headline).padding(.horizontal)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 12) {
-                                    ForEach(parent.subCategories) { child in
-                                        CategoryCapsule(
-                                            child: child,
-                                            isSelected: viewModel.selectedCategories.contains(child)
-                                        )
-                                        .onTapGesture {
-                                            viewModel.toggle(child)
+            VStack {
+                SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
+                    .padding(.top)
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        ForEach(viewModel.filteredCategories) { parent in
+                            VStack(alignment: .leading) {
+                                Text(parent.title).font(.headline).padding(.horizontal)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 12) {
+                                        ForEach(parent.subCategories) { child in
+                                            CategoryCapsule(
+                                                child: child,
+                                                isSelected: viewModel.selectedCategories.contains(child)
+                                            )
+                                            .onTapGesture {
+                                                viewModel.toggle(child)
+                                            }
                                         }
                                     }
+                                    .padding(.horizontal)
                                 }
-                                .padding(.horizontal)
                             }
                         }
                     }
