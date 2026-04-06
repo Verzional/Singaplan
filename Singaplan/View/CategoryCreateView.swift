@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CategoryCreateView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedCategories: Set<CategoryModel> = []
+    @Query(filter: #Predicate<CategoryModel> { $0.parent == nil }, sort: \.title)
+    private var mainCategories: [CategoryModel]
     
     var body: some View {
         NavigationStack{
