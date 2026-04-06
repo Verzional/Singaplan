@@ -28,52 +28,52 @@ struct CategoryCreateView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         ForEach(viewModel.filteredCategories) { parent in
-                            VStack(alignment: .leading) {
-                                Text(parent.title).font(.headline).padding(.horizontal)
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text(parent.title)
+                                    .font(.headline)
+                                    .padding(.horizontal)
                                 
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 12) {
-                                        ForEach(parent.subCategories) { child in
-                                            CategoryCapsule(
-                                                child: child,
-                                                isSelected: viewModel.selectedCategories.contains(child)
-                                            )
-                                            .onTapGesture {
-                                                viewModel.toggle(child)
-                                            }
+                                FlowLayout() {
+                                    ForEach(parent.subCategories) { child in
+                                        CategoryCapsule(
+                                            child: child,
+                                            isSelected: viewModel.selectedCategories.contains(child)
+                                        )
+                                        .onTapGesture {
+                                            viewModel.toggle(child)
                                         }
                                     }
-                                    .padding(.horizontal)
                                 }
+                                .padding(.horizontal)
                             }
                         }
                     }
                 }
-            }
-            .navigationTitle("Select Categories")
-            .navigationBarTitleDisplayMode(.inline)
-            
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button() {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.black)
+                .navigationTitle("Select Categories")
+                .navigationBarTitleDisplayMode(.inline)
+                
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button() {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                                .foregroundStyle(.black)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button() {
+                            isShowingSaveModal = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .foregroundStyle(.blue)
+                        }
+                        .disabled(viewModel.selectedCategories.isEmpty)
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button() {
-                        isShowingSaveModal = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .foregroundStyle(.blue)
-                    }
-                    .disabled(viewModel.selectedCategories.isEmpty)
+                .sheet(isPresented: $isShowingSaveModal) {
+                    CategorySaveView(selectedCategories: Array(viewModel.selectedCategories))
                 }
-            }
-            .sheet(isPresented: $isShowingSaveModal) {
-                CategorySaveView(selectedCategories: Array(viewModel.selectedCategories))
             }
         }
     }
