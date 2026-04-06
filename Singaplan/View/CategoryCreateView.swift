@@ -13,6 +13,7 @@ struct CategoryCreateView: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var viewModel: CategoryViewModel
+    @State private var isShowingSaveModal = false
     
     init(modelContext: ModelContext) {
         self._viewModel = State(initialValue: CategoryViewModel(modelContext: modelContext))
@@ -63,13 +64,16 @@ struct CategoryCreateView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button() {
-                        
+                        isShowingSaveModal = true
                     } label: {
                         Image(systemName: "plus")
                             .foregroundStyle(.blue)
                     }
                     .disabled(viewModel.selectedCategories.isEmpty)
                 }
+            }
+            .sheet(isPresented: $isShowingSaveModal) {
+                CategorySaveView(selectedCategories: Array(viewModel.selectedCategories))
             }
         }
     }

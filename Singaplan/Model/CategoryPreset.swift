@@ -10,15 +10,13 @@ import SwiftData
 
 @Model
 final class CategoryPreset {
-    @Attribute(.unique) var id: UUID
     var title: String
     var desc: String?
     
     @Relationship(deleteRule: .noAction)
     var categories: [CategoryModel] = []
     
-    init(id: UUID = UUID(), title: String, desc: String, categories: [CategoryModel] = []) {
-        self.id = id
+    init(title: String, desc: String, categories: [CategoryModel] = []) {
         self.title = title
         self.desc = desc
         self.categories = categories

@@ -16,6 +16,7 @@ struct SeedData {
         CategoryModel(title: "Mountain", icon: "mountain.2", parent: nature),
         CategoryModel(title: "Marine", icon:"water.waves", parent: nature),
         CategoryModel(title: "Wildlife", icon: "pawprint", parent: nature),
+        CategoryModel(title: "Forest", icon: "tree", parent: nature),
         CategoryModel(title: "Artistic", icon: "paintpalette", parent: culture),
         CategoryModel(title: "Ancient", icon: "laurel.leading.laurel.trailing", parent: culture),
         CategoryModel(title: "Festive", icon: "party.popper", parent: culture),
