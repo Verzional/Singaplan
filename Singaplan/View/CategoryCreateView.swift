@@ -22,7 +22,7 @@ struct CategoryCreateView: View {
         NavigationStack{
             VStack {
                 SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
-                    .padding(.top)
+                    .padding(.vertical)
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -63,7 +63,7 @@ struct CategoryCreateView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button() {
-                        dismiss()
+                        
                     } label: {
                         Image(systemName: "plus")
                             .foregroundStyle(.blue)
