@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import Observation
 
 @Observable
 final class CategoryViewModel {
@@ -33,7 +34,7 @@ final class CategoryViewModel {
         }
     }
 
-    func toggleSelection(_ category: CategoryModel) {
+    func toggle(_ category: CategoryModel) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
         } else {

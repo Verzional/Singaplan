@@ -10,33 +10,31 @@ import SwiftData
 
 struct CategoryCreateView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedCategories: Set<CategoryModel> = []
+    @Environment(\.modelContext) private var modelContext
     
+    @State private var viewModel: CategoryViewModel
+    
+    init(modelContext: ModelContext) {
+        self._viewModel = State(initialValue: CategoryViewModel(modelContext: modelContext))
+    }
     
     var body: some View {
         NavigationStack{
             ScrollView {
-                // Stack
-                LazyVStack(alignment: .leading, spacing: 30) {
-                    // Loop
-                    ForEach(mainCategories) { parent in
-                        VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 30) {
+                    ForEach(viewModel.mainCategories) { parent in
+                        VStack(alignment: .leading) {
+                            Text(parent.title).font(.headline).padding(.horizontal)
                             
-                            // A. Parent Title
-                            Text(parent.title)
-                                .font(.headline)
-                                .padding(.horizontal)
-                            
-                            // B. Horizontal Scroll of Child Capsules
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 12) {
                                     ForEach(parent.subCategories) { child in
                                         CategoryCapsule(
                                             child: child,
-                                            isSelected: selectedCategories.contains(child)
+                                            isSelected: viewModel.selectedCategories.contains(child)
                                         )
                                         .onTapGesture {
-                                            toggle(child)
+                                            viewModel.toggle(child)
                                         }
                                     }
                                 }
@@ -45,7 +43,6 @@ struct CategoryCreateView: View {
                         }
                     }
                 }
-                .padding(.vertical)
             }
             .navigationTitle("Select Categories")
             .navigationBarTitleDisplayMode(.inline)
@@ -66,21 +63,27 @@ struct CategoryCreateView: View {
                         Image(systemName: "plus")
                             .foregroundStyle(.blue)
                     }
-                    .disabled(selectedCategories.isEmpty)
+                    .disabled(viewModel.selectedCategories.isEmpty)
                 }
             }
-        }
-    }
-    
-    private func toggle(_ category: CategoryModel) {
-        if selectedCategories.contains(category) {
-            selectedCategories.remove(category)
-        } else {
-            selectedCategories.insert(category)
         }
     }
 }
 
 #Preview {
-    CategoryCreateView()
+    // In Memory DB
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: CategoryModel.self, configurations: config)
+    
+    // Context
+    let context = container.mainContext
+    
+    // Data Injection
+    for category in SeedData.categoryData {
+        context.insert(category)
+    }
+    
+    // Return Preview
+    return CategoryCreateView(modelContext: context)
+        .modelContainer(container)
 }
