@@ -21,7 +21,7 @@ struct CategoryCreateView: View {
     var body: some View {
         NavigationStack{
             ScrollView {
-                VStack(alignment: .leading, spacing: 30) {
+                VStack(alignment: .leading, spacing: 24) {
                     ForEach(viewModel.mainCategories) { parent in
                         VStack(alignment: .leading) {
                             Text(parent.title).font(.headline).padding(.horizontal)
