@@ -12,9 +12,16 @@ import SwiftData
 final class CategoryModel {
     @Attribute(.unique) var id: UUID
     var title: String
+    var icon: String?
+    var parent: CategoryModel?
     
-    init(id: UUID = UUID(), title: String) {
+    @Relationship(deleteRule: .cascade, inverse: \CategoryModel.parent)
+    var subcategories: [CategoryModel] = []
+    
+    init(id: UUID = UUID(), title: String, icon: String? = nil, parent: CategoryModel? = nil) {
         self.id = id
         self.title = title
+        self.icon = icon
+        self.parent = parent
     }
 }

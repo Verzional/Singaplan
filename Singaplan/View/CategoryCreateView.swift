@@ -13,23 +13,30 @@ struct CategoryCreateView: View {
     
     var body: some View {
         NavigationStack{
-            Text("Hello World")
-        }
-        .navigationTitle("Select Categories")
-        .navigationBarTitleDisplayMode(.inline)
-        
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Cancel") {
-                    dismiss()
-                }
-                .foregroundStyle(.black)
+            VStack {
+                Text("Hello World")
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Save") {
-                    dismiss()
+            .navigationTitle("Select Categories")
+            .navigationBarTitleDisplayMode(.inline)
+            
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button() {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.black)
+                    }
                 }
-                .disabled(selectedCategories.isEmpty)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button() {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "plus")
+                            .foregroundStyle(.blue)
+                    }
+                    .disabled(selectedCategories.isEmpty)
+                }
             }
         }
     }
