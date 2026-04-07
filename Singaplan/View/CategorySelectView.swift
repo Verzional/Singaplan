@@ -37,7 +37,7 @@ struct CategorySelectView: View {
                                     ForEach(parent.subCategories) { child in
                                         CategoryCapsule(
                                             child: child,
-                                            isSelected: viewModel.selectedCategories.contains(child)
+                                            isSelected: viewModel.selectedCategories.contains(child),
                                         )
                                         .onTapGesture {
                                             viewModel.toggle(child)

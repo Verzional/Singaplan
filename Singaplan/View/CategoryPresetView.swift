@@ -19,19 +19,33 @@ struct CategoryPresetView: View {
     
     var body: some View {
         NavigationStack {
-            Group {
-                if savedPresets.isEmpty {
-                    ContentUnavailableView("No Presets", systemImage: "tray", description: Text("Tap + to create a new category preset."))
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(savedPresets) { preset in
-                                presetCard(preset)
+            VStack {
+                Group {
+                    if savedPresets.isEmpty {
+                        ContentUnavailableView("No Presets", systemImage: "tray", description: Text("Tap + to create a new category preset."))
+                    } else {
+                        ScrollView {
+                            LazyVStack(spacing: 16) {
+                                ForEach(savedPresets) { preset in
+                                    presetCard(preset)
+                                }
                             }
+                            .padding()
                         }
-                        .padding()
                     }
                 }
+                
+                Spacer()
+                
+                Button {
+                    // WIP
+                } label: {
+                    Text("Continue")
+                }
+                .buttonStyle(.bordered)
+                .tint(.blue)
+                .controlSize(.large)
+                .buttonBorderShape(.capsule)
             }
             .navigationTitle("Category Preset")
             .navigationBarTitleDisplayMode(.inline)
@@ -53,7 +67,7 @@ struct CategoryPresetView: View {
                 }
             }
             .sheet(isPresented: $isShowingCreateModal) {
-                CategorySelectView(modelContext: modelContext)
+                CategorySelectView(modelContext: modelContext).modelContext(modelContext)
             }
         }
     }
@@ -80,8 +94,7 @@ struct CategoryPresetView: View {
                     // Action for editing
                 } label: {
                     Image(systemName: "pencil")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(.blue)
+                        .font(.system(size: 16, weight: .medium))
                         .padding(8)
                         .background(Color.blue.opacity(0.1))
                         .clipShape(Circle())
@@ -98,7 +111,7 @@ struct CategoryPresetView: View {
         .background {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
-                .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
         }
     }
 }

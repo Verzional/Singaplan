@@ -23,8 +23,8 @@ struct CategoryCapsule: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
         
         // Styling
         .background(isSelected ? Color.blue : Color(.systemGray6))
