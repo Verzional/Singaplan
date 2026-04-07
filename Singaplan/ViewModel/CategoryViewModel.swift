@@ -6,23 +6,23 @@
 //
 
 import Foundation
-import SwiftData
 import Observation
+import SwiftData
 
 @Observable
 final class CategoryViewModel {
-    public var modelContext: ModelContext
-    
+    private var modelContext: ModelContext
+
     var mainCategories: [CategoryModel] = []
     var selectedCategories: Set<CategoryModel> = []
     var searchText: String = ""
-    
+
     init(modelContext: ModelContext, initialSelectedCategories: [CategoryModel] = []) {
         self.modelContext = modelContext
         self.selectedCategories = Set(initialSelectedCategories)
         fetchData()
     }
-    
+
     var filteredCategories: [CategoryModel] {
         if searchText.isEmpty {
             return mainCategories
@@ -36,7 +36,7 @@ final class CategoryViewModel {
             }
         }
     }
-    
+
     func fetchData() {
         let descriptor = FetchDescriptor<CategoryModel>(
             predicate: #Predicate { $0.parent == nil },
@@ -48,7 +48,7 @@ final class CategoryViewModel {
             print("Fetch failed: \(error)")
         }
     }
-    
+
     func toggle(_ category: CategoryModel) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
