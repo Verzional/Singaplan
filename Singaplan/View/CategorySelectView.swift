@@ -5,17 +5,17 @@
 //  Created by Valentino Manuel Gunawan on 06/04/26.
 //
 
-import SwiftData
 import SwiftUI
+import SwiftData
 
 struct CategorySelectView: View {
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var viewModel: CategoryViewModel
     @State private var isShowingSaveModal = false
-
+    
     private let presetToEdit: CategoryPreset?
-
+    
     init(modelContext: ModelContext, preset: CategoryPreset? = nil) {
         self.presetToEdit = preset
         self._viewModel = State(
@@ -25,13 +25,13 @@ struct CategorySelectView: View {
             )
         )
     }
-
+    
     var body: some View {
         NavigationStack {
             VStack {
                 SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
                     .padding(.vertical)
-
+                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         ForEach(viewModel.filteredCategories) { parent in
@@ -39,7 +39,7 @@ struct CategorySelectView: View {
                                 Text(parent.title)
                                     .font(.headline)
                                     .padding(.horizontal)
-
+                                
                                 FlowLayout {
                                     ForEach(parent.subCategories) { child in
                                         CategoryCapsule(
@@ -57,6 +57,8 @@ struct CategorySelectView: View {
                     }
                 }
             }
+            .navigationTitle(presetToEdit == nil ? "Select Categories" : "Edit Categories")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
@@ -73,8 +75,6 @@ struct CategorySelectView: View {
                     }
                 }
             }
-            .navigationTitle(presetToEdit == nil ? "Select Categories" : "Edit Categories")
-            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $isShowingSaveModal) {
                 CategorySaveView(
                     preset: presetToEdit,
@@ -90,15 +90,15 @@ struct CategorySelectView: View {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: CategoryModel.self, configurations: config)
-
+    
     // Context
     let context = container.mainContext
-
+    
     // Data Injection
     for category in SeedData.categoryData {
         context.insert(category)
     }
-
+    
     // Return Preview
     return CategorySelectView(modelContext: context)
         .modelContainer(container)
