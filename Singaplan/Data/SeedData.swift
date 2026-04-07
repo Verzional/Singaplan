@@ -35,7 +35,6 @@ struct SeedData {
     static var categoryData: [CategoryModel] {
         return [nature, culture, metro, supernatural, culinary] + categories
     }
-    
     // MARK: - Priorities
     // Define the Priorities
     static let budget = PriorityModel(title: "Budget", weight: 0.34)
@@ -53,4 +52,34 @@ struct SeedData {
     static var priorityData: [PriorityModel] {
         return [budget, accessibility, experience] + priorities
     }
+    //MARK: - Experience
+    static let experiences: [ExperienceModel] = [
+        ExperienceModel(
+            title: "Popularity",
+            desc: "Balance your trip between world-renowned icons and under-the-radar local secrets.",
+            segments: [
+                ExperienceSegment(label: "Hidden Gems", weight: 0.1),
+                ExperienceSegment(label: "Mixed", weight: 0.5),
+                ExperienceSegment(label: "Iconic Hits", weight: 1.0)
+            ]
+        ),
+        ExperienceModel(
+            title: "Proximity",
+            desc: "Prioritize areas with high concentrations of things to do, or spread out for a more spacious journey.",
+            segments: [
+                ExperienceSegment(label: "Spaced Out", weight: 0.1),
+                ExperienceSegment(label: "Balanced", weight: 0.5),
+                ExperienceSegment(label: "Action-Packed", weight: 1.0)
+            ]
+        ),
+        ExperienceModel(
+            title: "Pace",
+            desc: "Weight your day toward quick, high-variety 'snapshots' or deeper, time-intensive immersions.",
+            segments: [
+                ExperienceSegment(label: "Snapshots", weight: 0.1),
+                ExperienceSegment(label: "Steady", weight: 0.5),
+                ExperienceSegment(label: "Deep Dives", weight: 1.0)
+            ]
+        )
+    ]
 }
