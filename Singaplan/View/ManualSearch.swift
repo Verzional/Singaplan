@@ -1,10 +1,3 @@
-//
-//  ManualSearch.swift
-//  Singaplan
-//
-//  Created by Valentino Manuel Gunawan on 06/04/26.
-//
-
 import SwiftUI
 
 struct ManualSearch: View {
@@ -34,6 +27,7 @@ struct ManualSearch: View {
 
 extension ManualSearch {
     
+    /// Main image above the SearchBar
     private var spotlightImageSection: some View {
         Image("universal_studios")
             .resizable()
@@ -45,12 +39,12 @@ extension ManualSearch {
             )
     }
     
-    /// Integration of the friend's SearchBar component
+    /// SearchBar that follows the modal placement
     private var searchBarSection: some View {
         SearchBar(text: $searchText, placeholder: "Search")
             .padding(.vertical, 15)
     }
-
+    /// Places recently searched by users
     private var recentSearchesList: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -69,7 +63,7 @@ extension ManualSearch {
         .padding(.horizontal, 25)
         .padding(.top, 10)
     }
-    
+    /// Card results for places
     private var searchResultsSection: some View {
         Text("Results for \(searchText)")
             .padding()
