@@ -35,50 +35,63 @@ struct SeedData {
     static var categoryData: [CategoryModel] {
         return [nature, culture, metro, supernatural, culinary] + categories
     }
-    // MARK: - Priorities
-    // Define the Priorities
-    static let budget = PriorityModel(title: "Budget", weight: 0.34)
-    static let accessibility = PriorityModel(title: "Accessibility", weight: 0.33)
-    static let experience = PriorityModel(title: "Experience", weight: 0.33)
-    
-    // Define the SubPriorities
-    static let priorities: [PriorityModel] = [
-        PriorityModel(title: "DBR Bracket", weight: 0.1, parent: budget),
-        PriorityModel(title: "Additional Fees", weight: 0.1, parent: budget),
-        PriorityModel(title: "Density of Interest", weight: 0.1, parent: experience)
-    ]
-    
-    // Return the Categories with it's SubPriorities
-    static var priorityData: [PriorityModel] {
-        return [budget, accessibility, experience] + priorities
-    }
-    //MARK: - Experience
-    static let experiences: [ExperienceModel] = [
-        ExperienceModel(
+    //MARK: - Priorities
+    static let experiences: [PriorityModel] = [
+        PriorityModel(
             title: "Popularity",
             desc: "Balance your trip between world-renowned icons and under-the-radar local secrets.",
             segments: [
-                ExperienceSegment(label: "Hidden Gems", weight: 0.1),
-                ExperienceSegment(label: "Mixed", weight: 0.5),
-                ExperienceSegment(label: "Iconic Hits", weight: 1.0)
+                PrioritySegment(label: "Hidden Gems", weight: 0.1),
+                PrioritySegment(label: "Mixed", weight: 0.5),
+                PrioritySegment(label: "Iconic Hits", weight: 1.0)
             ]
         ),
-        ExperienceModel(
+        PriorityModel(
             title: "Proximity",
             desc: "Prioritize areas with high concentrations of things to do, or spread out for a more spacious journey.",
             segments: [
-                ExperienceSegment(label: "Spaced Out", weight: 0.1),
-                ExperienceSegment(label: "Balanced", weight: 0.5),
-                ExperienceSegment(label: "Action-Packed", weight: 1.0)
+                PrioritySegment(label: "Spaced Out", weight: 0.1),
+                PrioritySegment(label: "Balanced", weight: 0.5),
+                PrioritySegment(label: "Action-Packed", weight: 1.0)
             ]
         ),
-        ExperienceModel(
+        PriorityModel(
             title: "Pace",
             desc: "Weight your day toward quick, high-variety 'snapshots' or deeper, time-intensive immersions.",
             segments: [
-                ExperienceSegment(label: "Snapshots", weight: 0.1),
-                ExperienceSegment(label: "Steady", weight: 0.5),
-                ExperienceSegment(label: "Deep Dives", weight: 1.0)
+                PrioritySegment(label: "Snapshots", weight: 0.1),
+                PrioritySegment(label: "Steady", weight: 0.5),
+                PrioritySegment(label: "Deep Dives", weight: 1.0)
+            ]
+        )
+    ]
+    
+    static let accessibility: [PriorityModel] = [
+        PriorityModel(
+            title: "Mobility", 
+            desc: "Prioritize level, easy-access paths or embrace more rugged, adventurous surfaces.",
+            segments: [
+                PrioritySegment(label: "Rugged", weight: 0.1),
+                PrioritySegment(label: "Standard", weight: 0.5),
+                PrioritySegment(label: "Seamless", weight: 1.0)
+            ]
+        ),
+        PriorityModel(
+            title: "Transport",
+            desc: "Choose between secluded spots with one way in or vibrant hubs with every way to arrive.",
+            segments: [
+                PrioritySegment(label: "Single", weight: 0.1),
+                PrioritySegment(label: "Mixed", weight: 0.5),
+                PrioritySegment(label: "Versatile", weight: 1.0)
+            ]
+        ),
+        PriorityModel(
+            title: "Walkability",
+            desc: "Balance your trip between vehicle-heavy roads and pedestrian-first zones with tram lines.",
+            segments: [
+                PrioritySegment(label: "Vehicle", weight: 0.1),
+                PrioritySegment(label: "Mixed", weight: 0.5),
+                PrioritySegment(label: "Pedestrian", weight: 1.0)
             ]
         )
     ]

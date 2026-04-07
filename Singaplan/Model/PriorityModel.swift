@@ -1,8 +1,8 @@
 //
-//  Priority.swift
+//  ExperienceModel.swift
 //  Singaplan
 //
-//  Created by Valentino Manuel Gunawan on 06/04/26.
+//  Created by Valentino Manuel Gunawan on 07/04/26.
 //
 
 import Foundation
@@ -12,16 +12,19 @@ import SwiftData
 final class PriorityModel {
     @Attribute(.unique) var id: UUID
     var title: String
-    var weight: Double
-    var parent: PriorityModel?
+    var desc: String
+    var segments: [PrioritySegment]
+    var selectedWeight: Double = 0.5
     
-    @Relationship(deleteRule: .cascade, inverse: \PriorityModel.parent)
-    var subPriorities: [PriorityModel] = []
-    
-    init(id: UUID = UUID(), title: String, weight: Double, parent: PriorityModel? = nil) {
+    init(id: UUID = UUID(), title: String, desc: String, segments: [PrioritySegment]) {
         self.id = id
         self.title = title
-        self.weight = weight
-        self.parent = parent
+        self.desc = desc
+        self.segments = segments
     }
+}
+
+struct PrioritySegment: Codable, Hashable {
+    let label: String
+    let weight: Double
 }
