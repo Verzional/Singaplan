@@ -21,20 +21,18 @@ struct CategoryPresetView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Group {
-                    if savedPresets.isEmpty {
-                        ContentUnavailableView(
-                            "No Presets", systemImage: "tray",
-                            description: Text("Tap + to create a new category preset."))
-                    } else {
-                        ScrollView {
-                            LazyVStack(spacing: 16) {
-                                ForEach(savedPresets) { preset in
-                                    presetCard(preset)
-                                }
+                if savedPresets.isEmpty {
+                    ContentUnavailableView(
+                        "No Presets", systemImage: "tray",
+                        description: Text("Tap + to create a new category preset."))
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(savedPresets) { preset in
+                                presetCard(preset)
                             }
-                            .padding()
                         }
+                        .padding()
                     }
                 }
 

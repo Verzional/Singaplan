@@ -13,12 +13,12 @@ struct CategorySaveView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var name: String = ""
-    @State private var description: String = ""
+    @State private var presetDescription: String = ""
 
     let selectedCategories: [CategoryModel]
 
     let presetToEdit: CategoryPreset?
-    var onSaveComplete: () -> Void
+    let onSaveComplete: () -> Void
 
     init(
         preset: CategoryPreset? = nil, selectedCategories: [CategoryModel],
@@ -29,7 +29,7 @@ struct CategorySaveView: View {
         self.onSaveComplete = onSaveComplete
 
         self._name = State(initialValue: preset?.title ?? "")
-        self._description = State(initialValue: preset?.desc ?? "")
+        self._presetDescription = State(initialValue: preset?.desc ?? "")
     }
 
     var body: some View {
@@ -37,7 +37,7 @@ struct CategorySaveView: View {
             Form {
                 Section("Preset Details") {
                     TextField("Name (e.g., Weekend Trip)", text: $name)
-                    TextField("Description", text: $description, axis: .vertical)
+                    TextField("Description", text: $presetDescription, axis: .vertical)
                         .lineLimit(3...5)
                 }
 
@@ -71,12 +71,12 @@ struct CategorySaveView: View {
     private func savePreset() {
         if let existingPreset = presetToEdit {
             existingPreset.title = name
-            existingPreset.desc = description
+            existingPreset.desc = presetDescription.isEmpty ? nil : presetDescription
             existingPreset.categories = selectedCategories
         } else {
             let newPreset = CategoryPreset(
                 title: name,
-                desc: description,
+                desc: presetDescription.isEmpty ? "" : presetDescription,
                 categories: selectedCategories
             )
             modelContext.insert(newPreset)

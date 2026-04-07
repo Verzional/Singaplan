@@ -10,14 +10,14 @@ import SwiftUI
 struct CategoryCapsule: View {
     let child: CategoryModel
     let isSelected: Bool
-    
+
     var body: some View {
         // Main Stack
         HStack(spacing: 8) {
             // Icon
             Image(systemName: child.icon ?? "questionmark")
                 .font(.system(size: 14, weight: .medium))
-            
+
             // Title
             Text(child.title)
                 .font(.subheadline)
@@ -25,10 +25,10 @@ struct CategoryCapsule: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        
+
         // Styling
         .background(isSelected ? Color.blue : Color(.systemGray6))
-        .foregroundColor(isSelected ? .white : .primary)
+        .foregroundStyle(isSelected ? .white : .primary)
         .overlay(
             Capsule()
                 .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 1)
