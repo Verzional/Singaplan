@@ -20,7 +20,10 @@ struct PrioritySelectView: View {
     // Budget Selector States
     @State private var selectedBracket = "$$"
     @State private var entryFee = false
-
+    
+    // Experience Selector States
+    @State private var experiences = SeedData.experiences
+    
     let priceBracket = ["$", "$$", "$$$"]
     
     private var presetToEdit: PriorityPreset?
@@ -49,12 +52,11 @@ struct PrioritySelectView: View {
 private extension PrioritySelectView {
     var budgetSection: some View {
         DisclosureGroup("Budget", isExpanded: $budgetExpanded) {
-            VStack (alignment: .leading, spacing: 16) {
+            VStack (alignment: .leading, spacing: 24) {
                 // Price Bracket
                 VStack(alignment: .leading) {
                     Text("Price Bracket")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
                     
                     Picker("Price Range", selection: $selectedBracket) {
                         ForEach(priceBracket, id: \.self) { Text($0) }
@@ -66,7 +68,6 @@ private extension PrioritySelectView {
                 VStack(alignment: .leading) {
                     Text("Additional Fees")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
                     
                     Picker("Fee Range", selection: $entryFee) {
                         Text("Include Fees").tag(true)
@@ -81,7 +82,24 @@ private extension PrioritySelectView {
     
     var experienceSection: some View {
         DisclosureGroup("Experience", isExpanded: $experienceExpanded) {
-            // Content
+            ForEach($experiences) { $exp in
+                VStack(alignment: .leading) {
+                    Text(exp.title)
+                        .font(.subheadline)
+                    
+                    Text(exp.desc)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    
+                    Picker("Experience Level", selection: $exp.selectedWeight) {
+                        ForEach(exp.segments, id: \.weight) { segment in
+                            Text(segment.label).tag(segment.weight)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.bottom, 8)
+                }
+            }
         }
         .font(.headline)
     }
