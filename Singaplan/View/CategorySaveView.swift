@@ -12,10 +12,10 @@ struct CategorySaveView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    let selectedCategories: [CategoryModel]
-    
     @State private var name: String = ""
     @State private var description: String = ""
+    
+    let selectedCategories: [CategoryModel]
     
     var body: some View {
         NavigationStack {
@@ -27,14 +27,14 @@ struct CategorySaveView: View {
                 }
                 
                 Section("Selected Categories") {
-                    FlowLayout(spacing: 10) {
+                    FlowLayout {
                         ForEach(selectedCategories) { category in
                             CategoryCapsule(child: category, isSelected: true)
                         }
                     }
                     .padding(.vertical, 8)
                     .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowInsets(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 0))
                 }
             }
             .navigationTitle("Save Preset")

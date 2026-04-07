@@ -10,7 +10,7 @@ import SwiftUI
 struct CategoryCapsule: View {
     let child: CategoryModel
     let isSelected: Bool
-
+    
     var body: some View {
         // Main Stack
         HStack(spacing: 8) {

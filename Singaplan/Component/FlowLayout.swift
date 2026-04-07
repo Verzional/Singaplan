@@ -9,14 +9,14 @@ import SwiftUI
 
 struct FlowLayout: Layout {
     var spacing: CGFloat = 8
-
+    
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
         var totalHeight: CGFloat = 0
         var totalWidth: CGFloat = 0
         var lineWidth: CGFloat = 0
         var lineHeight: CGFloat = 0
-
+        
         for size in sizes {
             if lineWidth + size.width + spacing > (proposal.width ?? 0) {
                 totalHeight += lineHeight + spacing
@@ -30,13 +30,13 @@ struct FlowLayout: Layout {
         }
         return CGSize(width: totalWidth, height: totalHeight + lineHeight)
     }
-
+    
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
         let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
         var x = bounds.minX
         var y = bounds.minY
         var lineHeight: CGFloat = 0
-
+        
         for (index, size) in sizes.enumerated() {
             if x + size.width > bounds.maxX {
                 x = bounds.minX

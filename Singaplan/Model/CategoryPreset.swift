@@ -12,6 +12,7 @@ import SwiftData
 final class CategoryPreset {
     var title: String
     var desc: String?
+    var createdAt: Date
     
     @Relationship(deleteRule: .noAction)
     var categories: [CategoryModel] = []
@@ -20,5 +21,6 @@ final class CategoryPreset {
         self.title = title
         self.desc = desc
         self.categories = categories
+        self.createdAt = Date()
     }
 }

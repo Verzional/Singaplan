@@ -8,9 +8,9 @@
 import SwiftUI
 import SwiftData
 
-struct CategoryCreateView: View {
-    @Environment(\.dismiss) private var dismiss
+struct CategorySelectView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     
     @State private var viewModel: CategoryViewModel
     @State private var isShowingSaveModal = false
@@ -53,22 +53,19 @@ struct CategoryCreateView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 
                 .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button() {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button {
                             dismiss()
                         } label: {
                             Image(systemName: "xmark")
-                                .foregroundStyle(.black)
                         }
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button() {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
                             isShowingSaveModal = true
                         } label: {
                             Image(systemName: "plus")
-                                .foregroundStyle(.blue)
                         }
-                        .disabled(viewModel.selectedCategories.isEmpty)
                     }
                 }
                 .sheet(isPresented: $isShowingSaveModal) {
@@ -93,6 +90,6 @@ struct CategoryCreateView: View {
     }
     
     // Return Preview
-    return CategoryCreateView(modelContext: context)
+    return CategorySelectView(modelContext: context)
         .modelContainer(container)
 }

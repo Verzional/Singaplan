@@ -10,17 +10,17 @@ import SwiftUI
 struct SearchBar: View {
     @Binding var text: String
     var placeholder: String = "Search..."
-
+    
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.secondary)
-
+            
             TextField(placeholder, text: $text)
                 .textFieldStyle(.plain)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
-
+            
             if !text.isEmpty {
                 Button(action: {
                     self.text = ""
