@@ -12,7 +12,7 @@ struct CategorySaveView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    @State private var name: String = ""
+    @State private var presetTitle: String = ""
     @State private var presetDescription: String = ""
 
     let selectedCategories: [CategoryModel]
@@ -28,7 +28,7 @@ struct CategorySaveView: View {
         self.selectedCategories = selectedCategories
         self.onSaveComplete = onSaveComplete
 
-        self._name = State(initialValue: preset?.title ?? "")
+        self._presetTitle = State(initialValue: preset?.title ?? "")
         self._presetDescription = State(initialValue: preset?.desc ?? "")
     }
 
@@ -36,7 +36,7 @@ struct CategorySaveView: View {
         NavigationStack {
             Form {
                 Section("Preset Details") {
-                    TextField("Name (e.g., Weekend Trip)", text: $name)
+                    TextField("Name (e.g., Weekend Trip)", text: $presetTitle)
                     TextField("Description", text: $presetDescription, axis: .vertical)
                         .lineLimit(3...5)
                 }
@@ -62,7 +62,7 @@ struct CategorySaveView: View {
                     Button("Save") {
                         savePreset()
                     }
-                    .disabled(name.isEmpty)
+                    .disabled(presetTitle.isEmpty)
                 }
             }
         }
@@ -70,12 +70,12 @@ struct CategorySaveView: View {
 
     private func savePreset() {
         if let existingPreset = presetToEdit {
-            existingPreset.title = name
+            existingPreset.title = presetTitle
             existingPreset.desc = presetDescription.isEmpty ? nil : presetDescription
             existingPreset.categories = selectedCategories
         } else {
             let newPreset = CategoryPreset(
-                title: name,
+                title: presetTitle,
                 desc: presetDescription.isEmpty ? "" : presetDescription,
                 categories: selectedCategories
             )
