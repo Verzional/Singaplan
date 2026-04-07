@@ -7,12 +7,9 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ManualSearch: View {
     @State private var searchText = ""
-    
-    var body: some View {
+        var body: some View {
         VStack(spacing: 0) { 
             if searchText.isEmpty {
                 spotlightImageSection
