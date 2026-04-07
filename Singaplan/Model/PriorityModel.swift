@@ -12,11 +12,16 @@ import SwiftData
 final class PriorityModel {
     @Attribute(.unique) var id: UUID
     var title: String
-    var weight: Int
+    var weight: Double
+    var parent: PriorityModel?
     
-    init(id: UUID = UUID(), title: String, weight: Int) {
+    @Relationship(deleteRule: .cascade, inverse: \PriorityModel.parent)
+    var subPriorities: [PriorityModel] = []
+    
+    init(id: UUID = UUID(), title: String, weight: Double, parent: PriorityModel? = nil) {
         self.id = id
         self.title = title
         self.weight = weight
+        self.parent = parent
     }
 }

@@ -17,10 +17,10 @@ final class CategoryPreset {
     @Relationship(deleteRule: .noAction)
     var categories: [CategoryModel] = []
     
-    init(title: String, desc: String, categories: [CategoryModel] = []) {
+    init(title: String, desc: String, categories: [CategoryModel] = [], createdAt: Date = Date()) {
         self.title = title
         self.desc = desc
         self.categories = categories
-        self.createdAt = Date()
+        self.createdAt = createdAt
     }
 }

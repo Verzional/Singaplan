@@ -1,18 +1,18 @@
 //
-//  PriorityCreate.swift
+//  PrioritySaveView.swift
 //  Singaplan
 //
-//  Created by Valentino Manuel Gunawan on 06/04/26.
+//  Created by Valentino Manuel Gunawan on 07/04/26.
 //
 
 import SwiftUI
 
-struct PriorityCreate: View {
+struct PrioritySaveView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    PriorityCreate()
+    PrioritySaveView()
 }
