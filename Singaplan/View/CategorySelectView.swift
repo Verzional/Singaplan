@@ -5,26 +5,34 @@
 //  Created by Valentino Manuel Gunawan on 06/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct CategorySelectView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var viewModel: CategoryViewModel
     @State private var isShowingSaveModal = false
-    
-    init(modelContext: ModelContext) {
-        self._viewModel = State(initialValue: CategoryViewModel(modelContext: modelContext))
+
+    private let presetToEdit: CategoryPreset?
+
+    init(modelContext: ModelContext, preset: CategoryPreset? = nil) {
+        self.presetToEdit = preset
+        self._viewModel = State(
+            initialValue: CategoryViewModel(
+                modelContext: modelContext,
+                initialSelectedCategories: preset?.categories ?? []
+            )
+        )
     }
-    
+
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack {
                 SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
                     .padding(.vertical)
-                
+
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         ForEach(viewModel.filteredCategories) { parent in
@@ -32,12 +40,12 @@ struct CategorySelectView: View {
                                 Text(parent.title)
                                     .font(.headline)
                                     .padding(.horizontal)
-                                
-                                FlowLayout() {
+
+                                FlowLayout {
                                     ForEach(parent.subCategories) { child in
                                         CategoryCapsule(
                                             child: child,
-                                            isSelected: viewModel.selectedCategories.contains(child),
+                                            isSelected: viewModel.selectedCategories.contains(child)
                                         )
                                         .onTapGesture {
                                             viewModel.toggle(child)
@@ -49,9 +57,6 @@ struct CategorySelectView: View {
                         }
                     }
                 }
-                .navigationTitle("Select Categories")
-                .navigationBarTitleDisplayMode(.inline)
-                
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button {
@@ -68,9 +73,15 @@ struct CategorySelectView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $isShowingSaveModal) {
-                    CategorySaveView(selectedCategories: Array(viewModel.selectedCategories))
-                }
+            }
+            .navigationTitle(presetToEdit == nil ? "Select Categories" : "Edit Categories")
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $isShowingSaveModal) {
+                CategorySaveView(
+                    preset: presetToEdit,
+                    selectedCategories: Array(viewModel.selectedCategories),
+                    onSaveComplete: { dismiss() }
+                )
             }
         }
     }
@@ -80,15 +91,15 @@ struct CategorySelectView: View {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: CategoryModel.self, configurations: config)
-    
+
     // Context
     let context = container.mainContext
-    
+
     // Data Injection
     for category in SeedData.categoryData {
         context.insert(category)
     }
-    
+
     // Return Preview
     return CategorySelectView(modelContext: context)
         .modelContainer(container)

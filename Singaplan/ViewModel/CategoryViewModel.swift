@@ -11,14 +11,15 @@ import Observation
 
 @Observable
 final class CategoryViewModel {
-    private var modelContext: ModelContext
+    public var modelContext: ModelContext
     
     var mainCategories: [CategoryModel] = []
     var selectedCategories: Set<CategoryModel> = []
     var searchText: String = ""
     
-    init(modelContext: ModelContext) {
+    init(modelContext: ModelContext, initialSelectedCategories: [CategoryModel] = []) {
         self.modelContext = modelContext
+        self.selectedCategories = Set(initialSelectedCategories)
         fetchData()
     }
     
@@ -41,7 +42,6 @@ final class CategoryViewModel {
             predicate: #Predicate { $0.parent == nil },
             sortBy: [SortDescriptor(\.title)]
         )
-        
         do {
             self.mainCategories = try modelContext.fetch(descriptor)
         } catch {
@@ -56,6 +56,4 @@ final class CategoryViewModel {
             selectedCategories.insert(category)
         }
     }
-    
-    
 }

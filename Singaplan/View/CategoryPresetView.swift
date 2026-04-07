@@ -5,24 +5,27 @@
 //  Created by Valentino Manuel Gunawan on 06/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct CategoryPresetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
-    @State private var isShowingCreateModal = false
-    
+
+    @State private var presetToEdit: CategoryPreset?
+    @State private var isShowingSheet = false
+
     @Query(sort: \CategoryPreset.createdAt, order: .reverse)
     private var savedPresets: [CategoryPreset]
-    
+
     var body: some View {
         NavigationStack {
             VStack {
                 Group {
                     if savedPresets.isEmpty {
-                        ContentUnavailableView("No Presets", systemImage: "tray", description: Text("Tap + to create a new category preset."))
+                        ContentUnavailableView(
+                            "No Presets", systemImage: "tray",
+                            description: Text("Tap + to create a new category preset."))
                     } else {
                         ScrollView {
                             LazyVStack(spacing: 16) {
@@ -34,9 +37,9 @@ struct CategoryPresetView: View {
                         }
                     }
                 }
-                
+
                 Spacer()
-                
+
                 Button {
                     // WIP
                 } label: {
@@ -49,7 +52,7 @@ struct CategoryPresetView: View {
             }
             .navigationTitle("Category Preset")
             .navigationBarTitleDisplayMode(.inline)
-            
+
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
@@ -60,18 +63,19 @@ struct CategoryPresetView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        isShowingCreateModal = true
+                        presetToEdit = nil
+                        isShowingSheet = true
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $isShowingCreateModal) {
-                CategorySelectView(modelContext: modelContext).modelContext(modelContext)
+            .sheet(isPresented: $isShowingSheet) {
+                CategorySelectView(modelContext: modelContext, preset: presetToEdit)
             }
         }
     }
-    
+
     @ViewBuilder
     private func presetCard(_ preset: CategoryPreset) -> some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -80,18 +84,19 @@ struct CategoryPresetView: View {
                     Text(preset.title)
                         .font(.title3)
                         .bold()
-                    
+
                     if let desc = preset.desc {
                         Text(desc)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 Spacer()
-                
+
                 Button {
-                    // Action for editing
+                    presetToEdit = preset
+                    isShowingSheet = true
                 } label: {
                     Image(systemName: "pencil")
                         .font(.system(size: 16, weight: .medium))
@@ -100,7 +105,7 @@ struct CategoryPresetView: View {
                         .clipShape(Circle())
                 }
             }
-            
+
             FlowLayout(spacing: 8) {
                 ForEach(preset.categories) { category in
                     CategoryCapsule(child: category, isSelected: true)
@@ -119,27 +124,28 @@ struct CategoryPresetView: View {
 #Preview {
     let container: ModelContainer = {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        
-        let container = try! ModelContainer(for: CategoryModel.self, CategoryPreset.self, configurations: config)
-        
+
+        let container = try! ModelContainer(
+            for: CategoryModel.self, CategoryPreset.self, configurations: config)
+
         let context = container.mainContext
-        
+
         for category in SeedData.categoryData {
             context.insert(category)
         }
-        
+
         let selectedCategories = Array(SeedData.categories.prefix(3))
-        
+
         let dummyPreset = CategoryPreset(
             title: "Weekend Getaway",
             desc: "Essential categories for a short 3-day trip to Singapore.",
             categories: selectedCategories
         )
         context.insert(dummyPreset)
-        
+
         return container
     }()
-    
+
     CategoryPresetView()
         .modelContainer(container)
 }
