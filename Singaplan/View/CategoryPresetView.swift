@@ -133,13 +133,13 @@ private extension CategoryPresetView {
     }
     
     var continueButton: some View {
-        Button {
-            // TODO: Navigate to Priority Preset
+        NavigationLink {
+            PriorityPresetView()
         } label: {
             Text("Continue")
         }
-        .disabled(selectedPreset == nil)
         .buttonStyle(.borderedProminent)
+        .disabled(selectedPreset == nil)
     }
     
     var navigationToolbar: some ToolbarContent {

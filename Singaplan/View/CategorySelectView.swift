@@ -64,14 +64,14 @@ struct CategorySelectView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark")
+                        Image(systemName: "chevron.left")
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         isShowingSaveModal = true
                     } label: {
-                        Image(systemName: "plus")
+                        Image(systemName: "chevron.right")
                     }
                 }
             }
