@@ -35,6 +35,7 @@ struct SeedData {
     static var categoryData: [CategoryModel] {
         return [nature, culture, metro, supernatural, culinary] + categories
     }
+    
     //MARK: - Priorities
     static let experiences: [PriorityModel] = [
         PriorityModel(

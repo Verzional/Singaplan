@@ -28,7 +28,7 @@ struct PrioritySelectView: View {
     let priceBracket = ["$", "$$", "$$$"]
     
     private var presetToEdit: PriorityPreset?
-    
+
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -113,27 +113,27 @@ private extension PrioritySelectView {
             }
         }
     }
-}
-
-// MARK: - Section Component
-@ViewBuilder
-private func segmentSection(for data: Binding<[PriorityModel]>) -> some View {
-    ForEach(data) { $item in
-        VStack(alignment: .leading) {
-            Text(item.title)
-                .font(.subheadline)
-            
-            Text(item.desc)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            
-            Picker("Experience Level", selection: $item.selectedWeight) {
-                ForEach(item.segments, id: \.weight) { segment in
-                    Text(segment.label).tag(segment.weight)
+    
+    // MARK: - Section Component
+    @ViewBuilder
+    func segmentSection(for data: Binding<[PriorityModel]>) -> some View {
+        ForEach(data) { $item in
+            VStack(alignment: .leading) {
+                Text(item.title)
+                    .font(.subheadline)
+                
+                Text(item.desc)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                
+                Picker("Experience Level", selection: $item.selectedWeight) {
+                    ForEach(item.segments, id: \.weight) { segment in
+                        Text(segment.label).tag(segment.weight)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .padding(.bottom, 8)
             }
-            .pickerStyle(.segmented)
-            .padding(.bottom, 8)
         }
     }
 }

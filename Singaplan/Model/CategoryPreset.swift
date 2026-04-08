@@ -10,6 +10,7 @@ import SwiftData
 
 @Model
 final class CategoryPreset {
+    @Attribute(.unique) var id: UUID
     var title: String
     var desc: String?
     var createdAt: Date
@@ -17,7 +18,8 @@ final class CategoryPreset {
     @Relationship(deleteRule: .noAction)
     var categories: [CategoryModel] = []
     
-    init(title: String, desc: String, categories: [CategoryModel] = [], createdAt: Date = Date()) {
+    init(id: UUID = UUID(), title: String, desc: String, categories: [CategoryModel] = [], createdAt: Date = Date()) {
+        self.id = id
         self.title = title
         self.desc = desc
         self.categories = categories
