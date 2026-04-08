@@ -10,6 +10,7 @@ import SwiftData
 
 @Model
 final class PriorityPreset {
+    @Attribute(.unique) var id: UUID
     var title: String
     var desc: String?
     var createdAt: Date
@@ -17,7 +18,8 @@ final class PriorityPreset {
     @Relationship(deleteRule: .noAction)
     var priorities: [PriorityModel] = []
     
-    init(title: String, desc: String? = nil, priorities: [PriorityModel] = [], createdAt: Date = Date()) {
+    init(id: UUID = UUID(), title: String, desc: String? = nil, priorities: [PriorityModel] = [], createdAt: Date = Date()) {
+        self.id = id
         self.title = title
         self.desc = desc
         self.priorities = priorities
