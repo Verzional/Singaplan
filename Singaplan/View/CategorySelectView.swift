@@ -9,11 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct CategorySelectView: View {
+    // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
     
+    // State Properties
     @State private var viewModel: CategoryViewModel
     @State private var isShowingSaveModal = false
     
+    // Local Variables
     private let presetToEdit: CategoryPreset?
     
     init(modelContext: ModelContext, preset: CategoryPreset? = nil) {
@@ -26,54 +29,18 @@ struct CategorySelectView: View {
         )
     }
     
+    // MARK: - Body
     var body: some View {
         NavigationStack {
             VStack {
                 SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
                     .padding(.vertical)
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        ForEach(viewModel.filteredCategories) { parent in
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text(parent.title)
-                                    .font(.headline)
-                                    .padding(.horizontal)
-                                
-                                FlowLayout {
-                                    ForEach(parent.subCategories) { child in
-                                        CategoryCapsule(
-                                            child: child,
-                                            isSelected: viewModel.selectedCategories.contains(child)
-                                        )
-                                        .onTapGesture {
-                                            viewModel.toggle(child)
-                                        }
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                        }
-                    }
-                }
+                categorySection
             }
             .navigationTitle(presetToEdit == nil ? "Select Categories" : "Edit Categories")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                    }
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        isShowingSaveModal = true
-                    } label: {
-                        Image(systemName: "chevron.right")
-                    }
-                }
+                navigationToolbar
             }
             .sheet(isPresented: $isShowingSaveModal) {
                 CategorySaveView(
@@ -86,6 +53,56 @@ struct CategorySelectView: View {
     }
 }
 
+// MARK: - View Components
+private extension CategorySelectView {
+    var categorySection: some View{
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                ForEach(viewModel.filteredCategories) { parent in
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(parent.title)
+                            .font(.headline)
+                            .padding(.horizontal)
+                        
+                        FlowLayout {
+                            ForEach(parent.subCategories) { child in
+                                CategoryCapsule(
+                                    child: child,
+                                    isSelected: viewModel.selectedCategories.contains(child)
+                                )
+                                .onTapGesture {
+                                    viewModel.toggle(child)
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+            }
+        }
+    }
+    
+    var navigationToolbar: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isShowingSaveModal = true
+                } label: {
+                    Image(systemName: "chevron.right")
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Preview
 #Preview {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
