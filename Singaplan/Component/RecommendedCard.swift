@@ -1,45 +1,41 @@
-//
-//  RecommendedCard.swift
-//  Singaplan
-//
-//  Created by Valentino Manuel Gunawan on 06/04/26.
-//
-
 import SwiftUI
 
 struct RecommendedCard: View {
-    // In a real scenario, you'd pass your Model here
-    // let destination: POI
+    let place: Place
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            //Image
-            Image("universal_studios")
+            Image(place.imageName)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 135)
+                .frame(maxHeight: .infinity)
                 .clipped()
 
-            //Content
             VStack(alignment: .leading, spacing: 2) {
                 headerSection
                 
                 priceRatingSection
                 
-                //Added Info
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Easy-Accessibility")
-                    Text("Crowded on Holiday Season")
+                    Text(place.description)
+                        .lineLimit(2)
                 }
                 .font(.system(size: 14))
                 .foregroundColor(.secondary)
 
-                CategoryCapsule(
-                    child: CategoryModel(title: "Family", icon: "figure.2.and.child.holding_hands"),
-                    isSelected: false
-                )
-                .scaleEffect(0.8)
-                .padding(.leading, -10)
+                HStack(spacing: 5) {
+                    ForEach(place.tags, id: \.self) { tag in
+                        Text(tag)
+                            .font(.system(size: 10, weight: .bold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.red.opacity(0.1))
+                            .foregroundColor(.red)
+                            .cornerRadius(10)
+                    }
+                }
+                .padding(.top, 4)
                 
                 Spacer(minLength: 4)
 
@@ -55,17 +51,18 @@ struct RecommendedCard: View {
     }
 }
 
+
 extension RecommendedCard {
     
     private var headerSection: some View {
-        HStack {
-            Text("Universal Studios")
-                .font(.system(size: 20, weight: .bold))
-            Spacer()
-            Image(systemName: "info.circle")
-                .foregroundColor(.secondary)
+            HStack {
+                Text(place.name)
+                    .font(.system(size: 20, weight: .bold))
+                Spacer()
+                Image(systemName: "info.circle")
+                    .foregroundColor(.secondary)
+            }
         }
-    }
 
     private var priceRatingSection: some View {
         HStack(spacing: 2) {
@@ -99,7 +96,6 @@ extension RecommendedCard {
         }
     }
 
-    // Helper function for transport items to keep code DRY
     private func transportItem(icon: String, label: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
@@ -110,7 +106,6 @@ extension RecommendedCard {
     }
 }
 
-
 #Preview {
-    RecommendedCard()
+    RecommendedCard(place: Place.Places[0])
 }
