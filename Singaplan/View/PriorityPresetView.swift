@@ -42,8 +42,6 @@ struct PriorityPresetView: View {
     }
 }
 
-
-
 // MARK: - View Components
 private extension PriorityPresetView {
     @ViewBuilder
@@ -56,7 +54,13 @@ private extension PriorityPresetView {
             ScrollView {
                 LazyVStack(spacing: 16) {
                     ForEach(savedPresets) { preset in
-                        // presetCard(preset)
+                        PriorityPresetCard(
+                            preset: preset,
+                            isSelected: selectedPreset == preset.id,
+                            onEdit: {
+                                presetToEdit = preset
+                                isShowingSheet = true
+                            })
                     }
                 }
                 .padding()
