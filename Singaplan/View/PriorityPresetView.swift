@@ -84,13 +84,6 @@ private extension PriorityPresetView {
 
     var navigationToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     presetToEdit = nil
