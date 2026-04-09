@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct ItineraryInputModal: View {
+struct ItineraryInputModalView: View {
 // MARK: State Variables
     @Binding var folderName: String
     @Binding var day: String
@@ -87,7 +87,7 @@ struct ItineraryInputModal: View {
 }
 
 #Preview {
-    ItineraryInputModal(
+    ItineraryInputModalView(
         folderName: .constant("Girls Trip"),
         day: .constant("4"),
         onCancel: { print("Tombol X ditekan") },
