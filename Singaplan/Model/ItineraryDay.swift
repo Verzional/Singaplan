@@ -12,6 +12,8 @@ import SwiftData
 final class ItineraryDay {
     @Attribute(.unique) var id: UUID
     var dayNumber: Int
+
+    var itineraryFolder: ItineraryFolder?
     
     @Relationship(deleteRule: .cascade, inverse: \POI.itineraryDay)
     var destinations: [POI] = []

@@ -10,13 +10,13 @@
 import SwiftUI
 
 struct ItineraryInputModal: View {
-// MARK: - Properties
+// MARK: State Variables
     @Binding var folderName: String
     @Binding var day: String
     var onCancel: () -> Void
     var onSave: () -> Void
     
-// MARK: - Folder Input
+// MARK: Body (Folder Input)
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
@@ -62,9 +62,9 @@ struct ItineraryInputModal: View {
                     }
                 }
 
-// MARK: - Toolbar
+// MARK: Toolbar
                 ToolbarItem(placement: .principal) {
-                    Text("Recommended Places \non Sentosa Island")
+                    Text("Set Your Itinerary Folder")
                         .font(.system(size: 16, weight: .bold))
                         .multilineTextAlignment(.center)
                 }
