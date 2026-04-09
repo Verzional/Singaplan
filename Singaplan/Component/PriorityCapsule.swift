@@ -24,19 +24,18 @@ struct PriorityCapsule: View {
             // Weight
             Text(selectedLabel)
                 .font(.caption)
-                .font(.caption)
                 .fontWeight(.medium)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
-                .background(Color.blue.opacity(0.1))
-                .foregroundStyle(.blue)
+                .background(Color.blue.opacity(0.3))
+                .foregroundStyle(.black)
                 .clipShape(Capsule())
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         
         // Styling
-        .background(Color(.systemGray6))
+        .background(Color(.blue.opacity(0.2)))
         .foregroundStyle(.primary)
         .overlay(
             Capsule()
