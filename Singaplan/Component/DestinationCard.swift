@@ -50,7 +50,7 @@ struct DestinationCard: View {
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
-                    .lineLimit(2)
+                    .lineLimit(1)
             }
             .padding(10)
         }
