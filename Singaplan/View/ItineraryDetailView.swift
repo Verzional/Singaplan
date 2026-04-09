@@ -13,7 +13,7 @@ enum ItineraryViewMode {
     case list
 }
 
-struct ItineraryDetails: View {
+struct ItineraryDetailView: View {
     // MARK: - SwiftData Context
     @Environment(\.modelContext) private var modelContext
     
@@ -45,7 +45,7 @@ struct ItineraryDetails: View {
 }
 
 // MARK: Extension
-private extension ItineraryDetails {
+private extension ItineraryDetailView {
     
     // func memunculkan places yang sudah disave
     func itineraryRow(_ day: ItineraryDay) -> some View {
@@ -92,7 +92,7 @@ private extension ItineraryDetails {
     }
 }
 
-private extension ItineraryDetails {
+private extension ItineraryDetailView {
     
     // func logic untuk menambahkan day
     func addDay() {
@@ -153,7 +153,7 @@ private extension ItineraryDetails {
     context.insert(day1)
     context.insert(day2)
     
-    return ItineraryDetails()
+    return ItineraryDetailView()
         .modelContainer(container)
 }
 
