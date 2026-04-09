@@ -43,7 +43,7 @@ struct PriorityPresetCard: View {
             // Category Capsules
             FlowLayout(spacing: 8) {
                 ForEach(preset.priorities) { priority in
-//                    CategoryCapsule(child: category, isSelected: true)
+                    PriorityCapsule(child: priority)
                 }
             }
         }
