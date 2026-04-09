@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ItineraryCreate: View {
+struct ItineraryCreateView: View {
     @Environment(\.modelContext) private var modelContext
 
     @Query(sort: \ItineraryFolder.folderName) private var allFolders: [ItineraryFolder]
@@ -98,7 +98,7 @@ struct ItineraryCreate: View {
 }
 
 // MARK: Extension
-private extension ItineraryCreate {
+private extension ItineraryCreateView {
     
     // func: delete folder
     func deleteFolder(_ folder: ItineraryFolder) {
@@ -173,6 +173,6 @@ private extension ItineraryCreate {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: ItineraryFolder.self, ItineraryDay.self, POI.self, configurations: config)
     
-    return ItineraryCreate()
+    return ItineraryCreateView()
         .modelContainer(container)
 }
