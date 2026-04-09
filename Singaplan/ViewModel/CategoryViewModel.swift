@@ -23,6 +23,18 @@ final class CategoryViewModel {
         fetchData()
     }
 
+    func fetchData() {
+        let descriptor = FetchDescriptor<CategoryModel>(
+            predicate: #Predicate { $0.parent == nil },
+            sortBy: [SortDescriptor(\.title)]
+        )
+        do {
+            self.mainCategories = try modelContext.fetch(descriptor)
+        } catch {
+            print("Fetch failed: \(error)")
+        }
+    }
+    
     var filteredCategories: [CategoryModel] {
         if searchText.isEmpty {
             return mainCategories
@@ -34,18 +46,6 @@ final class CategoryViewModel {
                 }
                 return matchesParent || matchesChild
             }
-        }
-    }
-
-    func fetchData() {
-        let descriptor = FetchDescriptor<CategoryModel>(
-            predicate: #Predicate { $0.parent == nil },
-            sortBy: [SortDescriptor(\.title)]
-        )
-        do {
-            self.mainCategories = try modelContext.fetch(descriptor)
-        } catch {
-            print("Fetch failed: \(error)")
         }
     }
 

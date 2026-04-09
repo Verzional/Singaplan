@@ -11,5 +11,9 @@ import SwiftData
 
 @Observable
 final class PriorityViewModel {
+    private var modelContext: ModelContext
     
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
 }
