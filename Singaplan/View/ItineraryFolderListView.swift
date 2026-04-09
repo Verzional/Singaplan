@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct ItineraryFolderList: View {
+struct ItineraryFolderListView: View {
     var folderName: String
     var days: String
     var backgroundImageName: String?
@@ -61,7 +61,7 @@ struct ItineraryFolderList: View {
 
 // MARK: - Preview
 #Preview("Hitung Kartu Hitam") {
-    ItineraryFolderList(
+    ItineraryFolderListView(
         folderName: "Girls Trip",
         days: "4",
         backgroundImageName: nil,
@@ -71,7 +71,7 @@ struct ItineraryFolderList: View {
 }
 
 #Preview("Hitung Kartu Gambar") {
-    ItineraryFolderList(
+    ItineraryFolderListView(
         folderName: "Singapore Trip",
         days: "3",
         backgroundImageName: "marina-bg",

@@ -52,7 +52,7 @@ struct ItineraryCreateView: View {
                     List {
                         ForEach(allFolders) { folder in
                             ZStack {
-                                ItineraryFolderList(
+                                ItineraryFolderListView(
                                     folderName: folder.folderName,
                                     days: "\(folder.days.count)",
                                     onBack: { }
@@ -83,7 +83,7 @@ struct ItineraryCreateView: View {
             
             // MARK: - Modal Input
             .sheet(isPresented: $showModal) {
-                ItineraryInputModal(
+                ItineraryInputModalView(
                     folderName: $folderNameInput,
                     day: $dayCountInput,
                     onCancel: { showModal = false },
