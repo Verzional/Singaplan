@@ -16,9 +16,8 @@ struct TravelPointDetailView: View {
                     infoSection
                     Divider()
                     categorySection
-                    prioritySection
                     Divider()
-                    poiSection
+                    prioritySection
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 30)
@@ -37,7 +36,7 @@ struct TravelPointDetailView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
                         .padding(.vertical, 12)
-                        .background(Capsule().fill(Color.black.opacity(0.8)))
+                        .background(Capsule().fill(Color.blue.opacity(0.8)))
                         .shadow(radius: 5)
                         .padding(.bottom, 40)
                         .transition(.move(edge: .bottom).combined(with: .opacity)) //animation slide & fade
@@ -86,7 +85,7 @@ struct TravelPointDetailView: View {
                         }
                     }
                 }) {
-                    Image(systemName: "square.and.arrow.down")
+                    Image(systemName: "square.and.arrow.up")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                         .frame(width: 36, height: 36)
@@ -115,10 +114,6 @@ struct TravelPointDetailView: View {
                         .foregroundColor(.secondary)
                 }
                 .font(.subheadline)
-                
-                Text(district.priceRange)
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
             }
             
             // Location & Description
@@ -144,108 +139,83 @@ struct TravelPointDetailView: View {
                 .font(.headline)
                 .fontWeight(.bold)
             
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], alignment: .leading, spacing: 10) {
-               
+            // FlowLayout so capsules size naturally and wrap gracefully
+            FlowLayout() {
                 ForEach(district.categories) { category in
-                
-                    CategoryCapsule(child: category, isSelected: false)
+                    CategoryCapsule(
+                        child: category,
+                        isSelected: false
+                    )
                 }
             }
         }
     }
+
     // MARK: - 4. Priority Section
     private var prioritySection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Priority")
-                .font(.headline)
-                .fontWeight(.bold)
-            
-            ForEach(district.priorities) { priority in
-                // Check if this specific priority's ID is in our expanded set
-                let isExpanded = expandedPriorityIDs.contains(priority.id)
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Priority")
+                    .font(.headline)
+                    .fontWeight(.bold)
                 
-                VStack(spacing: 0) {
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            // Toggle the ID in the set
-                            if isExpanded {
-                                expandedPriorityIDs.remove(priority.id)
-                            } else {
-                                expandedPriorityIDs.insert(priority.id)
-                            }
-                        }
-                    }) {
-                        HStack {
-                            Text(priority.name)
-                                .font(.body)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.primary)
-                            Spacer()
-                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                                .foregroundColor(.primary)
-                        }
-                        .padding()
-                    }
+                // Loops thru data (budget,acc,experience) makes the priority card one by one
+                ForEach(district.priorities) { priority in
                     
-                    if isExpanded {
-                        Divider()
-                            .padding(.horizontal)
-                        Text(priority.details)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                    }
+                    // Press the button on the magic machine!
+                    makeOnePriorityCard(for: priority)
+                    
                 }
-                .background(Color.white)
-                .cornerRadius(12)
-                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                )
             }
         }
-    }
     
-    // MARK: - 5. POI Section
-    private var poiSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Recommended POIs")
-                .font(.headline)
-                .fontWeight(.bold)
+    // MARK: - 5. Make Priority Card Func
+    // helper function that builds a single card based on the priority data it is handed
+    private func makeOnePriorityCard(for priority: Priority) -> some View {
+            // The machine checks if this card should be open
+            let isExpanded = expandedPriorityIDs.contains(priority.id)
             
-            ForEach(district.recommendedPOIs) { poi in
-                HStack(spacing: 16) {
-                    Image(poi.imageUrl)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 70, height: 70)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(poi.name)
-                            .font(.headline)
-                            .fontWeight(.bold)
-                        
-                        Text(poi.description)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .lineLimit(2)
+            // The machine builds the card!
+            return VStack(spacing: 0) {
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        if isExpanded { /*/ If it's already open, remove it from the list to close it*/
+                            expandedPriorityIDs.remove(priority.id)
+                        } else { // If it's closed, add it to the list to open it
+                            expandedPriorityIDs.insert(priority.id)
+                        }
                     }
-                    Spacer()
-                    Button(action: {
-                        // Action to add this POI to itinerary
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.blue)
-                            .font(.title2)
+                }) {
+                    HStack {
+                        Text(priority.name)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down") /*if the button is expanded, chevron changes from down to up */
+                            .foregroundColor(.primary)
                     }
+                    .padding()
                 }
-                .padding(.vertical, 8)
+//                if the isExpanded is true, it shows the Details
+                if isExpanded {
+                    Divider()
+                        .padding(.horizontal)
+                    Text(priority.details)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                }
             }
+            .background(Color.white)
+            .cornerRadius(12)
+            .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+            )
         }
-    }
+    
     
     // MARK: - Preview Provider
     struct TravelPointDetailView_Previews: PreviewProvider {
@@ -262,7 +232,7 @@ struct TravelPointDetailView: View {
                     CategoryModel(title: "Nature", icon: "leaf.fill"),
                     CategoryModel(title: "Family", icon: "figure.2.and.child.holdinghands"),
                     CategoryModel(title: "Beach", icon: "sun.max.fill"),
-                    CategoryModel(title: "Food", icon: "fork.knife.circle.fill")
+                    CategoryModel(title: "Attraction", icon: "fork.knife.circle.fill")
                 ],
                 priorities: [
                     Priority(name: "Budget", details: "Price: $$\nAdditional Fee: Minimal"),
