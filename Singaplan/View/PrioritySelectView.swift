@@ -5,30 +5,35 @@
 //  Created by Valentino Manuel Gunawan on 06/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct PrioritySelectView: View {
     // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
-    
+
+    // ViewModel
+    @State private var viewModel: PriorityViewModel
+
     // State Properties
     @State private var isShowingModal = false
     @State private var budgetExpanded = false
     @State private var experienceExpanded = false
     @State private var accessibilityExpanded = false
-    
-    // Budget Selector States
-    @State private var selectedBracket = "$$"
-    @State private var entryFee = false
-    
-    // Priority Selector States
-    @State private var experiences = SeedData.experiences
-    @State private var accessibility = SeedData.accessibility
-    
+
     // Local Variables
     let priceBracket = ["$", "$$", "$$$"]
-    private var presetToEdit: PriorityPreset?
+    private let presetToEdit: PriorityPreset?
+
+    init(modelContext: ModelContext, preset: PriorityPreset? = nil) {
+        self.presetToEdit = preset
+        self._viewModel = State(
+            initialValue: PriorityViewModel(
+                modelContext: modelContext,
+                preset: preset
+            )
+        )
+    }
 
     // MARK: - Body
     var body: some View {
@@ -38,13 +43,17 @@ struct PrioritySelectView: View {
                 experienceSection
                 accessibilitySection
             }
-            .navigationTitle("Priority")
+            .navigationTitle(presetToEdit == nil ? "Priority" : "Edit Priority")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 navigationToolbar
             }
             .sheet(isPresented: $isShowingModal) {
-                PrioritySaveView()
+                PrioritySaveView(
+                    preset: presetToEdit,
+                    priorities: viewModel.allPriorities,
+                    onSaveComplete: { dismiss() }
+                )
             }
         }
     }
@@ -54,24 +63,24 @@ struct PrioritySelectView: View {
 private extension PrioritySelectView {
     var budgetSection: some View {
         DisclosureGroup("Budget", isExpanded: $budgetExpanded) {
-            VStack (alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 24) {
                 // Price Bracket
                 VStack(alignment: .leading) {
                     Text("Price Bracket")
                         .font(.subheadline)
-                    
-                    Picker("Price Range", selection: $selectedBracket) {
+
+                    Picker("Price Range", selection: $viewModel.selectedBracket) {
                         ForEach(priceBracket, id: \.self) { Text($0) }
                     }
                     .pickerStyle(.segmented)
                 }
-                
+
                 // Additional Fees
                 VStack(alignment: .leading) {
                     Text("Additional Fees")
                         .font(.subheadline)
-                    
-                    Picker("Fee Range", selection: $entryFee) {
+
+                    Picker("Fee Range", selection: $viewModel.entryFee) {
                         Text("Include Fees").tag(true)
                         Text("No Fees Only").tag(false)
                     }
@@ -81,21 +90,21 @@ private extension PrioritySelectView {
         }
         .font(.headline)
     }
-    
+
     var experienceSection: some View {
         DisclosureGroup("Experience", isExpanded: $experienceExpanded) {
-            segmentSection(for: $experiences)
+            segmentSection(for: $viewModel.experiences)
         }
         .font(.headline)
     }
-    
+
     var accessibilitySection: some View {
         DisclosureGroup("Accessibility", isExpanded: $accessibilityExpanded) {
-            segmentSection(for: $accessibility)
+            segmentSection(for: $viewModel.accessibility)
         }
         .font(.headline)
     }
-    
+
     var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
@@ -114,7 +123,7 @@ private extension PrioritySelectView {
             }
         }
     }
-    
+
     // MARK: - Section Component
     @ViewBuilder
     func segmentSection(for data: Binding<[PriorityModel]>) -> some View {
@@ -122,11 +131,11 @@ private extension PrioritySelectView {
             VStack(alignment: .leading) {
                 Text(item.title)
                     .font(.subheadline)
-                
+
                 Text(item.desc)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                
+
                 Picker("Experience Level", selection: $item.selectedWeight) {
                     ForEach(item.segments, id: \.weight) { segment in
                         Text(segment.label).tag(segment.weight)
@@ -141,5 +150,12 @@ private extension PrioritySelectView {
 
 // MARK: - Preview
 #Preview {
-    PrioritySelectView()
+    // In Memory DB
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(
+        for: PriorityPreset.self, PriorityModel.self, configurations: config)
+
+    // Return Preview
+    return PrioritySelectView(modelContext: container.mainContext)
+        .modelContainer(container)
 }

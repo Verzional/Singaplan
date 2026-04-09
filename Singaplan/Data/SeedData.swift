@@ -96,4 +96,8 @@ struct SeedData {
             ]
         )
     ]
+    
+    static var priorityData: [PriorityModel] {
+        return experiences + accessibility
+    }
 }

@@ -17,6 +17,7 @@ final class CategoryViewModel {
     var selectedCategories: Set<CategoryModel> = []
     var searchText: String = ""
 
+    // MARK: - Init
     init(modelContext: ModelContext, initialSelectedCategories: [CategoryModel] = []) {
         self.modelContext = modelContext
         self.selectedCategories = Set(initialSelectedCategories)
