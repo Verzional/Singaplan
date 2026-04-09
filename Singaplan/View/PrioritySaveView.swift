@@ -1,45 +1,45 @@
 //
-//  CategorySaveView.swift
+//  PrioritySaveView.swift
 //  Singaplan
 //
-//  Created by Valentino Manuel Gunawan on 06/04/26.
+//  Created by Valentino Manuel Gunawan on 07/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
-struct CategorySaveView: View {
+struct PrioritySaveView: View {
     //MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
+
     // State Properties
     @State private var presetTitle: String = ""
     @State private var presetDescription: String = ""
-    
+
     // Local Variables
-    let selectedCategories: [CategoryModel]
-    let presetToEdit: CategoryPreset?
+    let priorities: [PriorityModel]
+    let presetToEdit: PriorityPreset?
     let onSaveComplete: () -> Void
-    
+
     init(
-        preset: CategoryPreset? = nil, selectedCategories: [CategoryModel],
+        preset: PriorityPreset? = nil, priorities: [PriorityModel],
         onSaveComplete: @escaping () -> Void
     ) {
         self.presetToEdit = preset
-        self.selectedCategories = selectedCategories
+        self.priorities = priorities
         self.onSaveComplete = onSaveComplete
-        
+
         self._presetTitle = State(initialValue: preset?.title ?? "")
         self._presetDescription = State(initialValue: preset?.desc ?? "")
     }
-    
+
     // MARK: - Body
     var body: some View {
         NavigationStack {
             Form {
                 detailsSection
-                categoriesSection
+                prioritiesSection
             }
             .navigationTitle(presetToEdit == nil ? "Save Preset" : "Edit Preset")
             .navigationBarTitleDisplayMode(.inline)
@@ -51,19 +51,20 @@ struct CategorySaveView: View {
 }
 
 // MARK: - View Components
-private extension CategorySaveView {
+private extension PrioritySaveView {
     var detailsSection: some View {
         Section("Preset Details") {
-            TextField("Name (e.g., Weekend Trip)", text: $presetTitle)
+            TextField("Name (e.g., Budget Oriented)", text: $presetTitle)
             TextField("Description", text: $presetDescription, axis: .vertical)
                 .lineLimit(3...5)
         }
     }
-    var categoriesSection: some View {
-        Section("Selected Categories") {
+
+    var prioritiesSection: some View {
+        Section("Selected Priorities") {
             FlowLayout {
-                ForEach(selectedCategories) { category in
-                    CategoryCapsule(child: category, isSelected: true)
+                ForEach(priorities) { priority in
+                    PriorityCapsule(child: priority)
                 }
             }
             .padding(.vertical, 8)
@@ -71,7 +72,7 @@ private extension CategorySaveView {
             .listRowInsets(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 0))
         }
     }
-    
+
     var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
@@ -91,21 +92,35 @@ private extension CategorySaveView {
             }
         }
     }
-    
+
     func savePreset() {
         if let existingPreset = presetToEdit {
+            let oldPriorities = existingPreset.priorities
+
+            for priority in priorities {
+                modelContext.insert(priority)
+            }
+
             existingPreset.title = presetTitle
             existingPreset.desc = presetDescription.isEmpty ? nil : presetDescription
-            existingPreset.categories = selectedCategories
+            existingPreset.priorities = priorities
+
+            for old in oldPriorities {
+                modelContext.delete(old)
+            }
         } else {
-            let newPreset = CategoryPreset(
+            for priority in priorities {
+                modelContext.insert(priority)
+            }
+
+            let newPreset = PriorityPreset(
                 title: presetTitle,
-                desc: presetDescription.isEmpty ? "" : presetDescription,
-                categories: selectedCategories
+                desc: presetDescription.isEmpty ? nil : presetDescription,
+                priorities: priorities
             )
             modelContext.insert(newPreset)
         }
-        
+
         dismiss()
         onSaveComplete()
     }
@@ -113,23 +128,47 @@ private extension CategorySaveView {
 
 // MARK: - Preview
 #Preview {
-    // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: CategoryPreset.self, CategoryModel.self, configurations: config)
-    
-    // Sample Data
-    let sampleSelected = [
-        CategoryModel(title: "Mountain", icon: "mountain.2"),
-        CategoryModel(title: "Smart City", icon: "antenna.radiowaves.left.and.right"),
-        CategoryModel(title: "Street Food", icon: "flame"),
-        CategoryModel(title: "Beach", icon: "sun.max"),
+        for: PriorityPreset.self, PriorityModel.self, configurations: config)
+
+    let samplePriorities = [
+        PriorityModel(
+            title: "Popularity",
+            desc:
+                "Balance your trip between world-renowned icons and under-the-radar local secrets.",
+            segments: [
+                PrioritySegment(label: "Hidden Gems", weight: 0.1),
+                PrioritySegment(label: "Mixed", weight: 0.5),
+                PrioritySegment(label: "Iconic Hits", weight: 1.0),
+            ]
+        ),
+        PriorityModel(
+            title: "Mobility",
+            desc:
+                "Prioritize level, easy-access paths or embrace more rugged, adventurous surfaces.",
+            segments: [
+                PrioritySegment(label: "Rugged", weight: 0.1),
+                PrioritySegment(label: "Standard", weight: 0.5),
+                PrioritySegment(label: "Seamless", weight: 1.0),
+            ]
+        ),
+        PriorityModel(
+            title: "Walkability",
+            desc:
+                "Balance your trip between vehicle-heavy roads and pedestrian-first zones with tram lines.",
+            segments: [
+                PrioritySegment(label: "Vehicle", weight: 0.1),
+                PrioritySegment(label: "Mixed", weight: 0.5),
+                PrioritySegment(label: "Pedestrian", weight: 1.0),
+            ]
+        ),
     ]
-    
+
     NavigationStack {
-        CategorySaveView(
+        PrioritySaveView(
             preset: nil,
-            selectedCategories: sampleSelected,
+            priorities: samplePriorities,
             onSaveComplete: {}
         )
     }

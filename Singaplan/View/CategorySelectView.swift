@@ -9,73 +9,100 @@ import SwiftUI
 import SwiftData
 
 struct CategorySelectView: View {
-    @Environment(\.modelContext) private var modelContext
+    // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
     
+    // State Properties
     @State private var viewModel: CategoryViewModel
     @State private var isShowingSaveModal = false
     
-    init(modelContext: ModelContext) {
-        self._viewModel = State(initialValue: CategoryViewModel(modelContext: modelContext))
+    // Local Variables
+    private let presetToEdit: CategoryPreset?
+    
+    init(modelContext: ModelContext, preset: CategoryPreset? = nil) {
+        self.presetToEdit = preset
+        self._viewModel = State(
+            initialValue: CategoryViewModel(
+                modelContext: modelContext,
+                initialSelectedCategories: preset?.categories ?? []
+            )
+        )
     }
     
+    // MARK: - Body
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack {
                 SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
                     .padding(.vertical)
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        ForEach(viewModel.filteredCategories) { parent in
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text(parent.title)
-                                    .font(.headline)
-                                    .padding(.horizontal)
-                                
-                                FlowLayout() {
-                                    ForEach(parent.subCategories) { child in
-                                        CategoryCapsule(
-                                            child: child,
-                                            isSelected: viewModel.selectedCategories.contains(child),
-                                        )
-                                        .onTapGesture {
-                                            viewModel.toggle(child)
-                                        }
-                                    }
+                categorySection
+            }
+            .navigationTitle(presetToEdit == nil ? "Select Categories" : "Edit Categories")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                navigationToolbar
+            }
+            .sheet(isPresented: $isShowingSaveModal) {
+                CategorySaveView(
+                    preset: presetToEdit,
+                    selectedCategories: Array(viewModel.selectedCategories),
+                    onSaveComplete: { dismiss() }
+                )
+            }
+        }
+    }
+}
+
+// MARK: - View Components
+private extension CategorySelectView {
+    var categorySection: some View{
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                ForEach(viewModel.filteredCategories) { parent in
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(parent.title)
+                            .font(.headline)
+                            .padding(.horizontal)
+                        
+                        FlowLayout {
+                            ForEach(parent.subCategories) { child in
+                                CategoryCapsule(
+                                    child: child,
+                                    isSelected: viewModel.selectedCategories.contains(child)
+                                )
+                                .onTapGesture {
+                                    viewModel.toggle(child)
                                 }
-                                .padding(.horizontal)
                             }
                         }
+                        .padding(.horizontal)
                     }
                 }
-                .navigationTitle("Select Categories")
-                .navigationBarTitleDisplayMode(.inline)
-                
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                    }
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            isShowingSaveModal = true
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                    }
+            }
+        }
+    }
+    
+    var navigationToolbar: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
                 }
-                .sheet(isPresented: $isShowingSaveModal) {
-                    CategorySaveView(selectedCategories: Array(viewModel.selectedCategories))
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isShowingSaveModal = true
+                } label: {
+                    Image(systemName: "chevron.right")
                 }
             }
         }
     }
 }
 
+// MARK: - Preview
 #Preview {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

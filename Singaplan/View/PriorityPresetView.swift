@@ -1,27 +1,27 @@
 //
-//  CategoryPreset.swift
+//  PriorityPresetView.swift
 //  Singaplan
 //
 //  Created by Valentino Manuel Gunawan on 06/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
-struct CategoryPresetView: View {
+struct PriorityPresetView: View {
     // MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
+
     // State Properties
-    @State private var presetToEdit: CategoryPreset?
+    @State private var presetToEdit: PriorityPreset?
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
-    
+
     // Data Query
-    @Query(sort: \CategoryPreset.createdAt, order: .reverse)
-    private var savedPresets: [CategoryPreset]
-    
+    @Query(sort: \PriorityPreset.createdAt, order: .reverse)
+    private var savedPresets: [PriorityPreset]
+
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -30,32 +30,31 @@ struct CategoryPresetView: View {
                 Spacer()
                 continueButton
             }
-            .navigationTitle("Category Preset")
+            .navigationTitle("Priority Preset")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 navigationToolbar
             }
             .sheet(isPresented: $isShowingSheet) {
-                CategorySelectView(modelContext: modelContext, preset: presetToEdit)
+                PrioritySelectView(modelContext: modelContext, preset: presetToEdit)
             }
         }
     }
 }
 
 // MARK: - View Components
-private extension CategoryPresetView {
+private extension PriorityPresetView {
     @ViewBuilder
     var presetList: some View {
         if savedPresets.isEmpty {
             ContentUnavailableView(
                 "No Presets", systemImage: "tray",
-                description: Text("Tap + to create a new category preset.")
-            )
+                description: Text("Tap + to create a new priority preset."))
         } else {
             ScrollView {
                 LazyVStack(spacing: 16) {
                     ForEach(savedPresets) { preset in
-                        CategoryPresetCard(
+                        PriorityPresetCard(
                             preset: preset,
                             isSelected: selectedPreset == preset.id,
                             onEdit: {
@@ -72,26 +71,19 @@ private extension CategoryPresetView {
             }
         }
     }
-    
+
     var continueButton: some View {
         NavigationLink {
-            PriorityPresetView()
+            RecommendedDistricts()
         } label: {
             Text("Continue")
         }
         .buttonStyle(.borderedProminent)
         .disabled(selectedPreset == nil)
     }
-    
+
     var navigationToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     presetToEdit = nil
@@ -108,28 +100,28 @@ private extension CategoryPresetView {
 #Preview {
     let container: ModelContainer = {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        
+
         let container = try! ModelContainer(
-            for: CategoryModel.self, CategoryPreset.self, configurations: config)
-        
+            for: PriorityPreset.self, PriorityModel.self, configurations: config)
+
         let context = container.mainContext
-        
-        for category in SeedData.categoryData {
-            context.insert(category)
+
+        for priority in SeedData.priorityData {
+            context.insert(priority)
         }
-        
-        let selectedCategories = Array(SeedData.categories.prefix(3))
-        
-        let dummyPreset = CategoryPreset(
-            title: "Weekend Getaway",
-            desc: "Essential categories for a short 3-day trip to Singapore.",
-            categories: selectedCategories
+
+        let selectedPriorities = Array(SeedData.priorityData.prefix(3))
+
+        let dummyPreset = PriorityPreset(
+            title: "Budget Oriented",
+            desc: "Essential items only",
+            priorities: selectedPriorities
         )
         context.insert(dummyPreset)
-        
+
         return container
     }()
-    
-    CategoryPresetView()
+
+    PriorityPresetView()
         .modelContainer(container)
 }

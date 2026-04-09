@@ -6,20 +6,34 @@
 //
 
 import Foundation
-import SwiftData
 import Observation
+import SwiftData
 
 @Observable
 final class CategoryViewModel {
     private var modelContext: ModelContext
-    
+
     var mainCategories: [CategoryModel] = []
     var selectedCategories: Set<CategoryModel> = []
     var searchText: String = ""
-    
-    init(modelContext: ModelContext) {
+
+    // MARK: - Init
+    init(modelContext: ModelContext, initialSelectedCategories: [CategoryModel] = []) {
         self.modelContext = modelContext
+        self.selectedCategories = Set(initialSelectedCategories)
         fetchData()
+    }
+
+    func fetchData() {
+        let descriptor = FetchDescriptor<CategoryModel>(
+            predicate: #Predicate { $0.parent == nil },
+            sortBy: [SortDescriptor(\.title)]
+        )
+        do {
+            self.mainCategories = try modelContext.fetch(descriptor)
+        } catch {
+            print("Fetch failed: \(error)")
+        }
     }
     
     var filteredCategories: [CategoryModel] {
@@ -35,20 +49,7 @@ final class CategoryViewModel {
             }
         }
     }
-    
-    func fetchData() {
-        let descriptor = FetchDescriptor<CategoryModel>(
-            predicate: #Predicate { $0.parent == nil },
-            sortBy: [SortDescriptor(\.title)]
-        )
-        
-        do {
-            self.mainCategories = try modelContext.fetch(descriptor)
-        } catch {
-            print("Fetch failed: \(error)")
-        }
-    }
-    
+
     func toggle(_ category: CategoryModel) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
@@ -56,6 +57,4 @@ final class CategoryViewModel {
             selectedCategories.insert(category)
         }
     }
-    
-    
 }
