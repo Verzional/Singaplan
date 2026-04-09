@@ -14,40 +14,41 @@ enum ItineraryViewMode {
 }
 
 struct ItineraryDetailView: View {
-    // MARK: - SwiftData Context
+    // MARK: Model
     @Environment(\.modelContext) private var modelContext
-    
-    // data diurutkan berdasarkan nomor harinya
-    @Query(sort: \ItineraryDay.dayNumber) private var itineraryList: [ItineraryDay]
+
+    var folder: ItineraryFolder
     
     // MARK: State Variables
     @State private var viewMode: ItineraryViewMode = .grid
     @State private var expandedDays: Set<UUID> = []
     
+    // filter: Ambil hari miliki folder ini
+    var filteredDays: [ItineraryDay] {
+        folder.days.sorted { $0.dayNumber < $1.dayNumber }
+    }
+    
     // MARK: Body
     var body: some View {
-        NavigationStack {
-            List {
-                // Looping ehe
-                ForEach(itineraryList) { day in
-                    itineraryRow(day)
-                }
-                
-                addDayButton
-                    .listRowSeparator(.hidden)
+        List {
+            ForEach(filteredDays) { day in
+                itineraryRow(day)
             }
-            .listStyle(.plain)
-            .navigationTitle("Itinerary")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar { toolbarContent }
+            
+            addDayButton
+                .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
+        .navigationTitle(folder.folderName)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar { toolbarContent }
     }
 }
 
 // MARK: Extension
 private extension ItineraryDetailView {
     
-    // func memunculkan places yang sudah disave
+    // func: memunculkan row
     func itineraryRow(_ day: ItineraryDay) -> some View {
         DaySection(
             day: day,
@@ -64,7 +65,7 @@ private extension ItineraryDetailView {
         }
     }
     
-    // add Day button
+    // Buat Button Add Day
     var addDayButton: some View {
         Button(action: addDay) {
             HStack {
@@ -79,7 +80,7 @@ private extension ItineraryDetailView {
         .foregroundColor(.blue)
     }
     
-    // toolbar
+    // Toolbar
     var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Picker("View Mode", selection: $viewMode) {
@@ -90,23 +91,32 @@ private extension ItineraryDetailView {
             .frame(width: 100)
         }
     }
-}
-
-private extension ItineraryDetailView {
     
-    // func logic untuk menambahkan day
     func addDay() {
-        withAnimation(.spring()) {
-            let nextNumber = (itineraryList.last?.dayNumber ?? 0) + 1
+        withAnimation() {
+            let nextNumber = (filteredDays.last?.dayNumber ?? 0) + 1
             let newDay = ItineraryDay(dayNumber: nextNumber)
+            newDay.itineraryFolder = folder
             modelContext.insert(newDay)
         }
     }
     
-    // func logic untuk menghapus day
     func deleteDay(_ day: ItineraryDay) {
-        withAnimation {
-            modelContext.delete(day)
+        if folder.days.contains(day) {
+            withAnimation {
+                modelContext.delete(day)
+                
+                let remainingDays = folder.days.sorted { $0.dayNumber < $1.dayNumber }
+                for (index, item) in remainingDays.enumerated() {
+                    item.dayNumber = index + 1
+                }
+                
+                if let _ = try? modelContext.save() {
+                    print("Simpan berhasil")
+                } else {
+                    print("Simpan gagal")
+                }
+            }
         }
     }
 }
@@ -114,46 +124,18 @@ private extension ItineraryDetailView {
 // MARK: Preview
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for:
-        ItineraryDay.self,
-        POI.self,
-        District.self,
-        CategoryModel.self,
-        Photo.self,
-        configurations: config
-    )
+    let container = try! ModelContainer(for: ItineraryFolder.self, ItineraryDay.self, POI.self, District.self, CategoryModel.self, Photo.self, configurations: config)
     
     let context = container.mainContext
-    
-    let natureCategory = CategoryModel(title: "Nature & Outdoors", icon: "leaf.fill")
-    let forestSub = CategoryModel(title: "Forest", icon: "tree.fill", parent: natureCategory)
-    let marinaSouth = District(id: "d1", name: "Marina South", address: "Central", desc: "Modern area", photoUrl: "marina-bg")
-    let chinatown = District(id: "d2", name: "Chinatown", address: "Chinatown", desc: "Old Chinatown", photoUrl: "chinatown-bg")
-    let orchard = District(id: "d3", name: "Orchard", address: "Orchard", desc: "Downtown Orchard", photoUrl: "orchard-bg")
-    
+    let previewFolder = ItineraryFolder(folderName: "Girls Trip Preview")
+    context.insert(previewFolder)
     
     let day1 = ItineraryDay(dayNumber: 1)
-    let day2 = ItineraryDay(dayNumber: 2)
-    
-    let gardens = POI(
-        id: "poi-1",
-        name: "Gardens by the Bay",
-        desc: "Cloud Forest and Supertrees",
-        location: "18 Marina Gardens Dr",
-        district: marinaSouth,
-        subcategory: forestSub,
-        photo: Photo(id: "p1", url: "buddha-tooth-relic-temple.png")
-    )
-    
-    day1.plannedDistricts.append(chinatown)
-    day1.plannedDistricts.append(orchard)
-    day2.plannedDistricts.append(orchard)
-    
-    gardens.itineraryDay = day1
+    day1.itineraryFolder = previewFolder
     context.insert(day1)
-    context.insert(day2)
     
-    return ItineraryDetailView()
-        .modelContainer(container)
+    return NavigationStack {
+        ItineraryDetailView(folder: previewFolder)
+            .modelContainer(container)
+    }
 }
-
