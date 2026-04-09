@@ -9,9 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct PrioritySelectView: View {
+    // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
     
-    // MARK: - State Properties
+    // State Properties
     @State private var isShowingModal = false
     @State private var budgetExpanded = false
     @State private var experienceExpanded = false
@@ -25,8 +26,8 @@ struct PrioritySelectView: View {
     @State private var experiences = SeedData.experiences
     @State private var accessibility = SeedData.accessibility
     
+    // Local Variables
     let priceBracket = ["$", "$$", "$$$"]
-    
     private var presetToEdit: PriorityPreset?
 
     // MARK: - Body
@@ -101,14 +102,14 @@ private extension PrioritySelectView {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "xmark")
+                    Image(systemName: "chevron.left")
                 }
             }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     isShowingModal = true
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "chevron.right")
                 }
             }
         }
@@ -138,6 +139,7 @@ private extension PrioritySelectView {
     }
 }
 
+// MARK: - Preview
 #Preview {
     PrioritySelectView()
 }
