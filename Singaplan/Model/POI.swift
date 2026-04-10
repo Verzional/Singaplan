@@ -17,13 +17,13 @@ final class POI {
 
     // Relasi ke model lainnya
     var district: District?
-    var subcategory: CategoryModel?
+    var subcategory: Category?
     var itineraryDay: ItineraryDay?
     
     @Relationship(deleteRule: .cascade)
     var photos: [Photo] = []
     
-    init(id: String, name: String, desc: String, location: String, district: District? = nil, subcategory: CategoryModel? = nil, photo: Photo? = nil) {
+    init(id: String, name: String, desc: String, location: String, district: District? = nil, subcategory: Category? = nil, photo: Photo? = nil) {
         self.id = id
         self.name = name
         self.desc = desc

@@ -16,9 +16,9 @@ final class CategoryPreset {
     var createdAt: Date
     
     @Relationship(deleteRule: .noAction)
-    var categories: [CategoryModel] = []
+    var categories: [Category] = []
     
-    init(id: UUID = UUID(), title: String, desc: String, categories: [CategoryModel] = [], createdAt: Date = Date()) {
+    init(id: UUID = UUID(), title: String, desc: String, categories: [Category] = [], createdAt: Date = Date()) {
         self.id = id
         self.title = title
         self.desc = desc

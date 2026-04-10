@@ -18,12 +18,12 @@ struct PrioritySaveView: View {
     @State private var presetDescription: String = ""
 
     // Local Variables
-    let priorities: [PriorityModel]
+    let priorities: [Priority]
     let presetToEdit: PriorityPreset?
     let onSaveComplete: () -> Void
 
     init(
-        preset: PriorityPreset? = nil, priorities: [PriorityModel],
+        preset: PriorityPreset? = nil, priorities: [Priority],
         onSaveComplete: @escaping () -> Void
     ) {
         self.presetToEdit = preset
@@ -130,10 +130,10 @@ private extension PrioritySaveView {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: PriorityPreset.self, PriorityModel.self, configurations: config)
+        for: PriorityPreset.self, Priority.self, configurations: config)
 
     let samplePriorities = [
-        PriorityModel(
+        Priority(
             title: "Popularity",
             desc:
                 "Balance your trip between world-renowned icons and under-the-radar local secrets.",
@@ -143,7 +143,7 @@ private extension PrioritySaveView {
                 PrioritySegment(label: "Iconic Hits", weight: 1.0),
             ]
         ),
-        PriorityModel(
+        Priority(
             title: "Mobility",
             desc:
                 "Prioritize level, easy-access paths or embrace more rugged, adventurous surfaces.",
@@ -153,7 +153,7 @@ private extension PrioritySaveView {
                 PrioritySegment(label: "Seamless", weight: 1.0),
             ]
         ),
-        PriorityModel(
+        Priority(
             title: "Walkability",
             desc:
                 "Balance your trip between vehicle-heavy roads and pedestrian-first zones with tram lines.",

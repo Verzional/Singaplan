@@ -14,15 +14,15 @@ final class PriorityViewModel {
     private var modelContext: ModelContext
     
     // Priorities
-    var experiences: [PriorityModel]
-    var accessibility: [PriorityModel]
+    var experiences: [Priority]
+    var accessibility: [Priority]
 
     // Budget
     var selectedBracket: String = "$$"
     var entryFee: Bool = false
 
     // All Priorities
-    var allPriorities: [PriorityModel] {
+    var allPriorities: [Priority] {
         experiences + accessibility
     }
 
@@ -41,12 +41,12 @@ final class PriorityViewModel {
                 uniqueKeysWithValues: preset.priorities.map { ($0.title, $0) }
             )
 
-            self.experiences = expTitles.compactMap { title -> PriorityModel? in
+            self.experiences = expTitles.compactMap { title -> Priority? in
                 guard let source = presetByTitle[title] else { return nil }
                 return PriorityViewModel.makeCopy(of: source)
             }
 
-            self.accessibility = accTitles.compactMap { title -> PriorityModel? in
+            self.accessibility = accTitles.compactMap { title -> Priority? in
                 guard let source = presetByTitle[title] else { return nil }
                 return PriorityViewModel.makeCopy(of: source)
             }
@@ -63,8 +63,8 @@ final class PriorityViewModel {
         }
     }
 
-    private static func makeCopy(of source: PriorityModel) -> PriorityModel {
-        let copy = PriorityModel(
+    private static func makeCopy(of source: Priority) -> Priority {
+        let copy = Priority(
             title: source.title,
             desc: source.desc,
             segments: source.segments
@@ -73,9 +73,9 @@ final class PriorityViewModel {
         return copy
     }
 
-    private static func freshCopies(of templates: [PriorityModel]) -> [PriorityModel] {
+    private static func freshCopies(of templates: [Priority]) -> [Priority] {
         templates.map { source in
-            PriorityModel(
+            Priority(
                 title: source.title,
                 desc: source.desc,
                 segments: source.segments

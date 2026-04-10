@@ -16,8 +16,8 @@ enum ItineraryViewMode {
 struct ItineraryDetailView: View {
     // MARK: Model
     @Environment(\.modelContext) private var modelContext
-
-    var folder: ItineraryFolder
+    
+    var folder: Itinerary
     
     // MARK: State Variables
     @State private var viewMode: ItineraryViewMode = .grid
@@ -124,10 +124,10 @@ private extension ItineraryDetailView {
 // MARK: Preview
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: ItineraryFolder.self, ItineraryDay.self, POI.self, District.self, CategoryModel.self, Photo.self, configurations: config)
+    let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, District.self, Category.self, Photo.self, configurations: config)
     
     let context = container.mainContext
-    let previewFolder = ItineraryFolder(folderName: "Girls Trip Preview")
+    let previewFolder = Itinerary(folderName: "Girls Trip Preview")
     context.insert(previewFolder)
     
     let day1 = ItineraryDay(dayNumber: 1)

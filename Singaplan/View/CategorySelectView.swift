@@ -106,7 +106,7 @@ private extension CategorySelectView {
 #Preview {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: CategoryModel.self, configurations: config)
+    let container = try! ModelContainer(for: Category.self, configurations: config)
     
     // Context
     let context = container.mainContext

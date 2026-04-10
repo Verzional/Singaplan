@@ -1,178 +1,96 @@
+
+
 //
-//  ItineraryCreate.swift
+//  ItineraryInputModal.swift
 //  Singaplan
 //
-//  Created by Valentino Manuel Gunawan on 06/04/26.
+//  Created by Michelle on 07/04/26.
 //
 
 import SwiftUI
-import SwiftData
 
 struct ItineraryCreateView: View {
-    @Environment(\.modelContext) private var modelContext
-
-    @Query(sort: \ItineraryFolder.folderName) private var allFolders: [ItineraryFolder]
+    // MARK: - State Variables
+    @Binding var folderName: String
+    @Binding var day: String
     
-    // MARK: State Variables
-    @State private var showModal = false
-    @State private var folderNameInput = ""
-    @State private var dayCountInput = ""
+    var onCancel: () -> Void
+    var onSave: () -> Void
     
+    // MARK: - Body (Folder Input)
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 10) {
-                
-                // MARK: Header
-                HStack {
-                    Text("Itinerary")
-                        .font(.system(size: 32))
-                        .bold()
-                    
-                    Spacer()
-                    
-                    if !allFolders.isEmpty {
-                        Button(action: {
-                            prepareNewInput()
-                            showModal = true
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 30))
-                                .foregroundStyle(Color.black, Color.gray.opacity(0.2))
-                        }
-                    }
-                }
-                .padding(.top, 20)
-                .padding(.bottom, 15)
-                
-                // MARK: Content View
-                // MARK: Content View
-                if allFolders.isEmpty {
-                    emptyStateCard
-                } else {
-                    List {
-                        ForEach(allFolders) { folder in
-                            ZStack {
-                                ItineraryFolderListView(
-                                    folderName: folder.folderName,
-                                    days: "\(folder.days.count)",
-                                    onBack: { }
-                                )
-                                NavigationLink(destination: ItineraryDetailView(folder: folder)) {
-                                    EmptyView()
-                                }
-                                .opacity(0)
-                            }
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.clear)
-                            .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    deleteFolder(folder)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                            }
-                        }
-                    }
-                    .listStyle(.plain)
-                }
-                
+            VStack(alignment: .leading, spacing: 24) {
+                folderNameField
+                numberOfDaysField
                 Spacer()
             }
-            .padding(.horizontal)
-            
-            // MARK: - Modal Input
-            .sheet(isPresented: $showModal) {
-                ItineraryInputModalView(
-                    folderName: $folderNameInput,
-                    day: $dayCountInput,
-                    onCancel: { showModal = false },
-                    onSave: {
-                        saveNewItinerary()
-                        showModal = false
-                    }
-                )
+            .padding()
+            .navigationTitle("Set Your Itinerary")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                navigationToolbar
             }
         }
     }
 }
 
-// MARK: Extension
+// MARK: - View Components
 private extension ItineraryCreateView {
+    var folderNameField: some View {
+        VStack(alignment: .leading) {
+            Text("Folder Name")
+                .bold()
+                .font(.system(size: 20))
+            
+            TextField("Enter folder name", text: $folderName)
+                .padding(.bottom, 5)
+                .overlay(
+                    Rectangle()
+                        .frame(height: 1),
+                    alignment: .bottom
+                )
+        }
+    }
     
-    // func: delete folder
-    func deleteFolder(_ folder: ItineraryFolder) {
-        withAnimation(.spring()) {
-            modelContext.delete(folder)
-                
-            if let _ = try? modelContext.save() {
-                print("Folder \(folder.folderName) berhasil dihapus")
+    var numberOfDaysField: some View {
+        VStack(alignment: .leading) {
+            Text("Number of Days")
+                .font(.system(size: 20))
+                .bold()
+            
+            TextField("Enter number of days", text: $day)
+                .padding(.bottom, 5)
+                .overlay(Rectangle().frame(height: 1), alignment: .bottom)
+                .keyboardType(.numberPad)
+        }
+    }
+    
+    var navigationToolbar: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(action: onCancel) {
+                    Image(systemName: "xmark")
+                }
             }
-        }
-    }
-    
-    // Tampilan Kartu Tambah Pertama (Empty State)
-    var emptyStateCard: some View {
-        VStack {
-            Circle()
-                .fill(Color.gray.opacity(0.4))
-                .frame(width: 35, height: 35)
-                .overlay(Text("+").font(.title))
-                .foregroundColor(.white)
-            
-            Text("Make your trip happen")
-                .font(.headline)
-            
-            Text("Add your first itinerary")
-                .font(.caption)
-                .foregroundColor(.black)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 100)
-        .padding()
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 5)
-        .onTapGesture {
-            prepareNewInput()
-            showModal = true
-        }
-    }
-    
-    func prepareNewInput() {
-        folderNameInput = ""
-        dayCountInput = ""
-    }
-
-    // Func utama menyimpan ke SwiftData
-    func saveNewItinerary() {
-        guard !folderNameInput.isEmpty, let totalDays = Int(dayCountInput) else { return }
-        
-        // Buat Parent (Folder)
-        let newFolder = ItineraryFolder(folderName: folderNameInput)
-        modelContext.insert(newFolder)
-        
-        // Buat Anak-anaknya (Days)
-        for i in 1...totalDays {
-            let newDay = ItineraryDay(dayNumber: i)
-            newDay.itineraryFolder = newFolder // Link relasi ke folder
-            modelContext.insert(newDay)
-        }
-        
-        // 3. Simpan
-        do {
-            try modelContext.save()
-        } catch {
-            print("Gagal menyimpan data: \(error.localizedDescription)")
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: onSave) {
+                    Image(systemName: "checkmark")
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
+                .clipShape(Circle())
+            }
         }
     }
 }
 
-// MARK: Preview
+// MARK: - Preview
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: ItineraryFolder.self, ItineraryDay.self, POI.self, configurations: config)
-    
-    return ItineraryCreateView()
-        .modelContainer(container)
+    ItineraryCreateView(
+        folderName: .constant("Girls Trip"),
+        day: .constant("4"),
+        onCancel: { print("Tombol X ditekan") },
+        onSave: { print("Tombol Simpan ditekan") }
+    )
 }

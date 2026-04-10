@@ -126,7 +126,7 @@ private extension PrioritySelectView {
 
     // MARK: - Section Component
     @ViewBuilder
-    func segmentSection(for data: Binding<[PriorityModel]>) -> some View {
+    func segmentSection(for data: Binding<[Priority]>) -> some View {
         ForEach(data) { $item in
             VStack(alignment: .leading) {
                 Text(item.title)
@@ -153,7 +153,7 @@ private extension PrioritySelectView {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: PriorityPreset.self, PriorityModel.self, configurations: config)
+        for: PriorityPreset.self, Priority.self, configurations: config)
 
     // Return Preview
     return PrioritySelectView(modelContext: container.mainContext)

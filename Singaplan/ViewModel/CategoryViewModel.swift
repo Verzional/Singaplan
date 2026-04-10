@@ -13,19 +13,19 @@ import SwiftData
 final class CategoryViewModel {
     private var modelContext: ModelContext
 
-    var mainCategories: [CategoryModel] = []
-    var selectedCategories: Set<CategoryModel> = []
+    var mainCategories: [Category] = []
+    var selectedCategories: Set<Category> = []
     var searchText: String = ""
 
     // MARK: - Init
-    init(modelContext: ModelContext, initialSelectedCategories: [CategoryModel] = []) {
+    init(modelContext: ModelContext, initialSelectedCategories: [Category] = []) {
         self.modelContext = modelContext
         self.selectedCategories = Set(initialSelectedCategories)
         fetchData()
     }
 
     func fetchData() {
-        let descriptor = FetchDescriptor<CategoryModel>(
+        let descriptor = FetchDescriptor<Category>(
             predicate: #Predicate { $0.parent == nil },
             sortBy: [SortDescriptor(\.title)]
         )
@@ -36,7 +36,7 @@ final class CategoryViewModel {
         }
     }
     
-    var filteredCategories: [CategoryModel] {
+    var filteredCategories: [Category] {
         if searchText.isEmpty {
             return mainCategories
         } else {
@@ -50,7 +50,7 @@ final class CategoryViewModel {
         }
     }
 
-    func toggle(_ category: CategoryModel) {
+    func toggle(_ category: Category) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
         } else {

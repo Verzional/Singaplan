@@ -1,14 +1,13 @@
 //
-//  ItineraryFolderList.swift
+//  ItineraryFolder.swift
 //  Singaplan
 //
-//  Created by Michelle on 07/04/26.
+//  Created by Valentino Manuel Gunawan on 10/04/26.
 //
 
 import SwiftUI
 
-
-struct ItineraryFolderListView: View {
+struct ItineraryFolder: View {
     var folderName: String
     var days: String
     var backgroundImageName: String?
@@ -61,7 +60,7 @@ struct ItineraryFolderListView: View {
 
 // MARK: - Preview
 #Preview("Hitung Kartu Hitam") {
-    ItineraryFolderListView(
+    ItineraryFolder(
         folderName: "Girls Trip",
         days: "4",
         backgroundImageName: nil,
@@ -71,7 +70,7 @@ struct ItineraryFolderListView: View {
 }
 
 #Preview("Hitung Kartu Gambar") {
-    ItineraryFolderListView(
+    ItineraryFolder(
         folderName: "Singapore Trip",
         days: "3",
         backgroundImageName: "marina-bg",

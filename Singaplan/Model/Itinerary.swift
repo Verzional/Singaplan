@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class ItineraryFolder {
+final class Itinerary {
     @Attribute(.unique) var id: UUID
     var folderName: String
     

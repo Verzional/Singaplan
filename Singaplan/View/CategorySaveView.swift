@@ -18,12 +18,12 @@ struct CategorySaveView: View {
     @State private var presetDescription: String = ""
     
     // Local Variables
-    let selectedCategories: [CategoryModel]
+    let selectedCategories: [Category]
     let presetToEdit: CategoryPreset?
     let onSaveComplete: () -> Void
     
     init(
-        preset: CategoryPreset? = nil, selectedCategories: [CategoryModel],
+        preset: CategoryPreset? = nil, selectedCategories: [Category],
         onSaveComplete: @escaping () -> Void
     ) {
         self.presetToEdit = preset
@@ -87,6 +87,9 @@ private extension CategorySaveView {
                 } label: {
                     Image(systemName: "checkmark")
                 }
+                .buttonStyle(.borderedProminent) 
+                .tint(.blue)
+                .clipShape(Circle())
                 .disabled(presetTitle.isEmpty)
             }
         }
@@ -116,14 +119,14 @@ private extension CategorySaveView {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: CategoryPreset.self, CategoryModel.self, configurations: config)
+        for: CategoryPreset.self, Category.self, configurations: config)
     
     // Sample Data
     let sampleSelected = [
-        CategoryModel(title: "Mountain", icon: "mountain.2"),
-        CategoryModel(title: "Smart City", icon: "antenna.radiowaves.left.and.right"),
-        CategoryModel(title: "Street Food", icon: "flame"),
-        CategoryModel(title: "Beach", icon: "sun.max"),
+        Category(title: "Mountain", icon: "mountain.2"),
+        Category(title: "Smart City", icon: "antenna.radiowaves.left.and.right"),
+        Category(title: "Street Food", icon: "flame"),
+        Category(title: "Beach", icon: "sun.max"),
     ]
     
     NavigationStack {

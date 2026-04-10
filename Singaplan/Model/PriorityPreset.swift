@@ -16,9 +16,9 @@ final class PriorityPreset {
     var createdAt: Date
     
     @Relationship(deleteRule: .noAction)
-    var priorities: [PriorityModel] = []
+    var priorities: [Priority] = []
     
-    init(id: UUID = UUID(), title: String, desc: String? = nil, priorities: [PriorityModel] = [], createdAt: Date = Date()) {
+    init(id: UUID = UUID(), title: String, desc: String? = nil, priorities: [Priority] = [], createdAt: Date = Date()) {
         self.id = id
         self.title = title
         self.desc = desc

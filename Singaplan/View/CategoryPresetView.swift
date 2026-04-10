@@ -48,7 +48,8 @@ private extension CategoryPresetView {
     var presetList: some View {
         if savedPresets.isEmpty {
             ContentUnavailableView(
-                "No Presets", systemImage: "tray",
+                "No Presets",
+                systemImage: "tray",
                 description: Text("Tap + to create a new category preset.")
             )
         } else {
@@ -110,7 +111,7 @@ private extension CategoryPresetView {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         
         let container = try! ModelContainer(
-            for: CategoryModel.self, CategoryPreset.self, configurations: config)
+            for: Category.self, CategoryPreset.self, configurations: config)
         
         let context = container.mainContext
         

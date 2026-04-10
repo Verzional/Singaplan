@@ -102,7 +102,7 @@ private extension PriorityPresetView {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
 
         let container = try! ModelContainer(
-            for: PriorityPreset.self, PriorityModel.self, configurations: config)
+            for: PriorityPreset.self, Priority.self, configurations: config)
 
         let context = container.mainContext
 

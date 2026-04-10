@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PriorityCapsule: View {
-    let child: PriorityModel
+    let child: Priority
     
     var selectedLabel: String {
         child.segments.first(where: { $0.weight == child.selectedWeight })?.label ?? "Unknown"
@@ -46,7 +46,7 @@ struct PriorityCapsule: View {
 }
 
 #Preview {
-    PriorityCapsule(child: PriorityModel(
+    PriorityCapsule(child: Priority(
         title: "Popularity",
         desc: "Balance your trip between world-renowned icons and under-the-radar local secrets.",
         segments: [

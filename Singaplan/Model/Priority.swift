@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class PriorityModel {
+final class Priority {
     @Attribute(.unique) var id: UUID
     var title: String
     var desc: String

@@ -15,13 +15,13 @@ struct SingaplanApp: App {
             ContentView()
         }
         .modelContainer(for: [
-            CategoryModel.self,
+            Category.self,
             CategoryPreset.self,
             District.self,
             ItineraryDay.self,
-            ItineraryFolder.self,
+            Itinerary.self,
             POI.self,
-            PriorityModel.self,
+            Priority.self,
             PriorityPreset.self
         ])
     }
