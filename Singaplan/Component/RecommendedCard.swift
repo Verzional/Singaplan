@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RecommendedCard: View {
     let place: Place
-
+//MARK: Body
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             spotlightImage
@@ -23,7 +23,7 @@ struct RecommendedCard: View {
     }
 }
 
-
+//MARK: Sections
 extension RecommendedCard {
     
     private var spotlightImage: some View {
@@ -118,7 +118,7 @@ extension RecommendedCard {
         .foregroundColor(.primary)
     }
 }
-
+//MARK: Preview
 #Preview {
     RecommendedCard(place: Place.Places[1])
 }
