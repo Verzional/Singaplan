@@ -15,7 +15,7 @@ struct DaySection: View {
     @Binding var expandedDays: Set<UUID>
     
     @Query private var allDistricts: [District]
-
+    
     // MARK: Body
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -142,8 +142,8 @@ private extension DaySection {
     // untuk memunculkan jika ada district, tapi belum pilih poi
     var availableDistricts: [District] {
         let occupiedDistrictIds = Set(day.destinations.compactMap { $0.district?.id })
-            return day.plannedDistricts.filter { !occupiedDistrictIds.contains($0.id) }
-        }
+        return day.plannedDistricts.filter { !occupiedDistrictIds.contains($0.id) }
+    }
     
     // bool untuk apakah akan dropdown atau tidak
     var isExpanded: Bool {
@@ -159,31 +159,33 @@ private extension DaySection {
     }
 }
 
-// MARK: Preview
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: ItineraryDay.self, POI.self, District.self, Photo.self, configurations: config)
-    let context = container.mainContext
-        
-    let marina = District(id: "d1", name: "Marina South", address: "", desc: "", photoUrl: "marina-bg")
-    let chinatown = District(id: "d2", name: "Chinatown", address: "", desc: "", photoUrl: "marina-bg")
-    context.insert(marina)
-    context.insert(chinatown)
-            
-    let day = ItineraryDay(dayNumber: 1)
-        
-    day.plannedDistricts.append(chinatown)
-        
-    let gardens = POI(id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
-    gardens.itineraryDay = day
-            
-    context.insert(day)
-    context.insert(gardens)
-            
-    return DaySection(
-        day: day,
-        viewMode: .grid,
-        expandedDays: .constant([day.id])
-        )
-        .modelContainer(container)
-}
+//// MARK: Preview
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: ItineraryDay.self, POI.self, District.self, Photo.self, configurations: config)
+//    let context = container.mainContext
+//        
+//    let marina = District(name: "Marina South", address: "", desc: "", photoUrl: ["marina-bg"])
+//    let chinatown = District(name: "Chinatown", address: "", desc: "", photoUrl: ["marina-bg"])
+//    
+//    // Silence the ViewBuilder by assigning the Void return to an underscore
+//    let _ = context.insert(marina)
+//    let _ = context.insert(chinatown)
+//            
+//    let day = ItineraryDay(dayNumber: 1)
+//        
+//    let _ = day.plannedDistricts.append(chinatown)
+//        
+//    let gardens = POI(id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
+//    gardens.itineraryDay = day
+//            
+//    let _ = context.insert(day)
+//    let _ = context.insert(gardens)
+//            
+//    DaySection(
+//        day: day,
+//        viewMode: .grid,
+//        expandedDays: .constant([day.id])
+//    )
+//    .modelContainer(container)
+//}
