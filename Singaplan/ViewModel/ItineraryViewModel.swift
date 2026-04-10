@@ -11,7 +11,7 @@ import SwiftData
 
 @Observable
 class ItineraryViewModel {
-    private var modelContext: ModelContext?
+    var modelContext: ModelContext?
     
     var folderNameInput = ""
     var dayCountInput = ""

@@ -18,7 +18,7 @@ struct ItineraryView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
-               headerSection
+                headerSection
                 
                 // MARK: Content View
                 if allFolders.isEmpty {
@@ -36,10 +36,17 @@ struct ItineraryView: View {
                 ItineraryCreateView(
                     folderName: $viewModel.folderNameInput,
                     day: $viewModel.dayCountInput,
-                    onCancel: { viewModel.showModal = false },
-                    onSave: { viewModel.showModal = false }
+                    onCancel: {
+                        viewModel.showModal = false
+                    },
+                    onSave: {
+                        viewModel.saveNewItinerary()
+                    }
                 )
             }
+        }
+        .onAppear {
+            viewModel.modelContext = modelContext
         }
     }
 }
@@ -65,20 +72,30 @@ private extension ItineraryView {
             viewModel.prepareNewInput()
             viewModel.showModal = true
         }) {
-            Image(systemName: "plus.circle.fill")
-                .font(.system(size: 30))
-                .foregroundStyle(Color.black, Color.gray.opacity(0.2))
+            Image(systemName: "plus")
+                .font(.system(size: 24, weight: .regular))
+                .foregroundStyle(.black)
+                .padding(10)
+                .background {
+                    Circle()
+                        .fill(.white)
+                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                }
         }
     }
     
     // Tampilan Kartu Tambah Pertama (Empty State)
     var emptyStateCard: some View {
-        VStack {
-            Circle()
-                .fill(Color.gray.opacity(0.4))
-                .frame(width: 35, height: 35)
-                .overlay(Text("+").font(.title))
-                .foregroundColor(.white)
+        VStack(spacing: 8){
+            Image(systemName: "plus")
+                .font(.system(size: 24, weight: .regular))
+                .foregroundStyle(.black)
+                .padding(10)
+                .background {
+                    Circle()
+                        .fill(.white)
+                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                }
             
             Text("Make your trip happen")
                 .font(.headline)
@@ -129,10 +146,14 @@ private extension ItineraryView {
     }
 }
 
-// MARK: Preview
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, configurations: config)
+    let context = container.mainContext
+    
+    //    let dummyItinerary = Itinerary(folderName: "Bali Trip")
+    //    
+    //    context.insert(dummyItinerary)
     
     return ItineraryView()
         .modelContainer(container)
