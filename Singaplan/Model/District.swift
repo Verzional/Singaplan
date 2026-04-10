@@ -6,12 +6,24 @@
 //
 
 import Foundation
+import SwiftData
 
-struct District: Identifiable {
-    let id: String
+@Model
+final class District {
+    @Attribute(.unique) var id: String
     var name: String
     var address: String
-    var description: String
+    var desc: String
     var photoUrl: String
-    var photos: [Photo]
+    
+    @Relationship(deleteRule: .nullify, inverse: \POI.district)
+    var pois: [POI] = []
+
+    init(id: String, name: String, address: String, desc: String, photoUrl: String) {
+        self.id = id
+        self.name = name
+        self.address = address
+        self.desc = desc
+        self.photoUrl = photoUrl
+    }
 }

@@ -6,8 +6,14 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Photo: Identifiable {
-    let id: String?
-    let url: String
+@Model
+final class Photo {
+    var id: String
+    var url: String
+    init(id: String, url: String) {
+        self.id = id
+        self.url = url
+    }
 }
