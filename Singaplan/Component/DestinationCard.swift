@@ -67,7 +67,7 @@ struct DistrictCard: View {
             
             Color.clear
                 .overlay(
-                    Image(district.photoUrl)
+                    Image(district.photoUrls[1])
                         .resizable()
                         .scaledToFill()
                 )
@@ -105,14 +105,13 @@ struct DistrictCard: View {
     let container = try! ModelContainer(for: POI.self, District.self, Photo.self, configurations: config)
 
     let sampleDistrict = District(
-        id: "d1",
         name: "Chinatown",
         address: "Central Region",
         desc: "Historic area",
-        photoUrl: "marina-bg"
+        photoUrl: ["marina-bg"]
     )
     
-    return VStack(spacing: 20) {
+    VStack(spacing: 20) {
         Text("District Card Example:")
             .font(.caption)
         
