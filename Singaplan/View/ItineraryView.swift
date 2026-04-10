@@ -10,11 +10,7 @@ import SwiftData
 
 struct ItineraryView: View {
     @Environment(\.modelContext) private var modelContext
-    
-    // MARK: - State Variables
-    @State private var showModal = false
-    @State private var folderNameInput = ""
-    @State private var dayCountInput = ""
+    @State private var viewModel = ItineraryViewModel()
     
     @Query(sort: \Itinerary.folderName) private var allFolders: [Itinerary]
     
@@ -22,18 +18,7 @@ struct ItineraryView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
-                //MARK: Header
-                HStack {
-                    Text("Itinerary")
-                        .font(.system(size: 34))
-                        .fontWeight(.bold)
-                    
-                    Spacer ()
-                    
-                    if !allFolders.isEmpty {
-                        addButton
-                    }
-                }
+               headerSection
                 
                 // MARK: Content View
                 if allFolders.isEmpty {
@@ -47,15 +32,12 @@ struct ItineraryView: View {
             .padding(.horizontal)
             
             // MARK: Modal Input
-            .sheet(isPresented: $showModal) {
+            .sheet(isPresented: $viewModel.showModal) {
                 ItineraryCreateView(
-                    folderName: $folderNameInput,
-                    day: $dayCountInput,
-                    onCancel: { showModal = false },
-                    onSave: {
-                        saveNewItinerary()
-                        showModal = false
-                    }
+                    folderName: $viewModel.folderNameInput,
+                    day: $viewModel.dayCountInput,
+                    onCancel: { viewModel.showModal = false },
+                    onSave: { viewModel.showModal = false }
                 )
             }
         }
@@ -64,6 +46,31 @@ struct ItineraryView: View {
 
 // MARK: - Extension
 private extension ItineraryView {
+    var headerSection: some View {
+        HStack {
+            Text("Itinerary")
+                .font(.system(size: 34))
+                .fontWeight(.bold)
+            
+            Spacer ()
+            
+            if !allFolders.isEmpty {
+                addButton
+            }
+        }
+    }
+    
+    var addButton: some View {
+        Button(action: {
+            viewModel.prepareNewInput()
+            viewModel.showModal = true
+        }) {
+            Image(systemName: "plus.circle.fill")
+                .font(.system(size: 30))
+                .foregroundStyle(Color.black, Color.gray.opacity(0.2))
+        }
+    }
+    
     // Tampilan Kartu Tambah Pertama (Empty State)
     var emptyStateCard: some View {
         VStack {
@@ -87,8 +94,8 @@ private extension ItineraryView {
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 5)
         .onTapGesture {
-            prepareNewInput()
-            showModal = true
+            viewModel.prepareNewInput()
+            viewModel.showModal = true
         }
     }
     
@@ -111,7 +118,7 @@ private extension ItineraryView {
                 .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(role: .destructive) {
-                        deleteFolder(folder)
+                        viewModel.deleteFolder(folder)
                     } label: {
                         Label("Delete", systemImage: "trash")
                     }
@@ -119,56 +126,6 @@ private extension ItineraryView {
             }
         }
         .listStyle(.plain)
-    }
-    
-    var addButton: some View {
-        Button(action: {
-            prepareNewInput()
-            showModal = true
-        }) {
-            Image(systemName: "plus.circle.fill")
-                .font(.system(size: 30))
-                .foregroundStyle(Color.black, Color.gray.opacity(0.2))
-        }
-    }
-    
-    func prepareNewInput() {
-        folderNameInput = ""
-        dayCountInput = ""
-    }
-    
-    // Func utama menyimpan ke SwiftData
-    func saveNewItinerary() {
-        guard !folderNameInput.isEmpty, let totalDays = Int(dayCountInput) else { return }
-        
-        // Buat Parent (Folder)
-        let newFolder = Itinerary(folderName: folderNameInput)
-        modelContext.insert(newFolder)
-        
-        // Buat Anak-anaknya (Days)
-        for i in 1...totalDays {
-            let newDay = ItineraryDay(dayNumber: i)
-            newDay.itineraryFolder = newFolder // Link relasi ke folder
-            modelContext.insert(newDay)
-        }
-        
-        // 3. Simpan
-        do {
-            try modelContext.save()
-        } catch {
-            print("Gagal menyimpan data: \(error.localizedDescription)")
-        }
-    }
-    
-    // func: delete folder
-    func deleteFolder(_ folder: Itinerary) {
-        withAnimation(.spring()) {
-            modelContext.delete(folder)
-            
-            if let _ = try? modelContext.save() {
-                print("Folder \(folder.folderName) berhasil dihapus")
-            }
-        }
     }
 }
 
