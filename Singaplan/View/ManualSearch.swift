@@ -97,7 +97,7 @@ struct Place: Identifiable {
     let name: String
     let imageName: String
     let description: String
-    let tags: [String]
+    let categories: [CategoryModel]
 }
 
 extension Place {
@@ -105,15 +105,24 @@ extension Place {
         Place(name: "Chinatown",
               imageName: "chinatown_img",
               description: "Chinatown is a vibrant historic district blending traditional Chinese heritage...",
-              tags: ["Historical", "Foodies"]),
+              categories: [
+                CategoryModel(title: "Historical", icon: "clock.fill"),
+                CategoryModel(title: "Foodies", icon: "fork.knife")
+                ]),
         Place(name: "Garden by the Bay",
               imageName: "gardens_img",
               description: "A showpiece of horticulture and garden artistry.",
-              tags: ["Nature", "Scenic"]),
+              categories: [
+                CategoryModel(title: "Historical", icon: "clock.fill"),
+                CategoryModel(title: "Foodies", icon: "fork.knife")
+                ]),
         Place(name: "Universal Studios",
               imageName: "universal_studios",
               description: "Experience cutting-edge rides, shows, and attractions.",
-              tags: ["Family", "Fun"])
+              categories: [
+                CategoryModel(title: "Historical", icon: "clock.fill"),
+                CategoryModel(title: "Foodies", icon: "fork.knife")
+                ]),
     ]
 }
 

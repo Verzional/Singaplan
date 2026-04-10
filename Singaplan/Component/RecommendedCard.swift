@@ -5,40 +5,12 @@ struct RecommendedCard: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            Image(place.imageName)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 135)
-                .frame(maxHeight: .infinity)
-                .clipped()
-
+            spotlightImage
             VStack(alignment: .leading, spacing: 2) {
                 headerSection
-                
                 priceRatingSection
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(place.description)
-                        .lineLimit(2)
-                }
-                .font(.system(size: 14))
-                .foregroundColor(.secondary)
-
-                HStack(spacing: 5) {
-                    ForEach(place.tags, id: \.self) { tag in
-                        Text(tag)
-                            .font(.system(size: 10, weight: .bold))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(Color.red.opacity(0.1))
-                            .foregroundColor(.red)
-                            .cornerRadius(10)
-                    }
-                }
-                .padding(.top, 4)
-                
-                Spacer(minLength: 4)
-
+                placeDescription
+                categorySection
                 footerSection
             }
             .padding(12)
@@ -54,15 +26,51 @@ struct RecommendedCard: View {
 
 extension RecommendedCard {
     
+    private var spotlightImage: some View {
+        Image(place.imageName)
+            .resizable()
+            .scaledToFill()
+            .frame(width: 135)
+            .frame(maxHeight: .infinity)
+            .clipped()
+    }
+    
     private var headerSection: some View {
             HStack {
                 Text(place.name)
                     .font(.system(size: 20, weight: .bold))
                 Spacer()
+                Button {
+                    print("Info tapped for \(place.name)")
+                } label: {
                 Image(systemName: "info.circle")
                     .foregroundColor(.secondary)
+                    .font(.system(size: 18))
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
             }
         }
+    
+    private var categorySection: some View {
+        HStack(spacing: 0) {
+            ForEach(place.categories) { category in
+                CategoryCapsule(child: category, isSelected: false)
+                    .scaleEffect(0.8)
+            }
+        }
+        .padding(.top, 4)
+
+    }
+    
+    private var placeDescription: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(place.description)
+                .lineLimit(2)
+        }
+        .font(.system(size: 14))
+        .foregroundColor(.secondary)
+    }
 
     private var priceRatingSection: some View {
         HStack(spacing: 2) {
@@ -90,9 +98,14 @@ extension RecommendedCard {
             
             Spacer()
             
-            Image(systemName: "plus.circle.fill")
-                .font(.system(size: 28))
-                .foregroundColor(.blue)
+            Button {
+                print("Added \(place.name) to list")
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 32))
+                    .foregroundColor(.blue)
+                    }
+                    .buttonStyle(.plain)
         }
     }
 
@@ -107,5 +120,5 @@ extension RecommendedCard {
 }
 
 #Preview {
-    RecommendedCard(place: Place.Places[0])
+    RecommendedCard(place: Place.Places[1])
 }
