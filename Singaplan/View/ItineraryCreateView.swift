@@ -45,7 +45,6 @@ struct ItineraryCreateView: View {
                 .padding(.bottom, 15)
                 
                 // MARK: Content View
-                // MARK: Content View
                 if allFolders.isEmpty {
                     emptyStateCard
                 } else {

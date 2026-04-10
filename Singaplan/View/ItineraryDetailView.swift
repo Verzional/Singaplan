@@ -104,10 +104,13 @@ private extension ItineraryDetailView {
     func deleteDay(_ day: ItineraryDay) {
         if folder.days.contains(day) {
             withAnimation {
+                let keepDay = folder.days
+                    .filter { $0.id != day.id }
+                    .sorted { $0.dayNumber < $1.dayNumber }
+                
                 modelContext.delete(day)
                 
-                let remainingDays = folder.days.sorted { $0.dayNumber < $1.dayNumber }
-                for (index, item) in remainingDays.enumerated() {
+                for (index, item) in keepDay.enumerated() {
                     item.dayNumber = index + 1
                 }
                 
