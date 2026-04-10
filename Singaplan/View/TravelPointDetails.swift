@@ -56,7 +56,7 @@ struct TravelPointDetailView: View {
                 }
             }
             // toolbar bg invincible
-            .toolbarBackground(.blue, for: .navigationBar)
+            .toolbarBackground(.hidden, for: .navigationBar)
         }
         .overlay(
             VStack {
@@ -105,7 +105,7 @@ struct TravelPointDetailView: View {
                     Text("Open")
                         .fontWeight(.semibold)
                         .foregroundColor(.green)
-                    Text("- Closes \(district.closeTime)")
+                    Text("- Closes \(district.closeTime ?? "")")
                         .foregroundColor(.secondary)
                 }
                 .font(.subheadline)
@@ -120,7 +120,7 @@ struct TravelPointDetailView: View {
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
-                Text(district.description)
+                Text(district.desc)
                     .font(.body)
                     .foregroundColor(.secondary)
                     .lineLimit(3)
@@ -136,7 +136,7 @@ struct TravelPointDetailView: View {
             
             // FlowLayout so capsules size naturally and wrap gracefully
             FlowLayout() {
-                ForEach(district.categories) { category in
+                ForEach(district.categories ?? []) { category in
                     CategoryCapsule(
                         child: category,
                         isSelected: false
@@ -175,7 +175,7 @@ struct TravelPointDetailView: View {
                     
                     VStack(alignment: .leading, spacing: 12) {
                         // Loop through all priorities and show them as plain text rows
-                        ForEach(district.priorities) { priority in
+                        ForEach(district.priorities ?? []) { priority in
                             makePriorityCard(for: priority)
                         }
                     }
@@ -228,17 +228,10 @@ struct TravelPointDetailView: View {
             let mockDistrict = District(
                 name: "Sentosa Island",
                 address: "Sentosa Gateway, Singapore",
-                description: "A sunny island resort in Singapore, home to themed attractions, sandy beaches, rainforests, and amazing dining experiences.",
+                desc: "A sunny island resort in Singapore, home to themed attractions, sandy beaches, rainforests, and amazing dining experiences.",
                 openTime: "09:00 am",
                 closeTime: "22:00 pm",
-                priceRange: "S$ 20.00 - 150.00 per person",
-                photoUrls: ["sentosa", "sentosa-2", "sentosa-3"],
-                categories: [
-                    CategoryModel(title: "Nature", icon: "leaf.fill"),
-                    CategoryModel(title: "Family", icon: "figure.2.and.child.holdinghands"),
-                    CategoryModel(title: "Beach", icon: "sun.max.fill"),
-                    CategoryModel(title: "Attraction", icon: "fork.knife.circle.fill")
-                ],
+                photoUrl: ["sentosa", "sentosa-2", "sentosa-3"],
                 priorities: [
                     PriorityModel(
                         title: "Budget",
@@ -263,7 +256,13 @@ struct TravelPointDetailView: View {
                     SeedData.accessibility[0], // Mobility
                     SeedData.accessibility[1], // Transport
                     SeedData.accessibility[2], // Walkability
-                ]
+                ],
+                categories: [
+                    CategoryModel(title: "Nature", icon: "leaf.fill"),
+                    CategoryModel(title: "Family", icon: "figure.2.and.child.holdinghands"),
+                    CategoryModel(title: "Beach", icon: "sun.max.fill"),
+                    CategoryModel(title: "Attraction", icon: "fork.knife.circle.fill")
+                ],
             )
             TravelPointDetailView(district: mockDistrict)
         }
