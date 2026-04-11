@@ -12,7 +12,7 @@ import SwiftUI
 struct ItineraryCreateView: View {
     // MARK: - State Variables
     @Binding var folderName: String
-    @Binding var day: String
+    @Binding var day: Int
     
     var onCancel: () -> Void
     var onSave: () -> Void
@@ -59,7 +59,7 @@ private extension ItineraryCreateView {
                 .font(.system(size: 20))
                 .bold()
             
-            TextField("Enter number of days", text: $day)
+            TextField("Enter number of days", value: $day, format: .number)
                 .padding(.bottom, 5)
                 .overlay(Rectangle().frame(height: 1), alignment: .bottom)
                 .keyboardType(.numberPad)
@@ -89,7 +89,7 @@ private extension ItineraryCreateView {
 #Preview {
     ItineraryCreateView(
         folderName: .constant("Girls Trip"),
-        day: .constant("4"),
+        day: .constant(5),
         onCancel: { print("Tombol X ditekan") },
         onSave: { print("Tombol Simpan ditekan") }
     )

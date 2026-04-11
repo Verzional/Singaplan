@@ -67,7 +67,7 @@ struct DistrictCard: View {
             
             Color.clear
                 .overlay(
-                    Image(district.photoUrls[1])
+                    Image(district.photoUrls[0])
                         .resizable()
                         .scaledToFill()
                 )
@@ -101,14 +101,14 @@ struct DistrictCard: View {
 
 // MARK: Preview
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: POI.self, District.self, Photo.self, configurations: config)
-
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: POI.self, District.self, Photo.self, configurations: config)
+//
     let sampleDistrict = District(
         name: "Chinatown",
         address: "Central Region",
         desc: "Historic area",
-        photoUrl: ["marina-bg"]
+        photoUrls: ["singapore"]
     )
     
     VStack(spacing: 20) {
@@ -132,5 +132,5 @@ struct DistrictCard: View {
         ))
         .frame(width: 150, height: 150)
     }
-    .modelContainer(container)
+//    .modelContainer(container)
 }

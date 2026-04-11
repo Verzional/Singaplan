@@ -16,7 +16,12 @@ final class Priority {
     var segments: [PrioritySegment]
     var selectedWeight: Double = 0.5
     
-    init(id: UUID = UUID(), title: String, desc: String, segments: [PrioritySegment]) {
+    init(
+        id: UUID = UUID(),
+        title: String,
+        desc: String,
+        segments: [PrioritySegment]
+    ) {
         self.id = id
         self.title = title
         self.desc = desc

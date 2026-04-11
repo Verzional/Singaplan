@@ -23,7 +23,15 @@ final class POI {
     @Relationship(deleteRule: .cascade)
     var photos: [Photo] = []
     
-    init(id: String, name: String, desc: String, location: String, district: District? = nil, subcategory: Category? = nil, photo: Photo? = nil) {
+    init(
+        id: String,
+        name: String,
+        desc: String,
+        location: String,
+        district: District? = nil,
+        subcategory: Category? = nil,
+        photo: Photo? = nil
+    ) {
         self.id = id
         self.name = name
         self.desc = desc

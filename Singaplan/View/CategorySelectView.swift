@@ -12,28 +12,44 @@ struct CategorySelectView: View {
     // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
     
-    // State Properties
-    @State private var viewModel: CategoryViewModel
+    // 1. Fetch main categories directly using @Query
+    @Query(filter: #Predicate<Category> { $0.parent == nil }, sort: \Category.title)
+    private var mainCategories: [Category]
+    
+    // 2. Replace ViewModel state with local @State
+    @State private var selectedCategories: Set<Category>
+    @State private var searchText: String = ""
     @State private var isShowingSaveModal = false
     
     // Local Variables
     private let presetToEdit: CategoryPreset?
     
-    init(modelContext: ModelContext, preset: CategoryPreset? = nil) {
+    // 3. Clean up the init (we no longer need to pass ModelContext)
+    init(preset: CategoryPreset? = nil) {
         self.presetToEdit = preset
-        self._viewModel = State(
-            initialValue: CategoryViewModel(
-                modelContext: modelContext,
-                initialSelectedCategories: preset?.categories ?? []
-            )
-        )
+        self._selectedCategories = State(initialValue: Set(preset?.categories ?? []))
+    }
+    
+    // 4. Move the filtering logic here
+    var filteredCategories: [Category] {
+        if searchText.isEmpty {
+            return mainCategories
+        } else {
+            return mainCategories.filter { parent in
+                let matchesParent = parent.title.localizedCaseInsensitiveContains(searchText)
+                let matchesChild = parent.subCategories.contains { child in
+                    child.title.localizedCaseInsensitiveContains(searchText)
+                }
+                return matchesParent || matchesChild
+            }
+        }
     }
     
     // MARK: - Body
     var body: some View {
         NavigationStack {
             VStack {
-                SearchBar(text: $viewModel.searchText, placeholder: "Search categories...")
+                SearchBar(text: $searchText, placeholder: "Search categories...")
                     .padding(.vertical)
                 categorySection
             }
@@ -45,7 +61,7 @@ struct CategorySelectView: View {
             .sheet(isPresented: $isShowingSaveModal) {
                 CategorySaveView(
                     preset: presetToEdit,
-                    selectedCategories: Array(viewModel.selectedCategories),
+                    selectedCategories: Array(selectedCategories), // Updated reference
                     onSaveComplete: { dismiss() }
                 )
             }
@@ -58,7 +74,7 @@ private extension CategorySelectView {
     var categorySection: some View{
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                ForEach(viewModel.filteredCategories) { parent in
+                ForEach(filteredCategories) { parent in
                     VStack(alignment: .leading, spacing: 12) {
                         Text(parent.title)
                             .font(.headline)
@@ -68,10 +84,10 @@ private extension CategorySelectView {
                             ForEach(parent.subCategories) { child in
                                 CategoryCapsule(
                                     child: child,
-                                    isSelected: viewModel.selectedCategories.contains(child)
+                                    isSelected: selectedCategories.contains(child)
                                 )
                                 .onTapGesture {
-                                    viewModel.toggle(child)
+                                    toggle(child) // Updated reference
                                 }
                             }
                         }
@@ -85,38 +101,41 @@ private extension CategorySelectView {
     var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
-                Button {
+                Button("Cancel") {
                     dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
                 }
             }
             ToolbarItem(placement: .primaryAction) {
-                Button {
+                Button("Next") {
                     isShowingSaveModal = true
-                } label: {
-                    Image(systemName: "chevron.right")
                 }
             }
+        }
+    }
+    
+    // 5. Move the toggle function here
+    private func toggle(_ category: Category) {
+        if selectedCategories.contains(category) {
+            selectedCategories.remove(category)
+        } else {
+            selectedCategories.insert(category)
         }
     }
 }
 
 // MARK: - Preview
 #Preview {
-    // In Memory DB
+    // 1. Setup In-Memory Container
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Category.self, configurations: config)
     
-    // Context
+    // 2. Inject Seed Data
     let context = container.mainContext
-    
-    // Data Injection
     for category in SeedData.categoryData {
         context.insert(category)
     }
     
-    // Return Preview
-    return CategorySelectView(modelContext: context)
+    // 3. Return View (Removed modelContext parameter)
+    return CategorySelectView()
         .modelContainer(container)
 }

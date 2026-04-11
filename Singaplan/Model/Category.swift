@@ -18,7 +18,12 @@ final class Category {
     @Relationship(deleteRule: .cascade, inverse: \Category.parent)
     var subCategories: [Category] = []
     
-    init(id: UUID = UUID(), title: String, icon: String? = nil, parent: Category? = nil) {
+    init(
+        id: UUID = UUID(),
+        title: String,
+        icon: String? = nil,
+        parent: Category? = nil
+    ) {
         self.id = id
         self.title = title
         self.icon = icon

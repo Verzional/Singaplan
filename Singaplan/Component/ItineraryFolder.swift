@@ -41,7 +41,6 @@ struct ItineraryFolder: View {
                     Image(imageName)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 85)
                         .clipped()
                     
                     LinearGradient(
@@ -59,21 +58,21 @@ struct ItineraryFolder: View {
 }
 
 // MARK: - Preview
-#Preview("Hitung Kartu Hitam") {
-    ItineraryFolder(
-        folderName: "Girls Trip",
-        days: "4",
-        backgroundImageName: nil,
-        onBack: { print("Back") }
-    )
-    .padding()
-}
+//#Preview("Hitung Kartu Hitam") {
+//    ItineraryFolder(
+//        folderName: "Girls Trip",
+//        days: "4",
+//        backgroundImageName: nil,
+//        onBack: { print("Back") }
+//    )
+//    .padding()
+//}
 
 #Preview("Hitung Kartu Gambar") {
     ItineraryFolder(
         folderName: "Singapore Trip",
         days: "3",
-        backgroundImageName: "marina-bg",
+        backgroundImageName: "singapore",
         onBack: { print("Back") }
     )
     .padding()

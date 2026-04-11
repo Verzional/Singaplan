@@ -192,7 +192,7 @@ struct TravelPointDetailView: View {
         }
     
     // MARK: - 5. Make Priority Row Function
-    private func makePriorityCard(for priority: PriorityModel) -> some View {
+    private func makePriorityCard(for priority: Priority) -> some View {
     // Find the text label that matches the user's selected weight
             // Works for the final data too later.
             let selectedSegment = priority.segments.first(where: { $0.weight == priority.selectedWeight })
@@ -231,9 +231,9 @@ struct TravelPointDetailView: View {
                 desc: "A sunny island resort in Singapore, home to themed attractions, sandy beaches, rainforests, and amazing dining experiences.",
                 openTime: "09:00 am",
                 closeTime: "22:00 pm",
-                photoUrl: ["sentosa", "sentosa-2", "sentosa-3"],
+                photoUrls: ["sentosa", "sentosa-2", "sentosa-3"],
                 priorities: [
-                    PriorityModel(
+                    Priority(
                         title: "Budget",
                         desc: "Overall cost",
                         segments: [
@@ -242,7 +242,7 @@ struct TravelPointDetailView: View {
                             PrioritySegment(label: "$$$", weight: 1.0)
                         ]
                     ),
-                    PriorityModel(
+                    Priority(
                         title: "Additional Fee",
                         desc: "",
                         segments: [
@@ -258,10 +258,10 @@ struct TravelPointDetailView: View {
                     SeedData.accessibility[2], // Walkability
                 ],
                 categories: [
-                    CategoryModel(title: "Nature", icon: "leaf.fill"),
-                    CategoryModel(title: "Family", icon: "figure.2.and.child.holdinghands"),
-                    CategoryModel(title: "Beach", icon: "sun.max.fill"),
-                    CategoryModel(title: "Attraction", icon: "fork.knife.circle.fill")
+                    Category(title: "Nature", icon: "leaf.fill"),
+                    Category(title: "Family", icon: "figure.2.and.child.holdinghands"),
+                    Category(title: "Beach", icon: "sun.max.fill"),
+                    Category(title: "Attraction", icon: "fork.knife.circle.fill")
                 ],
             )
             TravelPointDetailView(district: mockDistrict)
