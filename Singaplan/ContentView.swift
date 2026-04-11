@@ -9,8 +9,34 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+
     var body: some View {
         ItineraryView()
+            .task {
+                seedDataIfNeeded()
+            }
+    }
+
+    private func seedDataIfNeeded() {
+        do {
+            var descriptor = FetchDescriptor<Category>()
+            descriptor.fetchLimit = 1
+
+            if try modelContext.fetch(descriptor).isEmpty {
+                for category in SeedData.categoryData {
+                    modelContext.insert(category)
+                }
+
+                for priority in SeedData.priorityData {
+                    modelContext.insert(priority)
+                }
+
+                try? modelContext.save()
+            }
+        } catch {
+            print("Failed to fetch or seed data: \(error)")
+        }
     }
 }
 
@@ -27,7 +53,7 @@ struct ContentView: View {
         PriorityPreset.self,
         configurations: config
     )
-    
+
     return ContentView()
         .modelContainer(container)
 }

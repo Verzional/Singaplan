@@ -7,14 +7,14 @@
 
 struct SeedData {
     // MARK: - Categories
-    // Define the Categories
+    // Parent Categories
     static let nature = Category(title: "Nature & Outdoors")
     static let culture = Category(title: "Culture & History")
     static let metro = Category(title: "Metropolitan")
     static let supernatural = Category(title: "Supernatural")
     static let culinary = Category(title: "Culinary")
     
-    // Define the SubCategories
+    // Subcategories
     static let categories: [Category] = [
         Category(title: "Mountain", icon: "mountain.2", parent: nature),
         Category(title: "Marine", icon:"water.waves", parent: nature),
@@ -31,7 +31,7 @@ struct SeedData {
         Category(title: "Street Food", icon:"flame", parent: culinary)
     ]
     
-    // Return the Categories with it's SubCategories
+    // Combination
     static var categoryData: [Category] {
         return [nature, culture, metro, supernatural, culinary] + categories
     }
@@ -97,6 +97,7 @@ struct SeedData {
         )
     ]
     
+    // Combination
     static var priorityData: [Priority] {
         return experiences + accessibility
     }
