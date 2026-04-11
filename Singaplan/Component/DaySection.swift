@@ -117,16 +117,22 @@ private extension DaySection {
     // Pull down button
     private var addDestinationMenu: some View {
         Menu {
-            Button { /* Action */ } label: {
+            NavigationLink {
+                CategoryPresetView()
+            } label: {
                 Label("Discover", systemImage: "globe")
+                    .foregroundStyle(Color.primary)
             }
-            Button { /* Action */ } label: {
+            NavigationLink {
+                ManualSearchView()
+            } label: {
                 Label("Search", systemImage: "magnifyingglass")
+                    .foregroundStyle(Color.primary)
             }
         } label: {
             Image(systemName: "plus")
                 .font(.title3)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
     
@@ -159,33 +165,27 @@ private extension DaySection {
     }
 }
 
-//// MARK: Preview
-//#Preview {
-//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//    let container = try! ModelContainer(for: ItineraryDay.self, POI.self, District.self, Photo.self, configurations: config)
-//    let context = container.mainContext
-//        
-//    let marina = District(name: "Marina South", address: "", desc: "", photoUrl: ["marina-bg"])
-//    let chinatown = District(name: "Chinatown", address: "", desc: "", photoUrl: ["marina-bg"])
-//    
-//    // Silence the ViewBuilder by assigning the Void return to an underscore
-//    let _ = context.insert(marina)
-//    let _ = context.insert(chinatown)
-//            
-//    let day = ItineraryDay(dayNumber: 1)
-//        
-//    let _ = day.plannedDistricts.append(chinatown)
-//        
-//    let gardens = POI(id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
-//    gardens.itineraryDay = day
-//            
-//    let _ = context.insert(day)
-//    let _ = context.insert(gardens)
-//            
-//    DaySection(
-//        day: day,
-//        viewMode: .grid,
-//        expandedDays: .constant([day.id])
-//    )
-//    .modelContainer(container)
-//}
+// MARK: Preview
+#Preview {
+    // 1. Create a schema and container
+    let schema = Schema([ItineraryDay.self, POI.self, District.self])
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: schema, configurations: [config])
+    
+    // 2. Setup sample data
+    let marina = District(name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
+    let day = ItineraryDay(dayNumber: 1)
+    let gardens = POI(id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
+    gardens.itineraryDay = day
+    
+    // 3. Add to container
+    container.mainContext.insert(day)
+    
+    return DaySection(
+        day: day,
+        viewMode: .grid,
+        expandedDays: .constant([day.id])
+    )
+    .modelContainer(container) // CRITICAL: This must be active if @Query is used
+    .padding()
+}

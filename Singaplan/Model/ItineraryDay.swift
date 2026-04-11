@@ -13,7 +13,7 @@ final class ItineraryDay {
     @Attribute(.unique) var id: UUID
     var dayNumber: Int
 
-    var itineraryFolder: ItineraryFolder?
+    var itineraryFolder: Itinerary?
     
     @Relationship(deleteRule: .cascade, inverse: \POI.itineraryDay)
     var destinations: [POI] = []

@@ -5,23 +5,22 @@
 //  Created by Valentino Manuel Gunawan on 06/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct CategoryPresetView: View {
     // MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
-    // State Properties
+
     @State private var presetToEdit: CategoryPreset?
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
-    
-    // Data Query
+
+
     @Query(sort: \CategoryPreset.createdAt, order: .reverse)
     private var savedPresets: [CategoryPreset]
-    
+
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -36,19 +35,20 @@ struct CategoryPresetView: View {
                 navigationToolbar
             }
             .sheet(isPresented: $isShowingSheet) {
-                CategorySelectView(modelContext: modelContext, preset: presetToEdit)
+                CategorySelectView(preset: presetToEdit)
             }
         }
     }
 }
 
 // MARK: - View Components
-private extension CategoryPresetView {
+extension CategoryPresetView {
     @ViewBuilder
-    var presetList: some View {
+    fileprivate var presetList: some View {
         if savedPresets.isEmpty {
             ContentUnavailableView(
-                "No Presets", systemImage: "tray",
+                "No Presets",
+                systemImage: "tray",
                 description: Text("Tap + to create a new category preset.")
             )
         } else {
@@ -72,8 +72,8 @@ private extension CategoryPresetView {
             }
         }
     }
-    
-    var continueButton: some View {
+
+    fileprivate var continueButton: some View {
         NavigationLink {
             PriorityPresetView()
         } label: {
@@ -82,16 +82,9 @@ private extension CategoryPresetView {
         .buttonStyle(.borderedProminent)
         .disabled(selectedPreset == nil)
     }
-    
-    var navigationToolbar: some ToolbarContent {
+
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                }
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     presetToEdit = nil
@@ -108,28 +101,28 @@ private extension CategoryPresetView {
 #Preview {
     let container: ModelContainer = {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        
+
         let container = try! ModelContainer(
-            for: CategoryModel.self, CategoryPreset.self, configurations: config)
-        
+            for: Category.self, CategoryPreset.self, configurations: config)
+
         let context = container.mainContext
-        
+
         for category in SeedData.categoryData {
             context.insert(category)
         }
-        
+
         let selectedCategories = Array(SeedData.categories.prefix(3))
-        
+
         let dummyPreset = CategoryPreset(
             title: "Weekend Getaway",
             desc: "Essential categories for a short 3-day trip to Singapore.",
             categories: selectedCategories
         )
         context.insert(dummyPreset)
-        
+
         return container
     }()
-    
+
     CategoryPresetView()
         .modelContainer(container)
 }

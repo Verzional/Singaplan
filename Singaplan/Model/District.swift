@@ -17,20 +17,33 @@ final class District {
     var openTime: String?
     var closeTime: String?
     var photoUrls: [String]
-    var priorities: [PriorityModel]?
-    var categories: [CategoryModel]?
-
+    
+    @Relationship(deleteRule: .nullify)
+    var priorities: [Priority]? = []
+        
+    @Relationship(deleteRule: .nullify)
+    var categories: [Category]? = []
     
     @Relationship(deleteRule: .nullify, inverse: \POI.district)
     var pois: [POI] = []
-
-    init(id: UUID = UUID(), name: String, address: String, desc: String, openTime: String? = nil, closeTime: String? = nil, photoUrl: [String], priorities: [PriorityModel]? = nil, categories: [CategoryModel]? = nil) {
+    
+    init(
+        id: UUID = UUID(),
+        name: String,
+        address: String,
+        desc: String,
+        openTime: String? = nil,
+        closeTime: String? = nil,
+        photoUrls: [String],
+        priorities: [Priority]? = nil,
+        categories: [Category]? = nil
+    ) {
         self.id = id
         self.name = name
         self.address = address
         self.desc = desc
         self.openTime = openTime
-        self.photoUrls = photoUrl
+        self.photoUrls = photoUrls
         self.closeTime = closeTime
         self.priorities = priorities
         self.categories = categories

@@ -9,13 +9,13 @@ import SwiftData
 import SwiftUI
 
 struct PrioritySelectView: View {
-    // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
 
-    // ViewModel
-    @State private var viewModel: PriorityViewModel
-
     // State Properties
+    @State private var experiences: [Priority]
+    @State private var accessibility: [Priority]
+    @State private var selectedBracket: String = "$$"
+    @State private var entryFee: Bool = false
     @State private var isShowingModal = false
     @State private var budgetExpanded = false
     @State private var experienceExpanded = false
@@ -25,14 +25,44 @@ struct PrioritySelectView: View {
     let priceBracket = ["$", "$$", "$$$"]
     private let presetToEdit: PriorityPreset?
 
-    init(modelContext: ModelContext, preset: PriorityPreset? = nil) {
+    // Computed
+    var allPriorities: [Priority] {
+        experiences + accessibility
+    }
+
+    // MARK: - Init
+    init(preset: PriorityPreset? = nil) {
         self.presetToEdit = preset
-        self._viewModel = State(
-            initialValue: PriorityViewModel(
-                modelContext: modelContext,
-                preset: preset
+
+        if let preset = preset {
+            let expTitles = SeedData.experiences.map(\.title)
+            let accTitles = SeedData.accessibility.map(\.title)
+
+            let presetByTitle = Dictionary(
+                uniqueKeysWithValues: preset.priorities.map { ($0.title, $0) }
             )
-        )
+
+            var exps = expTitles.compactMap { title -> Priority? in
+                guard let source = presetByTitle[title] else { return nil }
+                return PrioritySelectView.makeCopy(of: source)
+            }
+
+            var accs = accTitles.compactMap { title -> Priority? in
+                guard let source = presetByTitle[title] else { return nil }
+                return PrioritySelectView.makeCopy(of: source)
+            }
+
+            if exps.isEmpty { exps = PrioritySelectView.freshCopies(of: SeedData.experiences) }
+            if accs.isEmpty { accs = PrioritySelectView.freshCopies(of: SeedData.accessibility) }
+
+            self._experiences = State(initialValue: exps)
+            self._accessibility = State(initialValue: accs)
+        } else {
+            self._experiences = State(
+                initialValue: PrioritySelectView.freshCopies(of: SeedData.experiences))
+            self._accessibility = State(
+                initialValue: PrioritySelectView.freshCopies(of: SeedData.accessibility))
+        }
     }
 
     // MARK: - Body
@@ -51,7 +81,7 @@ struct PrioritySelectView: View {
             .sheet(isPresented: $isShowingModal) {
                 PrioritySaveView(
                     preset: presetToEdit,
-                    priorities: viewModel.allPriorities,
+                    priorities: allPriorities,
                     onSaveComplete: { dismiss() }
                 )
             }
@@ -59,9 +89,32 @@ struct PrioritySelectView: View {
     }
 }
 
+// MARK: - Copy Helpers
+extension PrioritySelectView {
+    fileprivate static func makeCopy(of source: Priority) -> Priority {
+        let copy = Priority(
+            title: source.title,
+            desc: source.desc,
+            segments: source.segments
+        )
+        copy.selectedWeight = source.selectedWeight
+        return copy
+    }
+
+    fileprivate static func freshCopies(of templates: [Priority]) -> [Priority] {
+        templates.map { source in
+            Priority(
+                title: source.title,
+                desc: source.desc,
+                segments: source.segments
+            )
+        }
+    }
+}
+
 // MARK: - View Components
-private extension PrioritySelectView {
-    var budgetSection: some View {
+extension PrioritySelectView {
+    fileprivate var budgetSection: some View {
         DisclosureGroup("Budget", isExpanded: $budgetExpanded) {
             VStack(alignment: .leading, spacing: 24) {
                 // Price Bracket
@@ -69,7 +122,7 @@ private extension PrioritySelectView {
                     Text("Price Bracket")
                         .font(.subheadline)
 
-                    Picker("Price Range", selection: $viewModel.selectedBracket) {
+                    Picker("Price Range", selection: $selectedBracket) {
                         ForEach(priceBracket, id: \.self) { Text($0) }
                     }
                     .pickerStyle(.segmented)
@@ -80,7 +133,7 @@ private extension PrioritySelectView {
                     Text("Additional Fees")
                         .font(.subheadline)
 
-                    Picker("Fee Range", selection: $viewModel.entryFee) {
+                    Picker("Fee Range", selection: $entryFee) {
                         Text("Include Fees").tag(true)
                         Text("No Fees Only").tag(false)
                     }
@@ -91,21 +144,21 @@ private extension PrioritySelectView {
         .font(.headline)
     }
 
-    var experienceSection: some View {
+    fileprivate var experienceSection: some View {
         DisclosureGroup("Experience", isExpanded: $experienceExpanded) {
-            segmentSection(for: $viewModel.experiences)
+            segmentSection(for: $experiences)
         }
         .font(.headline)
     }
 
-    var accessibilitySection: some View {
+    fileprivate var accessibilitySection: some View {
         DisclosureGroup("Accessibility", isExpanded: $accessibilityExpanded) {
-            segmentSection(for: $viewModel.accessibility)
+            segmentSection(for: $accessibility)
         }
         .font(.headline)
     }
 
-    var navigationToolbar: some ToolbarContent {
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
                 Button {
@@ -126,7 +179,7 @@ private extension PrioritySelectView {
 
     // MARK: - Section Component
     @ViewBuilder
-    func segmentSection(for data: Binding<[PriorityModel]>) -> some View {
+    fileprivate func segmentSection(for data: Binding<[Priority]>) -> some View {
         ForEach(data) { $item in
             VStack(alignment: .leading) {
                 Text(item.title)
@@ -150,12 +203,10 @@ private extension PrioritySelectView {
 
 // MARK: - Preview
 #Preview {
-    // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: PriorityPreset.self, PriorityModel.self, configurations: config)
+        for: PriorityPreset.self, Priority.self, configurations: config)
 
-    // Return Preview
-    return PrioritySelectView(modelContext: container.mainContext)
+    return PrioritySelectView()
         .modelContainer(container)
 }

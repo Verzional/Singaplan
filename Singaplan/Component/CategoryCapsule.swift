@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryCapsule: View {
-    let child: CategoryModel
+    let child: Category
     let isSelected: Bool
 
     var body: some View {
@@ -39,5 +39,5 @@ struct CategoryCapsule: View {
 }
 
 #Preview {
-    CategoryCapsule(child: CategoryModel(title: "Mountain", icon: "mountain.2"), isSelected: false)
+    CategoryCapsule(child: Category(title: "Mountain", icon: "mountain.2"), isSelected: false)
 }

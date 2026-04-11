@@ -9,16 +9,12 @@ import SwiftData
 import SwiftUI
 
 struct PriorityPresetView: View {
-    // MARK: - File Properties
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    // State Properties
     @State private var presetToEdit: PriorityPreset?
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
 
-    // Data Query
     @Query(sort: \PriorityPreset.createdAt, order: .reverse)
     private var savedPresets: [PriorityPreset]
 
@@ -36,16 +32,16 @@ struct PriorityPresetView: View {
                 navigationToolbar
             }
             .sheet(isPresented: $isShowingSheet) {
-                PrioritySelectView(modelContext: modelContext, preset: presetToEdit)
+                PrioritySelectView(preset: presetToEdit)
             }
         }
     }
 }
 
 // MARK: - View Components
-private extension PriorityPresetView {
+extension PriorityPresetView {
     @ViewBuilder
-    var presetList: some View {
+    fileprivate var presetList: some View {
         if savedPresets.isEmpty {
             ContentUnavailableView(
                 "No Presets", systemImage: "tray",
@@ -72,7 +68,7 @@ private extension PriorityPresetView {
         }
     }
 
-    var continueButton: some View {
+    fileprivate var continueButton: some View {
         NavigationLink {
             RecommendedDistricts()
         } label: {
@@ -82,7 +78,7 @@ private extension PriorityPresetView {
         .disabled(selectedPreset == nil)
     }
 
-    var navigationToolbar: some ToolbarContent {
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -102,7 +98,7 @@ private extension PriorityPresetView {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
 
         let container = try! ModelContainer(
-            for: PriorityPreset.self, PriorityModel.self, configurations: config)
+            for: PriorityPreset.self, Priority.self, configurations: config)
 
         let context = container.mainContext
 

@@ -6,8 +6,27 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Category: Identifiable {
-    let id: String = UUID().uuidString
-    let name: String
+@Model
+final class Category {
+    @Attribute(.unique) var id: UUID
+    var title: String
+    var icon: String?
+    var parent: Category?
+    
+    @Relationship(deleteRule: .cascade, inverse: \Category.parent)
+    var subCategories: [Category] = []
+    
+    init(
+        id: UUID = UUID(),
+        title: String,
+        icon: String? = nil,
+        parent: Category? = nil
+    ) {
+        self.id = id
+        self.title = title
+        self.icon = icon
+        self.parent = parent
+    }
 }

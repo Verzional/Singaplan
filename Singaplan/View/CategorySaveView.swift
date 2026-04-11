@@ -9,21 +9,19 @@ import SwiftUI
 import SwiftData
 
 struct CategorySaveView: View {
-    //MARK: - File Properties
+    // MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    // State Properties
     @State private var presetTitle: String = ""
     @State private var presetDescription: String = ""
     
-    // Local Variables
-    let selectedCategories: [CategoryModel]
+    let selectedCategories: [Category]
     let presetToEdit: CategoryPreset?
     let onSaveComplete: () -> Void
     
     init(
-        preset: CategoryPreset? = nil, selectedCategories: [CategoryModel],
+        preset: CategoryPreset? = nil, selectedCategories: [Category],
         onSaveComplete: @escaping () -> Void
     ) {
         self.presetToEdit = preset
@@ -51,15 +49,15 @@ struct CategorySaveView: View {
 }
 
 // MARK: - View Components
-private extension CategorySaveView {
-    var detailsSection: some View {
+extension CategorySaveView {
+    fileprivate var detailsSection: some View {
         Section("Preset Details") {
             TextField("Name (e.g., Weekend Trip)", text: $presetTitle)
             TextField("Description", text: $presetDescription, axis: .vertical)
                 .lineLimit(3...5)
         }
     }
-    var categoriesSection: some View {
+    fileprivate var categoriesSection: some View {
         Section("Selected Categories") {
             FlowLayout {
                 ForEach(selectedCategories) { category in
@@ -72,7 +70,7 @@ private extension CategorySaveView {
         }
     }
     
-    var navigationToolbar: some ToolbarContent {
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
                 Button {
@@ -87,12 +85,18 @@ private extension CategorySaveView {
                 } label: {
                     Image(systemName: "checkmark")
                 }
+                .buttonStyle(.borderedProminent) 
+                .tint(.blue)
+                .clipShape(Circle())
                 .disabled(presetTitle.isEmpty)
             }
         }
     }
-    
-    func savePreset() {
+}
+
+// MARK: - View Functions
+extension CategorySaveView {
+    fileprivate func savePreset() {
         if let existingPreset = presetToEdit {
             existingPreset.title = presetTitle
             existingPreset.desc = presetDescription.isEmpty ? nil : presetDescription
@@ -116,14 +120,14 @@ private extension CategorySaveView {
     // In Memory DB
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
-        for: CategoryPreset.self, CategoryModel.self, configurations: config)
+        for: CategoryPreset.self, Category.self, configurations: config)
     
     // Sample Data
     let sampleSelected = [
-        CategoryModel(title: "Mountain", icon: "mountain.2"),
-        CategoryModel(title: "Smart City", icon: "antenna.radiowaves.left.and.right"),
-        CategoryModel(title: "Street Food", icon: "flame"),
-        CategoryModel(title: "Beach", icon: "sun.max"),
+        Category(title: "Mountain", icon: "mountain.2"),
+        Category(title: "Smart City", icon: "antenna.radiowaves.left.and.right"),
+        Category(title: "Street Food", icon: "flame"),
+        Category(title: "Beach", icon: "sun.max"),
     ]
     
     NavigationStack {

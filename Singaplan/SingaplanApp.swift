@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SingaplanApp: App {
@@ -13,5 +14,15 @@ struct SingaplanApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [
+            Category.self,
+            CategoryPreset.self,
+            District.self,
+            ItineraryDay.self,
+            Itinerary.self,
+            POI.self,
+            Priority.self,
+            PriorityPreset.self
+        ])
     }
 }

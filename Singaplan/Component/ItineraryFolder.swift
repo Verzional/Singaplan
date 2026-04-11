@@ -1,14 +1,13 @@
 //
-//  ItineraryFolderList.swift
+//  ItineraryFolder.swift
 //  Singaplan
 //
-//  Created by Michelle on 07/04/26.
+//  Created by Valentino Manuel Gunawan on 10/04/26.
 //
 
 import SwiftUI
 
-
-struct ItineraryFolderListView: View {
+struct ItineraryFolder: View {
     var folderName: String
     var days: String
     var backgroundImageName: String?
@@ -42,7 +41,6 @@ struct ItineraryFolderListView: View {
                     Image(imageName)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 85)
                         .clipped()
                     
                     LinearGradient(
@@ -60,21 +58,21 @@ struct ItineraryFolderListView: View {
 }
 
 // MARK: - Preview
-#Preview("Hitung Kartu Hitam") {
-    ItineraryFolderListView(
-        folderName: "Girls Trip",
-        days: "4",
-        backgroundImageName: nil,
-        onBack: { print("Back") }
-    )
-    .padding()
-}
+//#Preview("Hitung Kartu Hitam") {
+//    ItineraryFolder(
+//        folderName: "Girls Trip",
+//        days: "4",
+//        backgroundImageName: nil,
+//        onBack: { print("Back") }
+//    )
+//    .padding()
+//}
 
 #Preview("Hitung Kartu Gambar") {
-    ItineraryFolderListView(
+    ItineraryFolder(
         folderName: "Singapore Trip",
         days: "3",
-        backgroundImageName: "marina-bg",
+        backgroundImageName: "singapore",
         onBack: { print("Back") }
     )
     .padding()

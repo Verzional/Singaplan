@@ -9,14 +9,19 @@ import Foundation
 import SwiftData
 
 @Model
-final class PriorityModel {
+final class Priority {
     @Attribute(.unique) var id: UUID
     var title: String
     var desc: String
     var segments: [PrioritySegment]
     var selectedWeight: Double = 0.5
     
-    init(id: UUID = UUID(), title: String, desc: String, segments: [PrioritySegment]) {
+    init(
+        id: UUID = UUID(),
+        title: String,
+        desc: String,
+        segments: [PrioritySegment]
+    ) {
         self.id = id
         self.title = title
         self.desc = desc

@@ -1,7 +1,7 @@
 import SwiftUI
 
 //MARK: Body
-struct ManualSearch: View {
+struct ManualSearchView: View {
     @State private var searchText = ""
         //help to search filtered
         var filteredResults: [Place] {
@@ -36,7 +36,7 @@ struct ManualSearch: View {
     }
 }
 
-extension ManualSearch {
+extension ManualSearchView {
     //MARK: Spotlight Image
     /// Main image above the SearchBar
     private var spotlightImageSection: some View {
@@ -97,7 +97,7 @@ struct Place: Identifiable {
     let name: String
     let imageName: String
     let description: String
-    let categories: [CategoryModel]
+    let categories: [Category]
 }
 
 extension Place {
@@ -106,27 +106,27 @@ extension Place {
               imageName: "chinatown_img",
               description: "Chinatown is a vibrant historic district blending traditional Chinese heritage...",
               categories: [
-                CategoryModel(title: "Historical", icon: "clock.fill"),
-                CategoryModel(title: "Foodies", icon: "fork.knife")
+                Category(title: "Historical", icon: "clock.fill"),
+                Category(title: "Foodies", icon: "fork.knife")
                 ]),
         Place(name: "Garden by the Bay",
               imageName: "gardens_img",
               description: "A showpiece of horticulture and garden artistry.",
               categories: [
-                CategoryModel(title: "Historical", icon: "clock.fill"),
-                CategoryModel(title: "Foodies", icon: "fork.knife")
+                Category(title: "Historical", icon: "clock.fill"),
+                Category(title: "Foodies", icon: "fork.knife")
                 ]),
         Place(name: "Universal Studios",
               imageName: "universal_studios",
               description: "Experience cutting-edge rides, shows, and attractions.",
               categories: [
-                CategoryModel(title: "Historical", icon: "clock.fill"),
-                CategoryModel(title: "Foodies", icon: "fork.knife")
+                Category(title: "Historical", icon: "clock.fill"),
+                Category(title: "Foodies", icon: "fork.knife")
                 ]),
     ]
 }
 
 //MARK: Preview
 #Preview {
-    ManualSearch()
+    ManualSearchView()
 }
