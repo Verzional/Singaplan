@@ -60,7 +60,7 @@ private extension ItineraryDetailView {
             Button(role: .destructive) {
                 deleteDay(day)
             } label: {
-                Label("Delete", systemImage: "trash")
+                Image(systemName: "trash")
             }
         }
     }

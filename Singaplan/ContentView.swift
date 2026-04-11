@@ -9,8 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    
     var body: some View {
         VStack {
             ItineraryView()
@@ -20,5 +18,15 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: [
+            Category.self,
+            CategoryPreset.self,
+            District.self,
+            ItineraryDay.self,
+            Itinerary.self,
+            POI.self,
+            Priority.self,
+            PriorityPreset.self
+        ])
 }
-    
+
