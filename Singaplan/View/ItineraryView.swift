@@ -138,7 +138,7 @@ private extension ItineraryView {
                     Button(role: .destructive) {
                         viewModel.deleteFolder(folder)
                     } label: {
-                        Label("Delete", systemImage: "trash")
+                        Image(systemName: "trash")
                     }
                 }
             }
@@ -151,11 +151,11 @@ private extension ItineraryView {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, configurations: config)
     
-    //    let context = container.mainContext
-    //
-    //    let dummyItinerary = Itinerary(folderName: "Bali Trip")
-    //
-    //    context.insert(dummyItinerary)
+    let context = container.mainContext
+    
+    let dummyItinerary = Itinerary(folderName: "Bali Trip")
+    
+    context.insert(dummyItinerary)
     
     return ItineraryView()
         .modelContainer(container)
