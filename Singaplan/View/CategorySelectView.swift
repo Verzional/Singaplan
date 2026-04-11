@@ -12,25 +12,20 @@ struct CategorySelectView: View {
     // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
     
-    // 1. Fetch main categories directly using @Query
-    @Query(filter: #Predicate<Category> { $0.parent == nil }, sort: \Category.title)
-    private var mainCategories: [Category]
-    
-    // 2. Replace ViewModel state with local @State
     @State private var selectedCategories: Set<Category>
     @State private var searchText: String = ""
     @State private var isShowingSaveModal = false
     
-    // Local Variables
+    @Query(filter: #Predicate<Category> { $0.parent == nil }, sort: \Category.title)
+    private var mainCategories: [Category]
+
     private let presetToEdit: CategoryPreset?
     
-    // 3. Clean up the init (we no longer need to pass ModelContext)
     init(preset: CategoryPreset? = nil) {
         self.presetToEdit = preset
         self._selectedCategories = State(initialValue: Set(preset?.categories ?? []))
     }
     
-    // 4. Move the filtering logic here
     var filteredCategories: [Category] {
         if searchText.isEmpty {
             return mainCategories
@@ -70,8 +65,8 @@ struct CategorySelectView: View {
 }
 
 // MARK: - View Components
-private extension CategorySelectView {
-    var categorySection: some View{
+extension CategorySelectView {
+    fileprivate var categorySection: some View{
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 ForEach(filteredCategories) { parent in
@@ -87,7 +82,7 @@ private extension CategorySelectView {
                                     isSelected: selectedCategories.contains(child)
                                 )
                                 .onTapGesture {
-                                    toggle(child) // Updated reference
+                                    toggle(child)
                                 }
                             }
                         }
@@ -98,7 +93,7 @@ private extension CategorySelectView {
         }
     }
     
-    var navigationToolbar: some ToolbarContent {
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancel") {
@@ -112,9 +107,11 @@ private extension CategorySelectView {
             }
         }
     }
-    
-    // 5. Move the toggle function here
-    private func toggle(_ category: Category) {
+}
+
+// MARK: - View Functions
+extension CategorySelectView {
+    fileprivate func toggle(_ category: Category) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
         } else {

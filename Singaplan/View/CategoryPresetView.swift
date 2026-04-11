@@ -13,12 +13,11 @@ struct CategoryPresetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
-    // State Properties
     @State private var presetToEdit: CategoryPreset?
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
 
-    // Data Query
+
     @Query(sort: \CategoryPreset.createdAt, order: .reverse)
     private var savedPresets: [CategoryPreset]
 

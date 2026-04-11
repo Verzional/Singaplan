@@ -9,15 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct CategorySaveView: View {
-    //MARK: - File Properties
+    // MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    // State Properties
     @State private var presetTitle: String = ""
     @State private var presetDescription: String = ""
     
-    // Local Variables
     let selectedCategories: [Category]
     let presetToEdit: CategoryPreset?
     let onSaveComplete: () -> Void
@@ -51,15 +49,15 @@ struct CategorySaveView: View {
 }
 
 // MARK: - View Components
-private extension CategorySaveView {
-    var detailsSection: some View {
+extension CategorySaveView {
+    fileprivate var detailsSection: some View {
         Section("Preset Details") {
             TextField("Name (e.g., Weekend Trip)", text: $presetTitle)
             TextField("Description", text: $presetDescription, axis: .vertical)
                 .lineLimit(3...5)
         }
     }
-    var categoriesSection: some View {
+    fileprivate var categoriesSection: some View {
         Section("Selected Categories") {
             FlowLayout {
                 ForEach(selectedCategories) { category in
@@ -72,7 +70,7 @@ private extension CategorySaveView {
         }
     }
     
-    var navigationToolbar: some ToolbarContent {
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
                 Button {
@@ -94,8 +92,11 @@ private extension CategorySaveView {
             }
         }
     }
-    
-    func savePreset() {
+}
+
+// MARK: - View Functions
+extension CategorySaveView {
+    fileprivate func savePreset() {
         if let existingPreset = presetToEdit {
             existingPreset.title = presetTitle
             existingPreset.desc = presetDescription.isEmpty ? nil : presetDescription

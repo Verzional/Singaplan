@@ -12,16 +12,14 @@ struct PrioritySaveView: View {
     //MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-
-    // State Properties
+    
     @State private var presetTitle: String = ""
     @State private var presetDescription: String = ""
-
-    // Local Variables
+    
     let priorities: [Priority]
     let presetToEdit: PriorityPreset?
     let onSaveComplete: () -> Void
-
+    
     init(
         preset: PriorityPreset? = nil, priorities: [Priority],
         onSaveComplete: @escaping () -> Void
@@ -29,11 +27,11 @@ struct PrioritySaveView: View {
         self.presetToEdit = preset
         self.priorities = priorities
         self.onSaveComplete = onSaveComplete
-
+        
         self._presetTitle = State(initialValue: preset?.title ?? "")
         self._presetDescription = State(initialValue: preset?.desc ?? "")
     }
-
+    
     // MARK: - Body
     var body: some View {
         NavigationStack {
@@ -51,16 +49,16 @@ struct PrioritySaveView: View {
 }
 
 // MARK: - View Components
-private extension PrioritySaveView {
-    var detailsSection: some View {
+extension PrioritySaveView {
+    fileprivate var detailsSection: some View {
         Section("Preset Details") {
             TextField("Name (e.g., Budget Oriented)", text: $presetTitle)
             TextField("Description", text: $presetDescription, axis: .vertical)
                 .lineLimit(3...5)
         }
     }
-
-    var prioritiesSection: some View {
+    
+    fileprivate var prioritiesSection: some View {
         Section("Selected Priorities") {
             FlowLayout {
                 ForEach(priorities) { priority in
@@ -72,8 +70,8 @@ private extension PrioritySaveView {
             .listRowInsets(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 0))
         }
     }
-
-    var navigationToolbar: some ToolbarContent {
+    
+    fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
                 Button {
@@ -92,19 +90,22 @@ private extension PrioritySaveView {
             }
         }
     }
+}
 
-    func savePreset() {
+// MARK: - View Functions
+extension PrioritySaveView {
+    fileprivate func savePreset() {
         if let existingPreset = presetToEdit {
             let oldPriorities = existingPreset.priorities
-
+            
             for priority in priorities {
                 modelContext.insert(priority)
             }
-
+            
             existingPreset.title = presetTitle
             existingPreset.desc = presetDescription.isEmpty ? nil : presetDescription
             existingPreset.priorities = priorities
-
+            
             for old in oldPriorities {
                 modelContext.delete(old)
             }
@@ -112,7 +113,7 @@ private extension PrioritySaveView {
             for priority in priorities {
                 modelContext.insert(priority)
             }
-
+            
             let newPreset = PriorityPreset(
                 title: presetTitle,
                 desc: presetDescription.isEmpty ? nil : presetDescription,
@@ -120,7 +121,7 @@ private extension PrioritySaveView {
             )
             modelContext.insert(newPreset)
         }
-
+        
         dismiss()
         onSaveComplete()
     }
@@ -131,7 +132,7 @@ private extension PrioritySaveView {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
         for: PriorityPreset.self, Priority.self, configurations: config)
-
+    
     let samplePriorities = [
         Priority(
             title: "Popularity",
@@ -164,7 +165,7 @@ private extension PrioritySaveView {
             ]
         ),
     ]
-
+    
     NavigationStack {
         PrioritySaveView(
             preset: nil,
