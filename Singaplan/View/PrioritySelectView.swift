@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct PrioritySelectView: View {
+    // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
 
     // State Properties
@@ -30,7 +31,6 @@ struct PrioritySelectView: View {
         experiences + accessibility
     }
 
-    // MARK: - Init
     init(preset: PriorityPreset? = nil) {
         self.presetToEdit = preset
 
@@ -89,7 +89,7 @@ struct PrioritySelectView: View {
     }
 }
 
-// MARK: - Copy Helpers
+// MARK: - View Functions
 extension PrioritySelectView {
     fileprivate static func makeCopy(of source: Priority) -> Priority {
         let copy = Priority(
@@ -177,7 +177,6 @@ extension PrioritySelectView {
         }
     }
 
-    // MARK: - Section Component
     @ViewBuilder
     fileprivate func segmentSection(for data: Binding<[Priority]>) -> some View {
         ForEach(data) { $item in

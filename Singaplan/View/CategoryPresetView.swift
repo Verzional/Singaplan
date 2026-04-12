@@ -17,7 +17,6 @@ struct CategoryPresetView: View {
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
 
-
     @Query(sort: \CategoryPreset.createdAt, order: .reverse)
     private var savedPresets: [CategoryPreset]
 
