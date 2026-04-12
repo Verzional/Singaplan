@@ -5,8 +5,8 @@
 //  Created by Sherin Alvinia Yonatan on 07/04/26.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct DaySection: View {
     // Variable
@@ -31,7 +31,7 @@ struct DaySection: View {
 }
 
 // MARK: Extension
-private extension DaySection {
+extension DaySection {
     
     // Memunculkan day
     private var headerView: some View {
@@ -98,7 +98,7 @@ private extension DaySection {
     private var verticalGridView: some View {
         let columns = [
             GridItem(.flexible(), spacing: 12),
-            GridItem(.flexible(), spacing: 12)
+            GridItem(.flexible(), spacing: 12),
         ]
         
         return LazyVGrid(columns: columns, spacing: 12) {
@@ -123,8 +123,9 @@ private extension DaySection {
                 Label("Discover", systemImage: "globe")
                     .foregroundStyle(Color.primary)
             }
+            
             NavigationLink {
-                ManualSearchView()
+                ManualSearchView(targetDay: day)
             } label: {
                 Label("Search", systemImage: "magnifyingglass")
                     .foregroundStyle(Color.primary)
@@ -146,17 +147,17 @@ private extension DaySection {
     }
     
     // untuk memunculkan jika ada district, tapi belum pilih poi
-    var availableDistricts: [District] {
+    fileprivate var availableDistricts: [District] {
         let occupiedDistrictIds = Set(day.destinations.compactMap { $0.district?.id })
         return day.plannedDistricts.filter { !occupiedDistrictIds.contains($0.id) }
     }
     
     // bool untuk apakah akan dropdown atau tidak
-    var isExpanded: Bool {
+    fileprivate var isExpanded: Bool {
         expandedDays.contains(day.id)
     }
     // func dropdown
-    func toggleExpand() {
+    fileprivate func toggleExpand() {
         if isExpanded {
             expandedDays.remove(day.id)
         } else {
@@ -173,9 +174,11 @@ private extension DaySection {
     let container = try! ModelContainer(for: schema, configurations: [config])
     
     // 2. Setup sample data
-    let marina = District(name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
+    let marina = District(
+        name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
     let day = ItineraryDay(dayNumber: 1)
-    let gardens = POI(id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
+    let gardens = POI(
+        id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
     gardens.itineraryDay = day
     
     // 3. Add to container
@@ -186,6 +189,6 @@ private extension DaySection {
         viewMode: .grid,
         expandedDays: .constant([day.id])
     )
-    .modelContainer(container) // CRITICAL: This must be active if @Query is used
+    .modelContainer(container)  // CRITICAL: This must be active if @Query is used
     .padding()
 }

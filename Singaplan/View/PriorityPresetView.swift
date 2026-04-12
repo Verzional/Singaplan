@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct PriorityPresetView: View {
+    // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
 
     @State private var presetToEdit: PriorityPreset?
@@ -70,7 +71,7 @@ extension PriorityPresetView {
 
     fileprivate var continueButton: some View {
         NavigationLink {
-            RecommendedDistricts()
+            RecommendView()
         } label: {
             Text("Continue")
         }
