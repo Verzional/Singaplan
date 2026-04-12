@@ -13,14 +13,14 @@ struct DaySection: View {
     let day: ItineraryDay
     let viewMode: ItineraryViewMode
     @Binding var expandedDays: Set<UUID>
-
+    
     @Query private var allDistricts: [District]
-
+    
     // MARK: Body
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             headerView
-
+            
             if isExpanded {
                 contentView
                     .transition(.opacity.combined(with: .move(edge: .top)))
@@ -32,14 +32,14 @@ struct DaySection: View {
 
 // MARK: Extension
 extension DaySection {
-
+    
     // Memunculkan day
     private var headerView: some View {
         HStack {
             HStack(spacing: 8) {
                 Text("Day \(day.dayNumber)")
                     .font(.headline)
-
+                
                 Image(systemName: "chevron.right")
                     .font(.caption2)
                     .foregroundColor(.secondary)
@@ -49,13 +49,13 @@ extension DaySection {
             .onTapGesture {
                 toggleExpand()
             }
-
+            
             Spacer()
-
+            
             addDestinationMenu
         }
     }
-
+    
     // Memunculkan data konten yang telah disave/belum
     @ViewBuilder
     private var contentView: some View {
@@ -65,7 +65,7 @@ extension DaySection {
             destinationLayout
         }
     }
-
+    
     // Mode Grid atau List
     private var destinationLayout: some View {
         Group {
@@ -76,7 +76,7 @@ extension DaySection {
             }
         }
     }
-
+    
     // Mode List
     private var horizontalScrollView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -85,7 +85,7 @@ extension DaySection {
                     DestinationCard(poi: poi)
                         .frame(width: 140, height: 140)
                 }
-
+                
                 ForEach(availableDistricts) { district in
                     DistrictCard(district: district)
                         .frame(width: 140, height: 140)
@@ -93,27 +93,27 @@ extension DaySection {
             }
         }
     }
-
+    
     // mode Grid
     private var verticalGridView: some View {
         let columns = [
             GridItem(.flexible(), spacing: 12),
             GridItem(.flexible(), spacing: 12),
         ]
-
+        
         return LazyVGrid(columns: columns, spacing: 12) {
             ForEach(day.destinations) { poi in
                 DestinationCard(poi: poi)
                     .frame(height: 160)
             }
-
+            
             ForEach(availableDistricts) { district in
                 DistrictCard(district: district)
                     .frame(height: 160)
             }
         }
     }
-
+    
     // Pull down button
     private var addDestinationMenu: some View {
         Menu {
@@ -123,8 +123,9 @@ extension DaySection {
                 Label("Discover", systemImage: "globe")
                     .foregroundStyle(Color.primary)
             }
+            
             NavigationLink {
-                ManualSearchView()
+                ManualSearchView(targetDay: day)
             } label: {
                 Label("Search", systemImage: "magnifyingglass")
                     .foregroundStyle(Color.primary)
@@ -135,7 +136,7 @@ extension DaySection {
                 .foregroundColor(.primary)
         }
     }
-
+    
     // Kalau data kosong
     private var emptyStateView: some View {
         Text("No destinations added yet.")
@@ -144,13 +145,13 @@ extension DaySection {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 4)
     }
-
+    
     // untuk memunculkan jika ada district, tapi belum pilih poi
     fileprivate var availableDistricts: [District] {
         let occupiedDistrictIds = Set(day.destinations.compactMap { $0.district?.id })
         return day.plannedDistricts.filter { !occupiedDistrictIds.contains($0.id) }
     }
-
+    
     // bool untuk apakah akan dropdown atau tidak
     fileprivate var isExpanded: Bool {
         expandedDays.contains(day.id)
@@ -171,7 +172,7 @@ extension DaySection {
     let schema = Schema([ItineraryDay.self, POI.self, District.self])
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: schema, configurations: [config])
-
+    
     // 2. Setup sample data
     let marina = District(
         name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
@@ -179,10 +180,10 @@ extension DaySection {
     let gardens = POI(
         id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
     gardens.itineraryDay = day
-
+    
     // 3. Add to container
     container.mainContext.insert(day)
-
+    
     return DaySection(
         day: day,
         viewMode: .grid,

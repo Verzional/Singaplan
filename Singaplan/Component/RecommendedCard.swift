@@ -2,7 +2,9 @@ import SwiftUI
 
 struct RecommendedCard: View {
     let place: Place
-//MARK: Body
+    var onAdd: (() -> Void)? = nil
+    
+    //MARK: Body
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             spotlightImage
@@ -36,21 +38,21 @@ extension RecommendedCard {
     }
     
     private var headerSection: some View {
-            HStack {
-                Text(place.name)
-                    .font(.system(size: 20, weight: .bold))
-                Spacer()
-                Button {
-                    print("Info tapped for \(place.name)")
-                } label: {
+        HStack {
+            Text(place.name)
+                .font(.system(size: 20, weight: .bold))
+            Spacer()
+            Button {
+                print("Info tapped for \(place.name)")
+            } label: {
                 Image(systemName: "info.circle")
                     .foregroundColor(.secondary)
                     .font(.system(size: 18))
                     .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
             }
+            .buttonStyle(.plain)
         }
+    }
     
     private var categorySection: some View {
         HStack(spacing: 0) {
@@ -60,7 +62,7 @@ extension RecommendedCard {
             }
         }
         .padding(.top, 4)
-
+        
     }
     
     private var placeDescription: some View {
@@ -71,7 +73,7 @@ extension RecommendedCard {
         .font(.system(size: 14))
         .foregroundColor(.secondary)
     }
-
+    
     private var priceRatingSection: some View {
         HStack(spacing: 2) {
             ForEach(0..<5) { index in
@@ -82,7 +84,7 @@ extension RecommendedCard {
         }
         .padding(.bottom, 2)
     }
-
+    
     private var footerSection: some View {
         HStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 4) {
@@ -99,16 +101,20 @@ extension RecommendedCard {
             Spacer()
             
             Button {
-                print("Added \(place.name) to list")
-                } label: {
-                    Image(systemName: "plus.circle.fill")
+                if let onAdd = onAdd {
+                    onAdd()
+                } else {
+                    print("Added \(place.name) to list")
+                }
+            } label: {
+                Image(systemName: "plus.circle.fill")
                     .font(.system(size: 32))
                     .foregroundColor(.blue)
-                    }
-                    .buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
         }
     }
-
+    
     private func transportItem(icon: String, label: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)

@@ -1,19 +1,26 @@
 import SwiftUI
+import SwiftData
 
 //MARK: Body
 struct ManualSearchView: View {
-    @State private var searchText = ""
-        //help to search filtered
-        var filteredResults: [Place] {
-            if searchText.isEmpty {
-                return []
-            } else {
-                return Place.Places.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-            }
-        }
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     
-        var body: some View {
-        VStack(spacing: 0) { 
+    @State private var searchText = ""
+    
+    var targetDay: ItineraryDay?
+    
+    //help to search filtered
+    var filteredResults: [Place] {
+        if searchText.isEmpty {
+            return []
+        } else {
+            return Place.Places.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
             if searchText.isEmpty {
                 spotlightImageSection
                     .transition(.move(edge: .top).combined(with: .opacity))
@@ -40,12 +47,12 @@ extension ManualSearchView {
     //MARK: Spotlight Image
     /// Main image above the SearchBar
     private var spotlightImageSection: some View {
-            Image("universal_studios")
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .frame(height: 240)
-                .clipped()
+        Image("universal_studios")
+            .resizable()
+            .scaledToFill()
+            .frame(maxWidth: .infinity)
+            .frame(height: 240)
+            .clipped()
     }
     //MARK: Search Bar
     /// SearchBar that follows the modal placement
@@ -77,17 +84,34 @@ extension ManualSearchView {
     /// Card results for places
     private var searchResultsSection: some View {
         VStack(spacing: 16) {
-                    if filteredResults.isEmpty {
-                        Text("No results for \"\(searchText)\"")
-                            .foregroundColor(.secondary)
-                            .padding(.top, 40)
-                    } else {
-                        ForEach(filteredResults) { place in
-                            RecommendedCard(place: place)
-                        }
-                    }
+            if filteredResults.isEmpty {
+                Text("No results for \"\(searchText)\"")
+                    .foregroundColor(.secondary)
+                    .padding(.top, 40)
+            } else {
+                ForEach(filteredResults) { place in
+                    // UPDATED: Use the action closure to save the POI
+                    RecommendedCard(place: place, onAdd: {
+                        guard let targetDay = targetDay else { return }
+                        
+                        let service = ItineraryService(modelContext: modelContext)
+                        
+                        // Convert the mock Place to a real POI
+                        let newPOI = POI(
+                            id: UUID().uuidString,
+                            name: place.name,
+                            desc: place.description,
+                            location: place.name,
+                            photo: Photo(id: UUID().uuidString, url: place.imageName)
+                        )
+                        
+                        service.addPOI(newPOI, to: targetDay)
+                        dismiss() // Go back to the itinerary view after saving
+                    })
                 }
-            .padding()
+            }
+        }
+        .padding()
     }
 }
 
@@ -108,21 +132,21 @@ extension Place {
               categories: [
                 Category(title: "Historical", icon: "clock.fill"),
                 Category(title: "Foodies", icon: "fork.knife")
-                ]),
+              ]),
         Place(name: "Garden by the Bay",
               imageName: "gardens_img",
               description: "A showpiece of horticulture and garden artistry.",
               categories: [
                 Category(title: "Historical", icon: "clock.fill"),
                 Category(title: "Foodies", icon: "fork.knife")
-                ]),
+              ]),
         Place(name: "Universal Studios",
               imageName: "universal_studios",
               description: "Experience cutting-edge rides, shows, and attractions.",
               categories: [
                 Category(title: "Historical", icon: "clock.fill"),
                 Category(title: "Foodies", icon: "fork.knife")
-                ]),
+              ]),
     ]
 }
 
