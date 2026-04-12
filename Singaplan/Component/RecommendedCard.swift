@@ -1,10 +1,53 @@
 import SwiftUI
 
+// MARK: - Search Result Wrapper
+enum SearchResult: Identifiable {
+    case district(District)
+    case poi(POI)
+    
+    var id: String {
+        switch self {
+        case .district(let d): return d.id.uuidString
+        case .poi(let p): return p.id
+        }
+    }
+    
+    var name: String {
+        switch self {
+        case .district(let d): return d.name
+        case .poi(let p): return p.name
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .district(let d): return d.desc
+        case .poi(let p): return p.desc
+        }
+    }
+    
+    var imageName: String {
+        switch self {
+        case .district(let d): return d.photoUrls.first ?? ""
+        case .poi(let p): return p.photos.first?.url ?? ""
+        }
+    }
+    
+    var categories: [Category] {
+        switch self {
+        case .district(let d): return d.categories ?? []
+        case .poi(let p):
+            if let sub = p.subcategory { return [sub] }
+            return []
+        }
+    }
+}
+
+// MARK: - View
 struct RecommendedCard: View {
-    let place: Place
+    let result: SearchResult
     var onAdd: (() -> Void)? = nil
     
-    //MARK: Body
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             spotlightImage
@@ -25,25 +68,31 @@ struct RecommendedCard: View {
     }
 }
 
-//MARK: Sections
+// MARK: - Sections
 extension RecommendedCard {
-    
     private var spotlightImage: some View {
-        Image(place.imageName)
-            .resizable()
-            .scaledToFill()
-            .frame(width: 135)
-            .frame(maxHeight: .infinity)
-            .clipped()
+        Group {
+            if !result.imageName.isEmpty {
+                Image(result.imageName)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Color.gray.opacity(0.3) // Fallback if no image exists
+            }
+        }
+        .frame(width: 135)
+        .frame(maxHeight: .infinity)
+        .clipped()
     }
     
     private var headerSection: some View {
         HStack {
-            Text(place.name)
+            Text(result.name)
                 .font(.system(size: 20, weight: .bold))
+                .lineLimit(1)
             Spacer()
             Button {
-                print("Info tapped for \(place.name)")
+                print("Info tapped for \(result.name)")
             } label: {
                 Image(systemName: "info.circle")
                     .foregroundColor(.secondary)
@@ -56,24 +105,23 @@ extension RecommendedCard {
     
     private var categorySection: some View {
         HStack(spacing: 0) {
-            ForEach(place.categories) { category in
+            ForEach(result.categories) { category in
                 CategoryCapsule(child: category, isSelected: false)
                     .scaleEffect(0.8)
             }
         }
         .padding(.top, 4)
-        
     }
     
     private var placeDescription: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(place.description)
+            Text(result.description)
                 .lineLimit(2)
         }
         .font(.system(size: 14))
         .foregroundColor(.secondary)
     }
-    
+
     private var priceRatingSection: some View {
         HStack(spacing: 2) {
             ForEach(0..<5) { index in
@@ -84,28 +132,27 @@ extension RecommendedCard {
         }
         .padding(.bottom, 2)
     }
-    
+
     private var footerSection: some View {
         HStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Transport Options:")
+                Text(result.categories.isEmpty ? "" : "Options:")
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundColor(.secondary)
                 
                 HStack(spacing: 10) {
-                    transportItem(icon: "bus.fill", label: "Bus")
-                    transportItem(icon: "tram.fill", label: "MRT")
+                    if case .district = result {
+                        transportItem(icon: "building.2.fill", label: "District")
+                    } else {
+                        transportItem(icon: "mappin.circle.fill", label: "POI")
+                    }
                 }
             }
             
             Spacer()
             
             Button {
-                if let onAdd = onAdd {
-                    onAdd()
-                } else {
-                    print("Added \(place.name) to list")
-                }
+                onAdd?()
             } label: {
                 Image(systemName: "plus.circle.fill")
                     .font(.system(size: 32))
@@ -114,7 +161,7 @@ extension RecommendedCard {
             .buttonStyle(.plain)
         }
     }
-    
+
     private func transportItem(icon: String, label: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
@@ -123,8 +170,4 @@ extension RecommendedCard {
         .font(.system(size: 13))
         .foregroundColor(.primary)
     }
-}
-//MARK: Preview
-#Preview {
-    RecommendedCard(place: Place.Places[1])
 }

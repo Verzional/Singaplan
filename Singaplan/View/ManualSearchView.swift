@@ -1,22 +1,32 @@
 import SwiftUI
 import SwiftData
 
-//MARK: Body
 struct ManualSearchView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
     @State private var searchText = ""
-    
     var targetDay: ItineraryDay?
     
-    //help to search filtered
-    var filteredResults: [Place] {
-        if searchText.isEmpty {
-            return []
-        } else {
-            return Place.Places.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-        }
+    // Fetch actual database records
+    @Query private var allDistricts: [District]
+    @Query private var allPOIs: [POI]
+    
+    // Combine and filter results
+    var filteredResults: [SearchResult] {
+        if searchText.isEmpty { return [] }
+        
+        let lowerSearch = searchText.localizedLowercase
+        
+        let matchingDistricts = allDistricts
+            .filter { $0.name.localizedLowercase.contains(lowerSearch) }
+            .map { SearchResult.district($0) }
+            
+        let matchingPOIs = allPOIs
+            .filter { $0.name.localizedLowercase.contains(lowerSearch) }
+            .map { SearchResult.poi($0) }
+            
+        return matchingDistricts + matchingPOIs
     }
     
     var body: some View {
@@ -44,8 +54,6 @@ struct ManualSearchView: View {
 }
 
 extension ManualSearchView {
-    //MARK: Spotlight Image
-    /// Main image above the SearchBar
     private var spotlightImageSection: some View {
         Image("universal_studios")
             .resizable()
@@ -54,14 +62,12 @@ extension ManualSearchView {
             .frame(height: 240)
             .clipped()
     }
-    //MARK: Search Bar
-    /// SearchBar that follows the modal placement
+
     private var searchBarSection: some View {
-        SearchBar(text: $searchText, placeholder: "Search")
+        SearchBar(text: $searchText, placeholder: "Search Districts & POIs")
             .padding(.vertical, 20)
     }
-    //MARK: Recent Searches
-    /// Places recently searched by users
+
     private var recentSearchesList: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -70,7 +76,8 @@ extension ManualSearchView {
                 Button("Clear All") {}.font(.subheadline).foregroundColor(.gray)
             }
             
-            let recentSearches = ["Garden by the Bay", "Singapore Zoo", "Chinatown", "Universal Studios"]
+            // This can be hooked up to a real history later
+            let recentSearches = ["Garden by the Bay", "Singapore Zoo", "Chinatown"]
             ForEach(recentSearches, id: \.self) { item in
                 Text(item)
                     .font(.body)
@@ -80,77 +87,35 @@ extension ManualSearchView {
         .padding(.horizontal, 25)
         .padding(.top, 10)
     }
-    //MARK: Search Result
-    /// Card results for places
+
     private var searchResultsSection: some View {
-        VStack(spacing: 16) {
-            if filteredResults.isEmpty {
-                Text("No results for \"\(searchText)\"")
-                    .foregroundColor(.secondary)
-                    .padding(.top, 40)
-            } else {
-                ForEach(filteredResults) { place in
-                    // UPDATED: Use the action closure to save the POI
-                    RecommendedCard(place: place, onAdd: {
-                        guard let targetDay = targetDay else { return }
-                        
-                        let service = ItineraryService(modelContext: modelContext)
-                        
-                        // Convert the mock Place to a real POI
-                        let newPOI = POI(
-                            id: UUID().uuidString,
-                            name: place.name,
-                            desc: place.description,
-                            location: place.name,
-                            photo: Photo(id: UUID().uuidString, url: place.imageName)
-                        )
-                        
-                        service.addPOI(newPOI, to: targetDay)
-                        dismiss() // Go back to the itinerary view after saving
-                    })
+        ScrollView {
+            VStack(spacing: 16) {
+                if filteredResults.isEmpty {
+                    Text("No results found for \"\(searchText)\"")
+                        .foregroundColor(.secondary)
+                        .padding(.top, 40)
+                } else {
+                    ForEach(filteredResults) { result in
+                        RecommendedCard(result: result, onAdd: {
+                            guard let targetDay = targetDay else { return }
+                            
+                            let service = ItineraryService(modelContext: modelContext)
+                            
+                            // Check which type it is and save accordingly
+                            switch result {
+                            case .district(let district):
+                                service.addDistrict(district, to: targetDay)
+                            case .poi(let poi):
+                                service.addPOI(poi, to: targetDay)
+                            }
+                            
+                            dismiss()
+                        })
+                    }
                 }
             }
+            .padding()
         }
-        .padding()
     }
-}
-
-//MARK: Mock Data Show
-struct Place: Identifiable {
-    let id = UUID()
-    let name: String
-    let imageName: String
-    let description: String
-    let categories: [Category]
-}
-
-extension Place {
-    static let Places: [Place] = [
-        Place(name: "Chinatown",
-              imageName: "chinatown_img",
-              description: "Chinatown is a vibrant historic district blending traditional Chinese heritage...",
-              categories: [
-                Category(title: "Historical", icon: "clock.fill"),
-                Category(title: "Foodies", icon: "fork.knife")
-              ]),
-        Place(name: "Garden by the Bay",
-              imageName: "gardens_img",
-              description: "A showpiece of horticulture and garden artistry.",
-              categories: [
-                Category(title: "Historical", icon: "clock.fill"),
-                Category(title: "Foodies", icon: "fork.knife")
-              ]),
-        Place(name: "Universal Studios",
-              imageName: "universal_studios",
-              description: "Experience cutting-edge rides, shows, and attractions.",
-              categories: [
-                Category(title: "Historical", icon: "clock.fill"),
-                Category(title: "Foodies", icon: "fork.knife")
-              ]),
-    ]
-}
-
-//MARK: Preview
-#Preview {
-    ManualSearchView()
 }
