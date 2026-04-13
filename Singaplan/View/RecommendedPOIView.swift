@@ -1,18 +1,18 @@
 //
-//  RecommendedDistricts.swift
+//  RecommendedPOIView.swift
 //  Singaplan
 //
-//  Created by Valentino Manuel Gunawan on 06/04/26.
+//  Created by Valentino Manuel Gunawan on 13/04/26.
 //
 
 import SwiftUI
 
-struct RecommendView: View {
+struct RecommendedPOIView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    RecommendView()
+    RecommendedPOIView()
 }
