@@ -69,7 +69,7 @@ struct SeedData {
     
     static let accessibility: [Priority] = [
         Priority(
-            title: "Mobility", 
+            title: "Mobility",
             desc: "Prioritize level, easy-access paths or embrace more rugged, adventurous surfaces.",
             segments: [
                 PrioritySegment(label: "Rugged", weight: 0.1),
@@ -109,137 +109,137 @@ struct SeedData {
         desc: "The crown jewel of Singapore’s skyline. A futuristic waterfront area home to world-class resorts, high-end shopping, and iconic architecture.",
         photoUrls: ["marina-bay_1", "marina-bay_2"]
     )
-
+    
     static let marina_south = District(
         name: "Marina South",
         address: "Singapore",
         desc: "A massive reclaimed area dedicated to green innovation and sustainability, primarily featuring the famous Gardens by the Bay.",
         photoUrls: ["marina-south_1", "marina-south_2"]
     )
-
+    
     static let civic_district = District(
         name: "Civic District",
         address: "Singapore",
         desc: "The birthplace of modern Singapore. This area is packed with historical colonial buildings, national museums, and grand monuments.",
         photoUrls: ["civic-district_1", "civic-district_2"]
     )
-
+    
     static let downtown = District(
         name: "Downtown",
         address: "Singapore",
         desc: "The financial heart of the city. A high-energy district where sleek skyscrapers stand alongside historic markets and riverside nightlife.",
         photoUrls: ["downtown_1", "downtown_2"]
     )
-
+    
     static let orchard_road = District(
         name: "Orchard Road",
         address: "Singapore",
         desc: "Singapore’s premier shopping belt. A bustling boulevard lined with futuristic malls, luxury boutiques, and flagship department stores.",
         photoUrls: ["orchard-road_1", "orchard-road_2"]
     )
-
+    
     static let chinatown = District(
         name: "Chinatown",
         address: "Singapore",
         desc: "A vibrant cultural enclave blending traditional Chinese heritage, historic temples, and legendary hawker stalls with trendy bars.",
         photoUrls: ["chinatown_1", "chinatown_2"]
     )
-
+    
     static let sentosa_island = District(
         name: "Sentosa Island",
         address: "Singapore",
         desc: "Singapore’s favorite island resort. A dedicated leisure destination for theme parks, sandy beaches, and luxury lifestyle attractions.",
         photoUrls: ["sentosa-island_1", "sentosa-island_2"]
     )
-
+    
     static let harbourfront = District(
         name: "Harbourfront",
         address: "Singapore",
         desc: "A major gateway connecting the main island to Sentosa, featuring the city’s largest mall and scenic hilltop cable car views.",
         photoUrls: ["harbourfront_1", "harbourfront_2"]
     )
-
+    
     static let bukit_merah = District(
         name: "Bukit Merah",
         address: "Singapore",
         desc: "A scenic southern district characterized by lush ridges, coastal accessibility, and the iconic wave-shaped pedestrian bridges.",
         photoUrls: ["bukit-merah_1", "bukit-merah_2"]
     )
-
+    
     static let little_india = District(
         name: "Little India",
         address: "Singapore",
         desc: "A colorful and aromatic district showcasing the soul of Singapore’s Indian community through bustling markets and ornate temples.",
         photoUrls: ["little-india_1", "little-india_2"]
     )
-
+    
     static let kampong_glam = District(
         name: "Kampong Glam",
         address: "Singapore",
         desc: "The historic seat of Malay royalty, now a hip cultural quarter known for its majestic mosque, textile shops, and artistic alleyways.",
         photoUrls: ["kampong-glam_1", "kampong-glam_2"]
     )
-
+    
     static let east_coast = District(
         name: "East Coast",
         address: "Singapore",
         desc: "A beloved residential and recreational stretch famous for its long coastal park, cycling paths, and famous seafood culture.",
         photoUrls: ["east-coast_1", "east-coast_2"]
     )
-
+    
     static let changi = District(
         name: "Changi",
         address: "Singapore",
         desc: "The aviation hub of the world. Beyond the airport, it offers a rustic charm with historical sites and coastal ferry terminals.",
         photoUrls: ["changi_1", "changi_2"]
     )
-
+    
     static let mandai = District(
         name: "Mandai",
         address: "Singapore",
         desc: "The wildlife capital of Singapore. A dedicated nature zone housing world-renowned zoos, safaris, and rainforest conservation parks.",
         photoUrls: ["mandai_1", "mandai_2"]
     )
-
+    
     static let jurong = District(
         name: "Jurong",
         address: "Singapore",
         desc: "The industrial and educational powerhouse of the West, recently transformed into a beautiful lakeside destination for recreation.",
         photoUrls: ["jurong_1", "jurong_2"]
     )
-
+    
     static let lim_chu_kang = District(
         name: "Lim Chu Kang",
         address: "Singapore",
         desc: "The quiet countryside of Singapore. A rustic area in the far northwest home to agricultural farms and expansive wetland reserves.",
         photoUrls: ["lim-chu-kang_1", "lim-chu-kang_2"]
     )
-
+    
     static let bukit_timah = District(
         name: "Bukit Timah",
         address: "Singapore",
         desc: "An upscale residential district that holds Singapore's highest natural point and its most pristine primary rainforest.",
         photoUrls: ["bukit-timah_1", "bukit-timah_2"]
     )
-
+    
     static let bugis = District(
         name: "Bugis",
         address: "Singapore",
         desc: "A high-energy district popular with youth, featuring a mix of air-conditioned shopping malls and vibrant street markets.",
         photoUrls: ["bugis_1", "bugis_2"]
     )
-
+    
     static let punggol = District(
         name: "Punggol",
         address: "Singapore",
         desc: "Singapore’s premier eco-town. A modern residential district built around a beautiful waterway, perfect for cycling and outdoor fun.",
         photoUrls: ["punggol_1", "punggol_2"]
     )
-
+    
     static var districtData: [District] {
         return [marina_bay, marina_south, civic_district, downtown, orchard_road, chinatown, sentosa_island, harbourfront, bukit_merah, little_india, kampong_glam, east_coast, changi, mandai, jurong, lim_chu_kang, bukit_timah, bugis, punggol]
     }
-
+    
     // MARK: - POIs
     static let poi_national_orchird_garden_2 = POI(
         name: "National Orchird Garden",
@@ -251,7 +251,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_macritchie_reservoir_3 = POI(
         name: "MacRitchie Reservoir",
         desc: "Nature reserve famous for hiking and the TreeTop Walk.",
@@ -262,7 +262,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_henderson_waves_4 = POI(
         name: "Henderson Waves",
         desc: "Singapore's highest pedestrian bridge with a wave-like design.",
@@ -273,7 +273,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_sands_skypark_observation_deck_5 = POI(
         name: "Sands SkyPark Observation Deck",
         desc: "A massive surfboard-shaped platform offering 360-degree views of Singapore’s skyline.",
@@ -284,7 +284,7 @@ struct SeedData {
         district: marina_bay,
         categories: [categories[4]]
     )
-
+    
     static let poi_art_science_museum_6 = POI(
         name: "Art Science Museum",
         desc: "An iconic lotus-inspired building hosting immersive exhibitions at the intersection of art and tech.",
@@ -295,7 +295,7 @@ struct SeedData {
         district: nil,
         categories: [categories[4]]
     )
-
+    
     static let poi_joo_chiat_7 = POI(
         name: "Joo Chiat",
         desc: "A heritage area known for its colorful Peranakan shophouses and rich multicultural food scene.",
@@ -306,7 +306,7 @@ struct SeedData {
         district: east_coast,
         categories: [culture]
     )
-
+    
     static let poi_sungei_buloh_wetland_reserve_8 = POI(
         name: "Sungei Buloh Wetland Reserve",
         desc: "Singapore’s first ASEAN Heritage Park, home to diverse mangroves and migratory birds.",
@@ -317,7 +317,7 @@ struct SeedData {
         district: lim_chu_kang,
         categories: [nature]
     )
-
+    
     static let poi_east_coast_park_9 = POI(
         name: "East Coast Park",
         desc: "A scenic coastal park offering cycling, cable skiing, and a famous seafood center by the beach.",
@@ -328,7 +328,7 @@ struct SeedData {
         district: east_coast,
         categories: [nature]
     )
-
+    
     static let poi_ion_orchard_10 = POI(
         name: "Ion Orchard",
         desc: "A futuristic premier mall featuring high-end brands and the Ion Sky observation deck.",
@@ -339,7 +339,7 @@ struct SeedData {
         district: orchard_road,
         categories: [metro]
     )
-
+    
     static let poi_mustafa_centre_11 = POI(
         name: "Mustafa Centre",
         desc: "A legendary 24-hour shopping mall in Little India that sells almost everything imaginable.",
@@ -350,7 +350,7 @@ struct SeedData {
         district: little_india,
         categories: [metro]
     )
-
+    
     static let poi_bugis_junction_12 = POI(
         name: "Bugis Junction",
         desc: "A vibrant shopping destination featuring a mix of modern mall space and air-conditioned shophouses.",
@@ -361,7 +361,7 @@ struct SeedData {
         district: bugis,
         categories: [metro]
     )
-
+    
     static let poi_wings_of_time_13 = POI(
         name: "Wings of Time",
         desc: "A stunning outdoor night show featuring water, laser, and fire effects set against the sea.",
@@ -372,7 +372,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [metro]
     )
-
+    
     static let poi_duck_tours_14 = POI(
         name: "Duck Tours",
         desc: "An amphibious tour vehicle that travels on both land and water to see Singapore’s landmarks.",
@@ -383,7 +383,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_the_hive_15 = POI(
         name: "The Hive",
         desc: "Award-winning architectural marvel at Nanyang Technological University.",
@@ -394,7 +394,7 @@ struct SeedData {
         district: jurong,
         categories: [categories[4]]
     )
-
+    
     static let poi_marina_barrage_16 = POI(
         name: "Marina Barrage",
         desc: "A dam and rooftop park for picnics and kite-flying.",
@@ -405,7 +405,7 @@ struct SeedData {
         district: marina_south,
         categories: [nature]
     )
-
+    
     static let poi_science_centre_17 = POI(
         name: "Science Centre",
         desc: "Interactive science exhibits and educational galleries.",
@@ -416,7 +416,7 @@ struct SeedData {
         district: jurong,
         categories: [categories[4]]
     )
-
+    
     static let poi_bukit_timah_nature_reserve_18 = POI(
         name: "Bukit Timah Nature Reserve",
         desc: "A large nature reserve featuring Singapore's highest hill.",
@@ -427,7 +427,7 @@ struct SeedData {
         district: bukit_timah,
         categories: [nature]
     )
-
+    
     static let poi_punggol_waterway_park_19 = POI(
         name: "Punggol Waterway Park",
         desc: "A scenic riverside park with cycling and jogging tracks.",
@@ -438,7 +438,7 @@ struct SeedData {
         district: punggol,
         categories: [nature]
     )
-
+    
     static let poi_victoria_theatre_20 = POI(
         name: "Victoria Theatre",
         desc: "A historic concert hall and performing arts venue.",
@@ -449,7 +449,7 @@ struct SeedData {
         district: nil,
         categories: [categories[4]]
     )
-
+    
     static let poi_spectra_light_water_show_21 = POI(
         name: "Spectra Light & Water Show",
         desc: "A spectacular outdoor light and water show over the bay.",
@@ -460,7 +460,7 @@ struct SeedData {
         district: marina_bay,
         categories: [metro]
     )
-
+    
     static let poi_the_intan_22 = POI(
         name: "The Intan",
         desc: "A private home-museum dedicated to Peranakan culture.",
@@ -471,7 +471,7 @@ struct SeedData {
         district: nil,
         categories: [categories[4]]
     )
-
+    
     static let poi_snow_city_23 = POI(
         name: "Snow City",
         desc: "Singapore's first indoor snow center for winter activities.",
@@ -482,7 +482,7 @@ struct SeedData {
         district: jurong,
         categories: [metro]
     )
-
+    
     static let poi_chinese_garden_24 = POI(
         name: "Chinese Garden",
         desc: "Public park featuring traditional Chinese architectural styles.",
@@ -493,7 +493,7 @@ struct SeedData {
         district: jurong,
         categories: [nature]
     )
-
+    
     static let poi_gardens_by_the_bay_25 = POI(
         name: "Gardens by the Bay",
         desc: "Futuristic nature park featuring Supertree Grove and Cloud Forest.",
@@ -504,7 +504,7 @@ struct SeedData {
         district: marina_south,
         categories: [nature]
     )
-
+    
     static let poi_buddha_tooth_relic_26 = POI(
         name: "Buddha Tooth Relic",
         desc: "Magnificent Tang-style temple housing a sacred Buddha relic.",
@@ -515,7 +515,7 @@ struct SeedData {
         district: chinatown,
         categories: [culture]
     )
-
+    
     static let poi_marina_bay_sands_27 = POI(
         name: "Marina Bay Sands",
         desc: "Iconic hotel featuring a boat-shaped rooftop and infinity pool.",
@@ -526,7 +526,7 @@ struct SeedData {
         district: marina_south,
         categories: [culture]
     )
-
+    
     static let poi_merlion_park_28 = POI(
         name: "Merlion Park",
         desc: "Home to the iconic statue of Singapore's national emblem.",
@@ -537,7 +537,7 @@ struct SeedData {
         district: marina_bay,
         categories: [culture]
     )
-
+    
     static let poi_universal_studios_29 = POI(
         name: "Universal Studios",
         desc: "Movie-themed park with world-class rides and entertainment.",
@@ -548,7 +548,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [metro]
     )
-
+    
     static let poi_jewel_changi_airport_30 = POI(
         name: "Jewel Changi Airport",
         desc: "A nature-themed retail and entertainment complex with a vortex.",
@@ -559,7 +559,7 @@ struct SeedData {
         district: changi,
         categories: [metro]
     )
-
+    
     static let poi_clarke_quay_31 = POI(
         name: "Clarke Quay",
         desc: "A historical riverside quay famous for nightlife and dining.",
@@ -570,7 +570,7 @@ struct SeedData {
         district: nil,
         categories: [metro]
     )
-
+    
     static let poi_botanic_gardens_32 = POI(
         name: "Botanic Gardens",
         desc: "A 161-year-old tropical garden and UNESCO World Heritage site.",
@@ -581,7 +581,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_chinatown_market_33 = POI(
         name: "Chinatown Market",
         desc: "A bustling street market selling souvenirs and local snacks.",
@@ -592,7 +592,7 @@ struct SeedData {
         district: chinatown,
         categories: [metro]
     )
-
+    
     static let poi_little_india_34 = POI(
         name: "Little India",
         desc: "A vibrant ethnic district with colorful shops and temples.",
@@ -603,7 +603,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_artscience_museum_35 = POI(
         name: "ArtScience Museum",
         desc: "Lotus-inspired museum featuring immersive digital art exhibitions.",
@@ -614,7 +614,7 @@ struct SeedData {
         district: marina_bay,
         categories: [categories[4]]
     )
-
+    
     static let poi_national_gallery_36 = POI(
         name: "National Gallery",
         desc: "Singapore’s largest public art gallery housed in the former City Hall.",
@@ -625,7 +625,7 @@ struct SeedData {
         district: civic_district,
         categories: [categories[4]]
     )
-
+    
     static let poi_night_safari_37 = POI(
         name: "Night Safari",
         desc: "The world's first nocturnal wildlife park.",
@@ -636,7 +636,7 @@ struct SeedData {
         district: mandai,
         categories: [categories[2]]
     )
-
+    
     static let poi_haji_lane_38 = POI(
         name: "Haji Lane",
         desc: "Narrow alleyway famous for colorful murals and indie boutiques.",
@@ -647,7 +647,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [culture]
     )
-
+    
     static let poi_singapore_flyer_39 = POI(
         name: "Singapore Flyer",
         desc: "A giant observation wheel offering panoramic city views.",
@@ -658,7 +658,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_sentosa_luge_40 = POI(
         name: "Sentosa Luge",
         desc: "A thrilling gravity-fueled ride on a specialized cart.",
@@ -669,7 +669,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [nature]
     )
-
+    
     static let poi_lau_pa_sat_41 = POI(
         name: "Lau Pa Sat",
         desc: "Historic octagonal market turned gourmet food court.",
@@ -680,7 +680,7 @@ struct SeedData {
         district: downtown,
         categories: [culinary]
     )
-
+    
     static let poi_henderson_waves_42 = POI(
         name: "Henderson Waves",
         desc: "Singapore's highest pedestrian bridge with a wave-like form.",
@@ -691,7 +691,7 @@ struct SeedData {
         district: bukit_merah,
         categories: [nature]
     )
-
+    
     static let poi_s_e_a_aquarium_43 = POI(
         name: "S.E.A. Aquarium",
         desc: "One of the world’s largest aquariums with over 100,000 marine animals.",
@@ -702,7 +702,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [categories[2]]
     )
-
+    
     static let poi_orchard_road_44 = POI(
         name: "Orchard Road",
         desc: "A world-renowned shopping street with numerous malls.",
@@ -713,7 +713,7 @@ struct SeedData {
         district: orchard_road,
         categories: [metro]
     )
-
+    
     static let poi_fort_canning_park_45 = POI(
         name: "Fort Canning Park",
         desc: "A hilltop landmark full of historical military relics.",
@@ -724,7 +724,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_asian_civ_museum_46 = POI(
         name: "Asian Civ Museum",
         desc: "A museum exploring the artistic heritage of Asia.",
@@ -735,7 +735,7 @@ struct SeedData {
         district: civic_district,
         categories: [categories[4]]
     )
-
+    
     static let poi_esplanade_47 = POI(
         name: "Esplanade",
         desc: "Performing arts center known for its unique durian-shaped architecture.",
@@ -746,7 +746,7 @@ struct SeedData {
         district: downtown,
         categories: [categories[4]]
     )
-
+    
     static let poi_mount_faber_park_48 = POI(
         name: "Mount Faber Park",
         desc: "A hilltop park offering views and cable car rides.",
@@ -757,7 +757,7 @@ struct SeedData {
         district: harbourfront,
         categories: [nature]
     )
-
+    
     static let poi_national_museum_49 = POI(
         name: "National Museum",
         desc: "The oldest museum in Singapore focused on local history.",
@@ -768,7 +768,7 @@ struct SeedData {
         district: civic_district,
         categories: [categories[4]]
     )
-
+    
     static let poi_river_wonders_50 = POI(
         name: "River Wonders",
         desc: "Asia's first and only river-themed wildlife park.",
@@ -779,7 +779,7 @@ struct SeedData {
         district: mandai,
         categories: [categories[2]]
     )
-
+    
     static let poi_tiong_bahru_51 = POI(
         name: "Tiong Bahru",
         desc: "A charming heritage estate with cafes and art deco buildings.",
@@ -790,7 +790,7 @@ struct SeedData {
         district: bukit_merah,
         categories: [culture]
     )
-
+    
     static let poi_suntec_fountain_52 = POI(
         name: "Suntec Fountain",
         desc: "A large bronze fountain symbolizing wealth and prosperity.",
@@ -801,7 +801,7 @@ struct SeedData {
         district: downtown,
         categories: [culture]
     )
-
+    
     static let poi_palawan_beach_53 = POI(
         name: "Palawan Beach",
         desc: "A family-friendly beach with a suspension bridge.",
@@ -812,7 +812,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [categories[1]]
     )
-
+    
     static let poi_haw_par_villa_54 = POI(
         name: "Haw Par Villa",
         desc: "A cultural park depicting scenes from Chinese mythology.",
@@ -823,7 +823,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_bird_paradise_55 = POI(
         name: "Bird Paradise",
         desc: "Modern bird park with massive walk-through aviaries.",
@@ -834,7 +834,7 @@ struct SeedData {
         district: mandai,
         categories: [categories[2]]
     )
-
+    
     static let poi_singapore_zoo_56 = POI(
         name: "Singapore Zoo",
         desc: "An award-winning wildlife park with an open-concept habitat.",
@@ -845,7 +845,7 @@ struct SeedData {
         district: mandai,
         categories: [categories[2]]
     )
-
+    
     static let poi_macritchie_57 = POI(
         name: "MacRitchie",
         desc: "A gateway to Singapore’s nature reserves and treetop walks.",
@@ -856,7 +856,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_helix_bridge_58 = POI(
         name: "Helix Bridge",
         desc: "A pedestrian bridge with a unique double-helix structure.",
@@ -867,7 +867,7 @@ struct SeedData {
         district: marina_bay,
         categories: [culture]
     )
-
+    
     static let poi_peranakan_museum_59 = POI(
         name: "Peranakan Museum",
         desc: "A museum showcasing the rich culture of Peranakan communities.",
@@ -878,7 +878,7 @@ struct SeedData {
         district: civic_district,
         categories: [categories[4]]
     )
-
+    
     static let poi_sri_mariamman_60 = POI(
         name: "Sri Mariamman",
         desc: "The oldest Hindu temple in Singapore with an ornate tower.",
@@ -889,7 +889,7 @@ struct SeedData {
         district: chinatown,
         categories: [culture]
     )
-
+    
     static let poi_sultan_mosque_61 = POI(
         name: "Sultan Mosque",
         desc: "Prominent mosque with massive golden domes in Kampong Glam.",
@@ -900,7 +900,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [culture]
     )
-
+    
     static let poi_adventure_cove_62 = POI(
         name: "Adventure Cove",
         desc: "A water theme park with high-speed slides and marine life.",
@@ -911,7 +911,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [metro]
     )
-
+    
     static let poi_newton_food_centre_63 = POI(
         name: "Newton Food Centre",
         desc: "A famous open-air food court featured in \"Crazy Rich Asians\".",
@@ -922,7 +922,7 @@ struct SeedData {
         district: nil,
         categories: [culinary]
     )
-
+    
     static let poi_emerald_hill_64 = POI(
         name: "Emerald Hill",
         desc: "A historic neighborhood with colorful Peranakan-style houses.",
@@ -933,7 +933,7 @@ struct SeedData {
         district: orchard_road,
         categories: [culture]
     )
-
+    
     static let poi_library_orchard_65 = POI(
         name: "Library@Orchard",
         desc: "A stylish public library with a focus on design and arts.",
@@ -944,7 +944,7 @@ struct SeedData {
         district: orchard_road,
         categories: [categories[4]]
     )
-
+    
     static let poi_old_hill_police_stn_66 = POI(
         name: "Old Hill Police Stn",
         desc: "Historical building famous for its 927 rainbow-colored windows.",
@@ -955,7 +955,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_siloso_beach_67 = POI(
         name: "Siloso Beach",
         desc: "Popular sandy beach with bars, restaurants, and water sports.",
@@ -966,7 +966,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [categories[1]]
     )
-
+    
     static let poi_madame_tussauds_68 = POI(
         name: "Madame Tussauds",
         desc: "Famous wax museum featuring lifelike figures of celebrities.",
@@ -977,7 +977,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [categories[4]]
     )
-
+    
     static let poi_chijmes_69 = POI(
         name: "CHIJMES",
         desc: "Historic convent complex transformed into a chic dining and lifestyle venue.",
@@ -988,7 +988,7 @@ struct SeedData {
         district: nil,
         categories: [culinary]
     )
-
+    
     static let poi_southern_ridges_70 = POI(
         name: "Southern Ridges",
         desc: "A 10km trail connecting several parks with scenic bridges.",
@@ -999,7 +999,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_vivocity_sky_park_71 = POI(
         name: "VivoCity Sky Park",
         desc: "A large rooftop space with a water feature and sea views.",
@@ -1010,7 +1010,7 @@ struct SeedData {
         district: harbourfront,
         categories: [culture]
     )
-
+    
     static let poi_jurong_lake_garden_72 = POI(
         name: "Jurong Lake Garden",
         desc: "A sprawling lakeside park with nature play and scenic views.",
@@ -1021,7 +1021,7 @@ struct SeedData {
         district: jurong,
         categories: [nature]
     )
-
+    
     static let poi_maxwell_food_ctr_73 = POI(
         name: "Maxwell Food Ctr",
         desc: "Legendary hawker centre famous for Hainanese Chicken Rice.",
@@ -1032,7 +1032,7 @@ struct SeedData {
         district: chinatown,
         categories: [culinary]
     )
-
+    
     static let poi_skyhelix_sentosa_74 = POI(
         name: "SkyHelix Sentosa",
         desc: "Highest open-air panoramic ride in Singapore.",
@@ -1043,7 +1043,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [culture]
     )
-
+    
     static let poi_plaza_singapura_75 = POI(
         name: "Plaza Singapura",
         desc: "A popular contemporary shopping mall on Orchard Road.",
@@ -1054,7 +1054,7 @@ struct SeedData {
         district: orchard_road,
         categories: [metro]
     )
-
+    
     static let poi_pulau_ubin_76 = POI(
         name: "Pulau Ubin",
         desc: "An island sanctuary with a rustic, old-Singapore vibe.",
@@ -1065,7 +1065,7 @@ struct SeedData {
         district: changi,
         categories: [nature]
     )
-
+    
     static let poi_arab_street_77 = POI(
         name: "Arab Street",
         desc: "A historic area known for textiles, cafes, and heritage.",
@@ -1076,7 +1076,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [culture]
     )
-
+    
     static let poi_tekka_centre_78 = POI(
         name: "Tekka Centre",
         desc: "A vibrant market and food centre in Little India.",
@@ -1087,7 +1087,7 @@ struct SeedData {
         district: little_india,
         categories: [culinary]
     )
-
+    
     static let poi_rail_corridor_79 = POI(
         name: "Rail Corridor",
         desc: "A former railway line converted into a scenic nature trail.",
@@ -1098,7 +1098,7 @@ struct SeedData {
         district: bukit_timah,
         categories: [nature]
     )
-
+    
     static let poi_singapore_cable_car_80 = POI(
         name: "Singapore Cable Car",
         desc: "Gondola lift providing aerial views of the city and Sentosa.",
@@ -1109,7 +1109,7 @@ struct SeedData {
         district: harbourfront,
         categories: [culture]
     )
-
+    
     static let poi_tanjong_beach_81 = POI(
         name: "Tanjong Beach",
         desc: "A serene and relaxing beach spot on Sentosa Island.",
@@ -1120,7 +1120,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [categories[1]]
     )
-
+    
     static let poi_wild_wild_wet_82 = POI(
         name: "Wild Wild Wet",
         desc: "One of Singapore's largest water parks with thrill rides.",
@@ -1131,7 +1131,7 @@ struct SeedData {
         district: nil,
         categories: [metro]
     )
-
+    
     static let poi_lee_kong_chian_nat_hist_museum_83 = POI(
         name: "Lee Kong Chian Nat. Hist. Museum",
         desc: "A natural history museum showcasing dinosaur fossils.",
@@ -1142,7 +1142,7 @@ struct SeedData {
         district: nil,
         categories: [categories[4]]
     )
-
+    
     static let poi_mint_museum_of_toys_84 = POI(
         name: "Mint Museum of Toys",
         desc: "A private museum with a world-class collection of vintage toys.",
@@ -1153,7 +1153,7 @@ struct SeedData {
         district: civic_district,
         categories: [categories[4]]
     )
-
+    
     static let poi_geylang_serai_market_85 = POI(
         name: "Geylang Serai Market",
         desc: "A cultural hub for the Malay community with a wet market.",
@@ -1164,7 +1164,7 @@ struct SeedData {
         district: nil,
         categories: [culinary]
     )
-
+    
     static let poi_fort_siloso_86 = POI(
         name: "Fort Siloso",
         desc: "Singapore’s only preserved coastal gun battery and museum.",
@@ -1175,7 +1175,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [culture]
     )
-
+    
     static let poi_chomp_chomp_food_centre_87 = POI(
         name: "Chomp Chomp Food Centre",
         desc: "A famous local spot for late-night satay and BBQ seafood.",
@@ -1186,7 +1186,7 @@ struct SeedData {
         district: nil,
         categories: [culinary]
     )
-
+    
     static let poi_lazarus_island_88 = POI(
         name: "Lazarus Island",
         desc: "A tranquil offshore island with pristine white sand beaches.",
@@ -1197,7 +1197,7 @@ struct SeedData {
         district: nil,
         categories: [categories[1]]
     )
-
+    
     static let poi_changi_chapel_museum_89 = POI(
         name: "Changi Chapel & Museum",
         desc: "A site dedicated to the history of POWs during WWII.",
@@ -1208,7 +1208,7 @@ struct SeedData {
         district: changi,
         categories: [culture]
     )
-
+    
     static let poi_coney_island_90 = POI(
         name: "Coney Island",
         desc: "An ecologically diverse park for cycling and bird watching.",
@@ -1219,7 +1219,7 @@ struct SeedData {
         district: punggol,
         categories: [nature]
     )
-
+    
     static let poi_the_oval_seletar_91 = POI(
         name: "The Oval @ Seletar",
         desc: "A lifestyle hub in a former British colonial airbase.",
@@ -1230,7 +1230,7 @@ struct SeedData {
         district: nil,
         categories: [culinary]
     )
-
+    
     static let poi_malay_heritage_centre_92 = POI(
         name: "Malay Heritage Centre",
         desc: "A museum exploring the history and culture of Malay locals.",
@@ -1241,7 +1241,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [culture]
     )
-
+    
     static let poi_trick_eye_museum_93 = POI(
         name: "Trick Eye Museum",
         desc: "An interactive 3D museum with optical illusion artworks.",
@@ -1252,7 +1252,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [categories[4]]
     )
-
+    
     static let poi_kranji_marshes_94 = POI(
         name: "Kranji Marshes",
         desc: "One of Singapore's largest freshwater marshland habitats.",
@@ -1263,7 +1263,7 @@ struct SeedData {
         district: nil,
         categories: [nature]
     )
-
+    
     static let poi_kampong_lorong_buangkok_95 = POI(
         name: "Kampong Lorong Buangkok",
         desc: "The last surviving traditional village (kampong) in Singapore.",
@@ -1274,7 +1274,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_east_coast_lagoon_food_village_96 = POI(
         name: "East Coast Lagoon Food Village",
         desc: "An iconic beachfront food centre for seafood and satay.",
@@ -1285,7 +1285,7 @@ struct SeedData {
         district: east_coast,
         categories: [culinary]
     )
-
+    
     static let poi_dempsey_hill_97 = POI(
         name: "Dempsey Hill",
         desc: "A dining and lifestyle destination in lush greenery.",
@@ -1296,7 +1296,7 @@ struct SeedData {
         district: nil,
         categories: [culinary]
     )
-
+    
     static let poi_funan_mall_98 = POI(
         name: "Funan Mall",
         desc: "A tech-focused lifestyle mall with an indoor cycling track.",
@@ -1307,7 +1307,7 @@ struct SeedData {
         district: civic_district,
         categories: [metro]
     )
-
+    
     static let poi_battlebox_99 = POI(
         name: "Battlebox",
         desc: "WWII British underground command centre inside Fort Canning Hill.",
@@ -1318,7 +1318,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_national_design_centre_100 = POI(
         name: "National Design Centre",
         desc: "A hub for design excellence and exhibitions.",
@@ -1329,7 +1329,7 @@ struct SeedData {
         district: bugis,
         categories: [culture]
     )
-
+    
     static let poi_istana_heritage_gallery_101 = POI(
         name: "Istana Heritage Gallery",
         desc: "History and heritage of the President's office.",
@@ -1340,7 +1340,7 @@ struct SeedData {
         district: orchard_road,
         categories: [culture]
     )
-
+    
     static let poi_armenian_church_102 = POI(
         name: "Armenian Church",
         desc: "The oldest Christian church in Singapore, built in 1835.",
@@ -1351,7 +1351,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_hortpark_103 = POI(
         name: "HortPark",
         desc: "A gardening resource hub with themed gardens.",
@@ -1362,7 +1362,7 @@ struct SeedData {
         district: bukit_merah,
         categories: [nature]
     )
-
+    
     static let poi_woodlands_waterfront_jetty_104 = POI(
         name: "Woodlands Waterfront Jetty",
         desc: "Long jetty with views of the Johor Strait.",
@@ -1373,7 +1373,7 @@ struct SeedData {
         district: lim_chu_kang,
         categories: [nature]
     )
-
+    
     static let poi_lower_peirce_reservoir_105 = POI(
         name: "Lower Peirce Reservoir",
         desc: "Scenic reservoir with a boardwalk through forest.",
@@ -1384,7 +1384,7 @@ struct SeedData {
         district: mandai,
         categories: [nature]
     )
-
+    
     static let poi_upper_seletar_reservoir_106 = POI(
         name: "Upper Seletar Reservoir",
         desc: "Iconic rocket lookout tower and lake views.",
@@ -1395,7 +1395,7 @@ struct SeedData {
         district: mandai,
         categories: [nature]
     )
-
+    
     static let poi_chesnut_nature_park_107 = POI(
         name: "Chesnut Nature Park",
         desc: "Largest nature park with mountain biking trails.",
@@ -1406,7 +1406,7 @@ struct SeedData {
         district: bukit_timah,
         categories: [nature]
     )
-
+    
     static let poi_labrador_nature_reserve_108 = POI(
         name: "Labrador Nature Reserve",
         desc: "Coastal park featuring WWII relics.",
@@ -1417,7 +1417,7 @@ struct SeedData {
         district: harbourfront,
         categories: [nature]
     )
-
+    
     static let poi_pasir_ris_park_109 = POI(
         name: "Pasir Ris Park",
         desc: "Large coastal park with a mangrove boardwalk.",
@@ -1428,7 +1428,7 @@ struct SeedData {
         district: east_coast,
         categories: [nature]
     )
-
+    
     static let poi_hydrodash_110 = POI(
         name: "HydroDash",
         desc: "Floating aqua park with obstacle courses.",
@@ -1439,7 +1439,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [metro]
     )
-
+    
     static let poi_jewel_canopy_park_111 = POI(
         name: "Jewel Canopy Park",
         desc: "Play attractions like Petal Garden and Foggy Bowls.",
@@ -1450,7 +1450,7 @@ struct SeedData {
         district: changi,
         categories: [metro]
     )
-
+    
     static let poi_changi_experience_studio_112 = POI(
         name: "Changi Experience Studio",
         desc: "Interactive attraction exploring airport operations.",
@@ -1461,7 +1461,7 @@ struct SeedData {
         district: changi,
         categories: [metro]
     )
-
+    
     static let poi_air_force_museum_113 = POI(
         name: "Air Force Museum",
         desc: "Displays heritage aircraft and RSAF history.",
@@ -1472,7 +1472,7 @@ struct SeedData {
         district: changi,
         categories: [metro]
     )
-
+    
     static let poi_science_centre_singapore_114 = POI(
         name: "Science Centre Singapore",
         desc: "Over 1,000 interactive exhibits.",
@@ -1483,7 +1483,7 @@ struct SeedData {
         district: jurong,
         categories: [metro]
     )
-
+    
     static let poi_keppel_bay_115 = POI(
         name: "Keppel Bay",
         desc: "Luxury waterfront with stunning yacht views.",
@@ -1494,7 +1494,7 @@ struct SeedData {
         district: harbourfront,
         categories: [metro]
     )
-
+    
     static let poi_design_orchard_116 = POI(
         name: "Design Orchard",
         desc: "Showcases local Singaporean brands and designers.",
@@ -1505,7 +1505,7 @@ struct SeedData {
         district: orchard_road,
         categories: [metro]
     )
-
+    
     static let poi_city_square_mall_117 = POI(
         name: "City Square Mall",
         desc: "First eco-mall with an integrated urban park.",
@@ -1516,7 +1516,7 @@ struct SeedData {
         district: little_india,
         categories: [metro]
     )
-
+    
     static let poi_millenia_walk_118 = POI(
         name: "Millenia Walk",
         desc: "Mall with unique architecture and design stores.",
@@ -1527,7 +1527,7 @@ struct SeedData {
         district: downtown,
         categories: [metro]
     )
-
+    
     static let poi_one_raffles_place_119 = POI(
         name: "One Raffles Place",
         desc: "Shopping and dining in the heart of the CBD.",
@@ -1538,7 +1538,7 @@ struct SeedData {
         district: downtown,
         categories: [metro]
     )
-
+    
     static let poi_zion_riverside_food_centre_120 = POI(
         name: "Zion Riverside Food Centre",
         desc: "Famous hawker centre known for Char Kway Teow.",
@@ -1549,7 +1549,7 @@ struct SeedData {
         district: orchard_road,
         categories: [culinary]
     )
-
+    
     static let poi_old_airport_road_food_centre_121 = POI(
         name: "Old Airport Road Food Centre",
         desc: "One of Singapore's best hawker centres.",
@@ -1560,7 +1560,7 @@ struct SeedData {
         district: east_coast,
         categories: [culinary]
     )
-
+    
     static let poi_satay_by_the_bay_122 = POI(
         name: "Satay by the Bay",
         desc: "Alfresco food court specializing in satay.",
@@ -1571,7 +1571,7 @@ struct SeedData {
         district: marina_south,
         categories: [culinary]
     )
-
+    
     static let poi_amoy_street_food_centre_123 = POI(
         name: "Amoy Street Food Centre",
         desc: "Popular CBD hub with Michelin stalls.",
@@ -1582,7 +1582,7 @@ struct SeedData {
         district: chinatown,
         categories: [culinary]
     )
-
+    
     static let poi_ghim_moh_market_124 = POI(
         name: "Ghim Moh Market",
         desc: "Traditional wet market and hawker center.",
@@ -1593,7 +1593,7 @@ struct SeedData {
         district: bukit_timah,
         categories: [culinary]
     )
-
+    
     static let poi_bright_hill_temple_125 = POI(
         name: "Bright Hill Temple",
         desc: "One of the largest Buddhist temples in Singapore.",
@@ -1604,7 +1604,7 @@ struct SeedData {
         district: bukit_timah,
         categories: [supernatural]
     )
-
+    
     static let poi_kwan_im_thong_hood_cho_126 = POI(
         name: "Kwan Im Thong Hood Cho",
         desc: "Famous temple for the Goddess of Mercy.",
@@ -1615,7 +1615,7 @@ struct SeedData {
         district: bugis,
         categories: [supernatural]
     )
-
+    
     static let poi_sri_krishnan_temple_127 = POI(
         name: "Sri Krishnan Temple",
         desc: "Historic Hindu temple with a vibrant facade.",
@@ -1626,7 +1626,7 @@ struct SeedData {
         district: bugis,
         categories: [supernatural]
     )
-
+    
     static let poi_maghain_aboth_synagogue_128 = POI(
         name: "Maghain Aboth Synagogue",
         desc: "The oldest synagogue in Southeast Asia.",
@@ -1637,7 +1637,7 @@ struct SeedData {
         district: bugis,
         categories: [culture]
     )
-
+    
     static let poi_clarke_quay_129 = POI(
         name: "Clarke Quay",
         desc: "The main riverside hub for dining, bars, and nightlife.",
@@ -1648,7 +1648,7 @@ struct SeedData {
         district: downtown,
         categories: [metro]
     )
-
+    
     static let poi_asian_civilisations_museum_130 = POI(
         name: "Asian Civilisations Museum",
         desc: "Explores the artistic heritage of Asia along the Singapore River.",
@@ -1659,7 +1659,7 @@ struct SeedData {
         district: nil,
         categories: [culture]
     )
-
+    
     static let poi_bollywood_farms_131 = POI(
         name: "Bollywood Farms",
         desc: "A rustic organic farm and bistro offering farm-to-table dining and educational tours.",
@@ -1670,7 +1670,7 @@ struct SeedData {
         district: lim_chu_kang,
         categories: [nature]
     )
-
+    
     static let poi_jurong_frog_farm_132 = POI(
         name: "Jurong Frog Farm",
         desc: "A unique heritage farm specializing in American Bullfrogs with tours and feeding sessions.",
@@ -1681,7 +1681,7 @@ struct SeedData {
         district: lim_chu_kang,
         categories: [metro]
     )
-
+    
     static let poi_kranji_war_memorial_133 = POI(
         name: "Kranji War Memorial",
         desc: "A peaceful hillside memorial dedicated to those who died in the line of duty during WWII.",
@@ -1692,7 +1692,7 @@ struct SeedData {
         district: lim_chu_kang,
         categories: [culture]
     )
-
+    
     static let poi_punggol_settlement_134 = POI(
         name: "Punggol Settlement",
         desc: "A scenic waterfront destination with a variety of seafood restaurants and bars.",
@@ -1703,7 +1703,7 @@ struct SeedData {
         district: punggol,
         categories: [culinary]
     )
-
+    
     static let poi_loris_buangkok_135 = POI(
         name: "Loris Buangkok",
         desc: "Singapore's last remaining kampong (traditional village) offering a glimpse of the past.",
@@ -1714,7 +1714,7 @@ struct SeedData {
         district: punggol,
         categories: [culture]
     )
-
+    
     static let poi_waterway_point_136 = POI(
         name: "Waterway Point",
         desc: "A major suburban shopping mall integrated with the Punggol Waterway.",
@@ -1725,7 +1725,7 @@ struct SeedData {
         district: punggol,
         categories: [metro]
     )
-
+    
     static let poi_punggol_container_park_137 = POI(
         name: "Punggol Container Park",
         desc: "A trendy lifestyle hub made of shipping containers featuring unique eateries.",
@@ -1736,7 +1736,7 @@ struct SeedData {
         district: punggol,
         categories: [culinary]
     )
-
+    
     static let poi_sunrise_bridge_138 = POI(
         name: "Sunrise Bridge",
         desc: "An iconic bridge on the Punggol Waterway, perfect for watching the early morning sun.",
@@ -1747,7 +1747,7 @@ struct SeedData {
         district: punggol,
         categories: [nature]
     )
-
+    
     static let poi_gelam_gallery_139 = POI(
         name: "Gelam Gallery",
         desc: "Singapore’s first outdoor art gallery featuring murals and framed art in back lanes.",
@@ -1758,7 +1758,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [culture]
     )
-
+    
     static let poi_vintage_camera_museum_140 = POI(
         name: "Vintage Camera Museum",
         desc: "A unique museum shaped like a camera, housing over 1,000 vintage photography pieces.",
@@ -1769,7 +1769,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [metro]
     )
-
+    
     static let poi_bussorah_street_141 = POI(
         name: "Bussorah Street",
         desc: "A pedestrianized palm-lined street leading to Sultan Mosque, filled with shops and cafes.",
@@ -1780,7 +1780,7 @@ struct SeedData {
         district: kampong_glam,
         categories: [metro]
     )
-
+    
     static let poi_bugis_street_market_142 = POI(
         name: "Bugis Street Market",
         desc: "The largest and oldest Anglican cathedral in Singapore, featuring stunning neo-Gothic architecture and a brilliant white facade.",
@@ -1791,7 +1791,7 @@ struct SeedData {
         district: bugis,
         categories: [metro]
     )
-
+    
     static let poi_indian_heritage_centre_143 = POI(
         name: "Indian Heritage Centre",
         desc: "A sustainable heritage institution showcasing the history and culture of the Indian diaspora.",
@@ -1802,7 +1802,7 @@ struct SeedData {
         district: little_india,
         categories: [culture]
     )
-
+    
     static let poi_tan_teng_niah_house_144 = POI(
         name: "Tan Teng Niah House",
         desc: "The last surviving Chinese villa in Little India, famous for its extremely colorful facade.",
@@ -1813,7 +1813,7 @@ struct SeedData {
         district: little_india,
         categories: [culture]
     )
-
+    
     static let poi_little_india_arcade_145 = POI(
         name: "Little India Arcade",
         desc: "A cluster of conserved shophouses offering traditional snacks, henna art, and textiles.",
@@ -1824,7 +1824,7 @@ struct SeedData {
         district: little_india,
         categories: [metro]
     )
-
+    
     static let poi_st_andrew_s_cathedral_146 = POI(
         name: "St. Andrew’s Cathedral",
         desc: "It offers a high-energy shopping experience that blends traditional bazaar vibes with modern youth culture.",
@@ -1835,7 +1835,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_peranakan_museum_147 = POI(
         name: "Peranakan Museum",
         desc: "Explores the culture and heritage of Peranakan communities in Southeast Asia.",
@@ -1846,7 +1846,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_fort_canning_park_148 = POI(
         name: "Fort Canning Park",
         desc: "An iconic hilltop landmark filled with WWII history and lush recreational space.",
@@ -1857,7 +1857,7 @@ struct SeedData {
         district: civic_district,
         categories: [nature]
     )
-
+    
     static let poi_the_arts_house_149 = POI(
         name: "The Arts House",
         desc: "A multidisciplinary arts centre occupying the building of Singapore's first Parliament.",
@@ -1868,7 +1868,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_civil_defence_museum_150 = POI(
         name: "Civil Defence Museum",
         desc: "Housed in the oldest fire station, showcasing the history of firefighting in Singapore.",
@@ -1879,7 +1879,7 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static let poi_national_archives_151 = POI(
         name: "National Archives",
         desc: "A heritage building housing the collective memory and historical records of the nation.",
@@ -1890,39 +1890,39 @@ struct SeedData {
         district: civic_district,
         categories: [culture]
     )
-
+    
     static var poiData: [POI] {
         return [
-                poi_national_orchird_garden_2, poi_macritchie_reservoir_3, poi_henderson_waves_4, poi_sands_skypark_observation_deck_5, poi_art_science_museum_6,
-                poi_joo_chiat_7, poi_sungei_buloh_wetland_reserve_8, poi_east_coast_park_9, poi_ion_orchard_10, poi_mustafa_centre_11,
-                poi_bugis_junction_12, poi_wings_of_time_13, poi_duck_tours_14, poi_the_hive_15, poi_marina_barrage_16,
-                poi_science_centre_17, poi_bukit_timah_nature_reserve_18, poi_punggol_waterway_park_19, poi_victoria_theatre_20, poi_spectra_light_water_show_21,
-                poi_the_intan_22, poi_snow_city_23, poi_chinese_garden_24, poi_gardens_by_the_bay_25, poi_buddha_tooth_relic_26,
-                poi_marina_bay_sands_27, poi_merlion_park_28, poi_universal_studios_29, poi_jewel_changi_airport_30, poi_clarke_quay_31,
-                poi_botanic_gardens_32, poi_chinatown_market_33, poi_little_india_34, poi_artscience_museum_35, poi_national_gallery_36,
-                poi_night_safari_37, poi_haji_lane_38, poi_singapore_flyer_39, poi_sentosa_luge_40, poi_lau_pa_sat_41,
-                poi_henderson_waves_42, poi_s_e_a_aquarium_43, poi_orchard_road_44, poi_fort_canning_park_45, poi_asian_civ_museum_46,
-                poi_esplanade_47, poi_mount_faber_park_48, poi_national_museum_49, poi_river_wonders_50, poi_tiong_bahru_51,
-                poi_suntec_fountain_52, poi_palawan_beach_53, poi_haw_par_villa_54, poi_bird_paradise_55, poi_singapore_zoo_56,
-                poi_macritchie_57, poi_helix_bridge_58, poi_peranakan_museum_59, poi_sri_mariamman_60, poi_sultan_mosque_61,
-                poi_adventure_cove_62, poi_newton_food_centre_63, poi_emerald_hill_64, poi_library_orchard_65, poi_old_hill_police_stn_66,
-                poi_siloso_beach_67, poi_madame_tussauds_68, poi_chijmes_69, poi_southern_ridges_70, poi_vivocity_sky_park_71,
-                poi_jurong_lake_garden_72, poi_maxwell_food_ctr_73, poi_skyhelix_sentosa_74, poi_plaza_singapura_75, poi_pulau_ubin_76,
-                poi_arab_street_77, poi_tekka_centre_78, poi_rail_corridor_79, poi_singapore_cable_car_80, poi_tanjong_beach_81,
-                poi_wild_wild_wet_82, poi_lee_kong_chian_nat_hist_museum_83, poi_mint_museum_of_toys_84, poi_geylang_serai_market_85, poi_fort_siloso_86,
-                poi_chomp_chomp_food_centre_87, poi_lazarus_island_88, poi_changi_chapel_museum_89, poi_coney_island_90, poi_the_oval_seletar_91,
-                poi_malay_heritage_centre_92, poi_trick_eye_museum_93, poi_kranji_marshes_94, poi_kampong_lorong_buangkok_95, poi_east_coast_lagoon_food_village_96,
-                poi_dempsey_hill_97, poi_funan_mall_98, poi_battlebox_99, poi_national_design_centre_100, poi_istana_heritage_gallery_101,
-                poi_armenian_church_102, poi_hortpark_103, poi_woodlands_waterfront_jetty_104, poi_lower_peirce_reservoir_105, poi_upper_seletar_reservoir_106,
-                poi_chesnut_nature_park_107, poi_labrador_nature_reserve_108, poi_pasir_ris_park_109, poi_hydrodash_110, poi_jewel_canopy_park_111,
-                poi_changi_experience_studio_112, poi_air_force_museum_113, poi_science_centre_singapore_114, poi_keppel_bay_115, poi_design_orchard_116,
-                poi_city_square_mall_117, poi_millenia_walk_118, poi_one_raffles_place_119, poi_zion_riverside_food_centre_120, poi_old_airport_road_food_centre_121,
-                poi_satay_by_the_bay_122, poi_amoy_street_food_centre_123, poi_ghim_moh_market_124, poi_bright_hill_temple_125, poi_kwan_im_thong_hood_cho_126,
-                poi_sri_krishnan_temple_127, poi_maghain_aboth_synagogue_128, poi_clarke_quay_129, poi_asian_civilisations_museum_130, poi_bollywood_farms_131,
-                poi_jurong_frog_farm_132, poi_kranji_war_memorial_133, poi_punggol_settlement_134, poi_loris_buangkok_135, poi_waterway_point_136,
-                poi_punggol_container_park_137, poi_sunrise_bridge_138, poi_gelam_gallery_139, poi_vintage_camera_museum_140, poi_bussorah_street_141,
-                poi_bugis_street_market_142, poi_indian_heritage_centre_143, poi_tan_teng_niah_house_144, poi_little_india_arcade_145, poi_st_andrew_s_cathedral_146,
-                poi_peranakan_museum_147, poi_fort_canning_park_148, poi_the_arts_house_149, poi_civil_defence_museum_150, poi_national_archives_151
+            poi_national_orchird_garden_2, poi_macritchie_reservoir_3, poi_henderson_waves_4, poi_sands_skypark_observation_deck_5, poi_art_science_museum_6,
+            poi_joo_chiat_7, poi_sungei_buloh_wetland_reserve_8, poi_east_coast_park_9, poi_ion_orchard_10, poi_mustafa_centre_11,
+            poi_bugis_junction_12, poi_wings_of_time_13, poi_duck_tours_14, poi_the_hive_15, poi_marina_barrage_16,
+            poi_science_centre_17, poi_bukit_timah_nature_reserve_18, poi_punggol_waterway_park_19, poi_victoria_theatre_20, poi_spectra_light_water_show_21,
+            poi_the_intan_22, poi_snow_city_23, poi_chinese_garden_24, poi_gardens_by_the_bay_25, poi_buddha_tooth_relic_26,
+            poi_marina_bay_sands_27, poi_merlion_park_28, poi_universal_studios_29, poi_jewel_changi_airport_30, poi_clarke_quay_31,
+            poi_botanic_gardens_32, poi_chinatown_market_33, poi_little_india_34, poi_artscience_museum_35, poi_national_gallery_36,
+            poi_night_safari_37, poi_haji_lane_38, poi_singapore_flyer_39, poi_sentosa_luge_40, poi_lau_pa_sat_41,
+            poi_henderson_waves_42, poi_s_e_a_aquarium_43, poi_orchard_road_44, poi_fort_canning_park_45, poi_asian_civ_museum_46,
+            poi_esplanade_47, poi_mount_faber_park_48, poi_national_museum_49, poi_river_wonders_50, poi_tiong_bahru_51,
+            poi_suntec_fountain_52, poi_palawan_beach_53, poi_haw_par_villa_54, poi_bird_paradise_55, poi_singapore_zoo_56,
+            poi_macritchie_57, poi_helix_bridge_58, poi_peranakan_museum_59, poi_sri_mariamman_60, poi_sultan_mosque_61,
+            poi_adventure_cove_62, poi_newton_food_centre_63, poi_emerald_hill_64, poi_library_orchard_65, poi_old_hill_police_stn_66,
+            poi_siloso_beach_67, poi_madame_tussauds_68, poi_chijmes_69, poi_southern_ridges_70, poi_vivocity_sky_park_71,
+            poi_jurong_lake_garden_72, poi_maxwell_food_ctr_73, poi_skyhelix_sentosa_74, poi_plaza_singapura_75, poi_pulau_ubin_76,
+            poi_arab_street_77, poi_tekka_centre_78, poi_rail_corridor_79, poi_singapore_cable_car_80, poi_tanjong_beach_81,
+            poi_wild_wild_wet_82, poi_lee_kong_chian_nat_hist_museum_83, poi_mint_museum_of_toys_84, poi_geylang_serai_market_85, poi_fort_siloso_86,
+            poi_chomp_chomp_food_centre_87, poi_lazarus_island_88, poi_changi_chapel_museum_89, poi_coney_island_90, poi_the_oval_seletar_91,
+            poi_malay_heritage_centre_92, poi_trick_eye_museum_93, poi_kranji_marshes_94, poi_kampong_lorong_buangkok_95, poi_east_coast_lagoon_food_village_96,
+            poi_dempsey_hill_97, poi_funan_mall_98, poi_battlebox_99, poi_national_design_centre_100, poi_istana_heritage_gallery_101,
+            poi_armenian_church_102, poi_hortpark_103, poi_woodlands_waterfront_jetty_104, poi_lower_peirce_reservoir_105, poi_upper_seletar_reservoir_106,
+            poi_chesnut_nature_park_107, poi_labrador_nature_reserve_108, poi_pasir_ris_park_109, poi_hydrodash_110, poi_jewel_canopy_park_111,
+            poi_changi_experience_studio_112, poi_air_force_museum_113, poi_science_centre_singapore_114, poi_keppel_bay_115, poi_design_orchard_116,
+            poi_city_square_mall_117, poi_millenia_walk_118, poi_one_raffles_place_119, poi_zion_riverside_food_centre_120, poi_old_airport_road_food_centre_121,
+            poi_satay_by_the_bay_122, poi_amoy_street_food_centre_123, poi_ghim_moh_market_124, poi_bright_hill_temple_125, poi_kwan_im_thong_hood_cho_126,
+            poi_sri_krishnan_temple_127, poi_maghain_aboth_synagogue_128, poi_clarke_quay_129, poi_asian_civilisations_museum_130, poi_bollywood_farms_131,
+            poi_jurong_frog_farm_132, poi_kranji_war_memorial_133, poi_punggol_settlement_134, poi_loris_buangkok_135, poi_waterway_point_136,
+            poi_punggol_container_park_137, poi_sunrise_bridge_138, poi_gelam_gallery_139, poi_vintage_camera_museum_140, poi_bussorah_street_141,
+            poi_bugis_street_market_142, poi_indian_heritage_centre_143, poi_tan_teng_niah_house_144, poi_little_india_arcade_145, poi_st_andrew_s_cathedral_146,
+            poi_peranakan_museum_147, poi_fort_canning_park_148, poi_the_arts_house_149, poi_civil_defence_museum_150, poi_national_archives_151
         ]
     }
 }
