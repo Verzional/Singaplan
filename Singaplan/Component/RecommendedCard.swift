@@ -48,6 +48,8 @@ struct RecommendedCard: View {
     let result: SearchResult
     var onAdd: (() -> Void)? = nil
     
+    @State private var isAdded: Bool = false
+    
     init(district: District, onAdd: (() -> Void)? = nil) {
         self.result = .district(district)
         self.onAdd = onAdd
@@ -122,13 +124,13 @@ extension RecommendedCard {
         let categories = result.categories
         let visible = categories.prefix(1)
         let extraCount = max(categories.count - visible.count, 0)
-
+        
         return HStack(spacing: 0) {
             ForEach(Array(visible)) { category in
                 CategoryCapsule(child: category, isSelected: false)
                     .scaleEffect(0.8)
             }
-
+            
             if extraCount > 0 {
                 HStack(spacing: 4) {
                     Text("+ \(extraCount)")
@@ -140,7 +142,7 @@ extension RecommendedCard {
                 .background(
                     Capsule().fill(Color.blue.opacity(0.12))
                 )
-//                .scaleEffect(0.8, anchor: .leading)
+                //                .scaleEffect(0.8, anchor: .leading)
             }
         }
         .padding(.top, 4)
@@ -169,28 +171,33 @@ extension RecommendedCard {
     
     private var footerSection: some View {
         HStack(alignment: .bottom) {
-//            VStack(alignment: .leading, spacing: 4) {
-////                Text(result.categories.isEmpty ? "" : "Options:")
-////                    .font(.system(size: 11, weight: .semibold))
-////                    .foregroundColor(.secondary)
-//                
-//                HStack(spacing: 10) {
-//                    if case .district = result {
-//                        transportItem(icon: "building.2.fill", label: "District")
-//                    } else {
-//                        transportItem(icon: "mappin.circle.fill", label: "POI")
-//                    }
-//                }
-//            }
+            //            VStack(alignment: .leading, spacing: 4) {
+            ////                Text(result.categories.isEmpty ? "" : "Options:")
+            ////                    .font(.system(size: 11, weight: .semibold))
+            ////                    .foregroundColor(.secondary)
+            //
+            //                HStack(spacing: 10) {
+            //                    if case .district = result {
+            //                        transportItem(icon: "building.2.fill", label: "District")
+            //                    } else {
+            //                        transportItem(icon: "mappin.circle.fill", label: "POI")
+            //                    }
+            //                }
+            //            }
             
             Spacer()
             
             Button {
+                guard !isAdded else { return }
                 onAdd?()
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                    isAdded = true
+                }
             } label: {
-                Image(systemName: "plus.circle.fill")
+                Image(systemName: isAdded ? "checkmark.circle.fill" : "plus.circle.fill")
                     .font(.system(size: 32))
-                    .foregroundColor(.blue)
+                    .foregroundColor(isAdded ? .green : .blue)
+                    .scaleEffect(isAdded ? 1.1 : 1.0)
             }
             .buttonStyle(.plain)
         }
