@@ -31,6 +31,14 @@ struct ContentView: View {
                 for priority in SeedData.priorityData {
                     modelContext.insert(priority)
                 }
+                
+                for district in SeedData.districtData {
+                    modelContext.insert(district)
+                }
+                
+                for poi in SeedData.poiData {
+                    modelContext.insert(poi)
+                }
 
                 try? modelContext.save()
             }
