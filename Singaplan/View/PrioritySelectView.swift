@@ -161,17 +161,13 @@ extension PrioritySelectView {
     fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
-                Button {
+                Button("Cancel") {
                     dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
                 }
             }
             ToolbarItem(placement: .primaryAction) {
-                Button {
+                Button("Next") {
                     isShowingModal = true
-                } label: {
-                    Image(systemName: "chevron.right")
                 }
             }
         }

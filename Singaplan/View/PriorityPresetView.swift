@@ -71,7 +71,7 @@ extension PriorityPresetView {
 
     fileprivate var continueButton: some View {
         NavigationLink {
-            RecommendView()
+            RecommendedDistrictView()
         } label: {
             Text("Continue")
         }
