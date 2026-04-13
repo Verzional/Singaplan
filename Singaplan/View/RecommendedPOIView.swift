@@ -6,13 +6,73 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RecommendedPOIView: View {
+    // MARK: - File Properties
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @Environment(FlowManager.self) private var flowManager
+    
+    @State private var topPOIs: [POI] = []
+    
+    // MARK: - Body
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            VStack(spacing: 16) {
+                if topPOIs.isEmpty {
+                    ProgressView("Finding the best spots...")
+                        .padding(.top, 40)
+                } else {
+                    ForEach(topPOIs) { poi in
+                        RecommendedCard(poi: poi, onAdd: {
+                            guard let targetDay = flowManager.targetDay else { return }
+                            let service = ItineraryService(modelContext: modelContext)
+                            service.addPOI(poi, to: targetDay)
+                        })
+                    }
+                }
+            }
+            .padding(.vertical)
+        }
+        .navigationTitle("Top POIs")
+        .onAppear {
+            calculatePOIs()
+        }
+        .toolbar {
+            navigationToolbar
+        }
     }
 }
 
-#Preview {
-    RecommendedPOIView()
+// MARK: - View Components
+extension RecommendedPOIView {
+    fileprivate var navigationToolbar: some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            Button {
+                
+            } label: {
+                Image(systemName: "checkmark")
+            }
+        }
+    }
+}
+
+// MARK: - View Functions
+extension RecommendedPOIView {
+    fileprivate func calculatePOIs() {
+        guard let categoryPreset = flowManager.selectedCategoryPreset,
+              let priorityPreset = flowManager.selectedPriorityPreset,
+              let district = flowManager.selectedDistrict else {
+            print("Missing data in flow manager!")
+            return
+        }
+        
+        let service = ItineraryService(modelContext: modelContext)
+        topPOIs = service.getTopRecommendedPOIs(
+            for: district,
+            categoryPreset: categoryPreset,
+            priorityPreset: priorityPreset
+        )
+    }
 }

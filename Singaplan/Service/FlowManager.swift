@@ -15,10 +15,12 @@ class FlowManager {
     var selectedCategoryPreset: CategoryPreset?
     var selectedPriorityPreset: PriorityPreset?
     var targetDay: ItineraryDay?
+    var selectedDistrict: District?
     
     func reset() {
         selectedCategoryPreset = nil
         selectedPriorityPreset = nil
         targetDay = nil
+        selectedDistrict = nil
     }
 }

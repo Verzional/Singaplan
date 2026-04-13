@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - Search Result Wrapper
+// MARK: - Wrapper
 enum SearchResult: Identifiable {
     case district(District)
     case poi(POI)
@@ -46,22 +46,26 @@ enum SearchResult: Identifiable {
 // MARK: - View
 struct RecommendedCard: View {
     let result: SearchResult
+    let isSelected: Bool
     var onAdd: (() -> Void)? = nil
-    
+
     @State private var isAdded: Bool = false
     
-    init(district: District, onAdd: (() -> Void)? = nil) {
+    init(district: District, isSelected: Bool = false, onAdd: (() -> Void)? = nil) {
         self.result = .district(district)
+        self.isSelected = isSelected
         self.onAdd = onAdd
     }
     
-    init(poi: POI, onAdd: (() -> Void)? = nil) {
+    init(poi: POI, isSelected: Bool = false, onAdd: (() -> Void)? = nil) {
         self.result = .poi(poi)
+        self.isSelected = isSelected
         self.onAdd = onAdd
     }
     
-    init(result: SearchResult, onAdd: (() -> Void)? = nil) {
+    init(result: SearchResult, isSelected: Bool = false, onAdd: (() -> Void)? = nil) {
         self.result = result
+        self.isSelected = isSelected
         self.onAdd = onAdd
     }
     
@@ -78,10 +82,20 @@ struct RecommendedCard: View {
             .padding(12)
         }
         .frame(height: 180)
-        .background(Color.white)
-        .cornerRadius(25)
+        .background {
+            RoundedRectangle(cornerRadius: 25)
+                .fill(Color.white)
+                .overlay {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.blue, lineWidth: 2)
+                    }
+                }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 25))
         .shadow(color: Color.black.opacity(0.08), radius: 10, x: 0, y: 5)
         .padding(.horizontal)
+        .animation(.snappy, value: isSelected)
     }
 }
 
