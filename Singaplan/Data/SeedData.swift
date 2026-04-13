@@ -101,4 +101,16 @@ struct SeedData {
     static var priorityData: [Priority] {
         return experiences + accessibility
     }
+    
+    //MARK: - Districts & POI
+//    static let districts: [District] = [
+//        District(
+//            name: "National Orchid Garden",
+//            desc: "",
+//            address: "",
+//            
+//        ),
+//       
+//    ]
+    
 }
