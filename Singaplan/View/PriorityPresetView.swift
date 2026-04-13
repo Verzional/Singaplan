@@ -11,6 +11,7 @@ import SwiftUI
 struct PriorityPresetView: View {
     // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
+    @Environment(FlowManager.self) private var flowManager
 
     @State private var presetToEdit: PriorityPreset?
     @State private var selectedPreset: UUID?
@@ -61,6 +62,7 @@ extension PriorityPresetView {
                         )
                         .onTapGesture {
                             selectedPreset = preset.id
+                            flowManager.selectedPriorityPreset = preset
                         }
                     }
                 }
@@ -94,31 +96,31 @@ extension PriorityPresetView {
 }
 
 // MARK: - Preview
-#Preview {
-    let container: ModelContainer = {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-
-        let container = try! ModelContainer(
-            for: PriorityPreset.self, Priority.self, configurations: config)
-
-        let context = container.mainContext
-
-        for priority in SeedData.priorityData {
-            context.insert(priority)
-        }
-
-        let selectedPriorities = Array(SeedData.priorityData.prefix(3))
-
-        let dummyPreset = PriorityPreset(
-            title: "Budget Oriented",
-            desc: "Essential items only",
-            priorities: selectedPriorities
-        )
-        context.insert(dummyPreset)
-
-        return container
-    }()
-
-    PriorityPresetView()
-        .modelContainer(container)
-}
+//#Preview {
+//    let container: ModelContainer = {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//
+//        let container = try! ModelContainer(
+//            for: PriorityPreset.self, Priority.self, configurations: config)
+//
+//        let context = container.mainContext
+//
+//        for priority in SeedData.priorityData {
+//            context.insert(priority)
+//        }
+//
+//        let selectedPriorities = Array(SeedData.priorityData.prefix(3))
+//
+//        let dummyPreset = PriorityPreset(
+//            title: "Budget Oriented",
+//            desc: "Essential items only",
+//            priorities: selectedPriorities
+//        )
+//        context.insert(dummyPreset)
+//
+//        return container
+//    }()
+//
+//    PriorityPresetView()
+//        .modelContainer(container)
+//}

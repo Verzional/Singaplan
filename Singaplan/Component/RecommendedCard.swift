@@ -26,11 +26,11 @@ enum SearchResult: Identifiable {
         }
     }
     
-     var imageName: String {
-         switch self {
-         case .district(let d): return d.photoUrls.first ?? ""
-         case .poi(let p): return p.photoUrls.first ?? ""
-         }
+    var imageName: String {
+        switch self {
+        case .district(let d): return d.photoUrls.first ?? ""
+        case .poi(let p): return p.photoUrls.first ?? ""
+        }
     }
     
     var categories: [Category] {
@@ -47,6 +47,21 @@ enum SearchResult: Identifiable {
 struct RecommendedCard: View {
     let result: SearchResult
     var onAdd: (() -> Void)? = nil
+    
+    init(district: District, onAdd: (() -> Void)? = nil) {
+        self.result = .district(district)
+        self.onAdd = onAdd
+    }
+    
+    init(poi: POI, onAdd: (() -> Void)? = nil) {
+        self.result = .poi(poi)
+        self.onAdd = onAdd
+    }
+    
+    init(result: SearchResult, onAdd: (() -> Void)? = nil) {
+        self.result = result
+        self.onAdd = onAdd
+    }
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -77,7 +92,7 @@ extension RecommendedCard {
                     .resizable()
                     .scaledToFill()
             } else {
-                Color.gray.opacity(0.3) // Fallback if no image exists
+                Color.gray.opacity(0.3)
             }
         }
         .frame(width: 135)

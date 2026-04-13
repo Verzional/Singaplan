@@ -62,6 +62,7 @@ struct ContentView: View {
         configurations: config
     )
     
-    return ContentView()
+    ContentView()
         .modelContainer(container)
+        .environment(FlowManager())
 }

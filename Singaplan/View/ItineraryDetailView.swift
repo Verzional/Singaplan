@@ -22,6 +22,7 @@ struct ItineraryDetailView: View {
     // MARK: State Variables
     @State private var viewMode: ItineraryViewMode = .grid
     @State private var expandedDays: Set<UUID> = []
+    @State private var flowManager = FlowManager()
     
     // filter: Ambil hari miliki folder ini
     var filteredDays: [ItineraryDay] {
@@ -41,7 +42,11 @@ struct ItineraryDetailView: View {
         .listStyle(.plain)
         .navigationTitle(folder.folderName)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar { toolbarContent }
+        .toolbar {
+            toolbarContent
+        }
+        .environment(flowManager)
+        
     }
 }
 
