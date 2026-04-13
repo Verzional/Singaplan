@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct TravelPointDetailView: View {
-    let district: District
+    var district: District? = nil
+    var poi: POI? = nil
     @Environment(\.presentationMode) var presentationMode
     
     // Tracks which priority cards are currently expanded
@@ -17,8 +18,12 @@ struct TravelPointDetailView: View {
                         infoSection
                         Divider()
                         categorySection
-                        Divider()
-                        prioritySection
+                        let activePriorities = district?.priorities ?? poi?.priorities ?? []
+                        //if the poi has zero priorities
+                        if !activePriorities.isEmpty {
+                            Divider()
+                            prioritySection
+                        }
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 30)
@@ -80,7 +85,9 @@ struct TravelPointDetailView: View {
     private var headerSection: some View {
         ZStack(alignment: .top) {
             TabView {
-                ForEach(district.photoUrls, id: \.self) { imageName in
+                let activePhotos = district?.photoUrls ?? poi?.photoUrls ?? []
+                
+                ForEach(activePhotos, id: \.self) { imageName in
                     Image(imageName)
                         .resizable()
                         .scaledToFill()
@@ -95,35 +102,33 @@ struct TravelPointDetailView: View {
     // MARK: - 2. Info Section
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // Title & Open Data
-            VStack(alignment: .leading, spacing: 8) {
-                Text(district.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                HStack(spacing: 4) {
-                    Text("Open")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.green)
-                    Text("- Closes \(district.closeTime ?? "")")
-                        .foregroundColor(.secondary)
-                }
-                .font(.subheadline)
-            }
-            
-            // Location & Description
-            VStack(alignment: .leading, spacing: 8) {
+            // IF DISTRICT IS CHOSEN:
+            if let currentDistrict = district {
+                Text(currentDistrict.name).font(.title).fontWeight(.bold)
                 HStack {
-                    Image(systemName: "mappin.and.ellipse")
-                        .foregroundColor(.red)
-                    Text(district.address)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                    Image(systemName: "mappin.and.ellipse").foregroundColor(.red)
+                    Text(currentDistrict.address).font(.subheadline).foregroundColor(.secondary)
                 }
-                Text(district.desc)
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .lineLimit(3)
+                Text(currentDistrict.desc).font(.body).foregroundColor(.secondary).lineLimit(3)
+                
+            // IF POI IS CHOSEN:
+            } else if let currentPOI = poi {
+                Text(currentPOI.name).font(.title).fontWeight(.bold)
+                
+                // checks if the POI has open and close time
+                if let open = currentPOI.openTime, let close = currentPOI.closeTime {
+                    HStack(spacing: 4) {
+                        Text("Open").fontWeight(.semibold).foregroundColor(.green)
+                        Text("- Closes \(close)").foregroundColor(.secondary)
+                    }
+                    .font(.subheadline)
+                }
+                
+                HStack {
+                    Image(systemName: "mappin.and.ellipse").foregroundColor(.red)
+                    Text(currentPOI.address).font(.subheadline).foregroundColor(.secondary)
+                }
+                Text(currentPOI.desc).font(.body).foregroundColor(.secondary).lineLimit(3)
             }
         }
     }
@@ -133,10 +138,10 @@ struct TravelPointDetailView: View {
             Text("Category")
                 .font(.headline)
                 .fontWeight(.bold)
-            
+            let activeCategories = district?.categories ?? poi?.categories ?? []
             // FlowLayout so capsules size naturally and wrap gracefully
             FlowLayout() {
-                ForEach(district.categories ?? []) { category in
+                ForEach(activeCategories) { category in
                     CategoryCapsule(
                         child: category,
                         isSelected: false
@@ -174,8 +179,9 @@ struct TravelPointDetailView: View {
                         .padding(.horizontal)
                     
                     VStack(alignment: .leading, spacing: 12) {
+                        let activePriorities = district?.priorities ?? poi?.priorities ?? [] //checks district, if its empty, it checks POI, if both empty then blank
                         // Loop through all priorities and show them as plain text rows
-                        ForEach(district.priorities ?? []) { priority in
+                        ForEach(activePriorities) { priority in
                             makePriorityCard(for: priority)
                         }
                     }
@@ -225,12 +231,12 @@ struct TravelPointDetailView: View {
     // MARK: - Preview Provider
     struct TravelPointDetailView_Previews: PreviewProvider {
         static var previews: some View {
+            
+            // --- 1. MOCK DISTRICT ---
             let mockDistrict = District(
                 name: "Sentosa Island",
                 address: "Sentosa Gateway, Singapore",
                 desc: "A sunny island resort in Singapore, home to themed attractions, sandy beaches, rainforests, and amazing dining experiences.",
-                openTime: "09:00 am",
-                closeTime: "22:00 pm",
                 photoUrls: ["sentosa", "sentosa-2", "sentosa-3"],
                 priorities: [
                     Priority(
@@ -238,7 +244,7 @@ struct TravelPointDetailView: View {
                         desc: "Overall cost",
                         segments: [
                             PrioritySegment(label: "$", weight: 0.1),
-                            PrioritySegment(label: "$$", weight: 0.5), // Automatically selected because default weight is 0.5!
+                            PrioritySegment(label: "$$", weight: 0.5),
                             PrioritySegment(label: "$$$", weight: 1.0)
                         ]
                     ),
@@ -247,7 +253,7 @@ struct TravelPointDetailView: View {
                         desc: "",
                         segments: [
                             PrioritySegment(label: "Include Fees", weight: 0.1),
-                            PrioritySegment(label: "No Fees Only", weight: 0.5) //should be 1.0 but default is set to 0.5, so just temporary
+                            PrioritySegment(label: "No Fees Only", weight: 0.5)
                         ]
                     ),
                     SeedData.experiences[0], // Popularity
@@ -262,13 +268,45 @@ struct TravelPointDetailView: View {
                     Category(title: "Family", icon: "figure.2.and.child.holdinghands"),
                     Category(title: "Beach", icon: "sun.max.fill"),
                     Category(title: "Attraction", icon: "fork.knife.circle.fill")
-                ],
+                ]
             )
-            TravelPointDetailView(district: mockDistrict)
+            
+            // --- 2. MOCK POI ---
+            let mockPOI = POI(
+                name: "Universal Studios Singapore",
+                desc: "Go beyond the screen and Ride The Movies at Universal Studios Singapore.",
+                address: "8 Sentosa Gateway, Singapore",
+                photoUrls: ["universal_studios"],
+                openTime: "10:00 am", // ✅ POI gets the times!
+                closeTime: "19:00 pm",
+                // Note: I left photo nil here, but you can pass a dummy Photo object if you have one!
+                priorities: [
+                    SeedData.experiences[0], // Popularity
+                    SeedData.experiences[1], // Proximity
+                    SeedData.experiences[2], // Pace
+                    SeedData.accessibility[0], // Mobility
+                    SeedData.accessibility[1], // Transport
+                    SeedData.accessibility[2], // Walkability
+                ],
+                categories: [
+                    Category(title: "Attraction", icon: "star.fill")
+                ]
+            )
+            
+            // --- 3. SHOW BOTH IN PREVIEW ---
+            Group {
+//                 Previews the District version
+                TravelPointDetailView(district: mockDistrict)
+                    .previewDisplayName("District View")
+                
+                // Previews the POI version
+                TravelPointDetailView(poi: mockPOI)
+                    .previewDisplayName("POI View")
+            }
         }
     }
 }
-
+//
 //#Preview {
 //    TravelPointDetailView()
 //}

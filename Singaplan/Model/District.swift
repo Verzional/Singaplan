@@ -14,8 +14,6 @@ final class District {
     var name: String
     var address: String
     var desc: String
-    var openTime: String?
-    var closeTime: String?
     var photoUrls: [String]
     
     @Relationship(deleteRule: .nullify)
@@ -32,8 +30,6 @@ final class District {
         name: String,
         address: String,
         desc: String,
-        openTime: String? = nil,
-        closeTime: String? = nil,
         photoUrls: [String],
         priorities: [Priority]? = nil,
         categories: [Category]? = nil
@@ -42,9 +38,7 @@ final class District {
         self.name = name
         self.address = address
         self.desc = desc
-        self.openTime = openTime
         self.photoUrls = photoUrls
-        self.closeTime = closeTime
         self.priorities = priorities
         self.categories = categories
     }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecommendedDistrictView: View {
     var body: some View {
-        RecommendedCard(result: <#T##SearchResult#>)
+//        RecommendedCard(result: <#T##SearchResult#>)
     }
 }
 

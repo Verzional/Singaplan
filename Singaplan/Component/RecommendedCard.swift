@@ -8,7 +8,7 @@ enum SearchResult: Identifiable {
     var id: String {
         switch self {
         case .district(let d): return d.id.uuidString
-        case .poi(let p): return p.id
+        case .poi(let p): return p.id.uuidString
         }
     }
     
@@ -26,19 +26,19 @@ enum SearchResult: Identifiable {
         }
     }
     
-    var imageName: String {
-        switch self {
-        case .district(let d): return d.photoUrls.first ?? ""
-        case .poi(let p): return p.photos.first?.url ?? ""
-        }
+     var imageName: String {
+         switch self {
+         case .district(let d): return d.photoUrls.first ?? ""
+         case .poi(let p): return p.photoUrls.first ?? ""
+         }
     }
     
     var categories: [Category] {
         switch self {
-        case .district(let d): return d.categories ?? []
+        case .district(let d):
+            return d.categories ?? []
         case .poi(let p):
-            if let sub = p.subcategory { return [sub] }
-            return []
+            return p.categories ?? []
         }
     }
 }
@@ -121,7 +121,7 @@ extension RecommendedCard {
         .font(.system(size: 14))
         .foregroundColor(.secondary)
     }
-
+    
     private var priceRatingSection: some View {
         HStack(spacing: 2) {
             ForEach(0..<5) { index in
@@ -132,7 +132,7 @@ extension RecommendedCard {
         }
         .padding(.bottom, 2)
     }
-
+    
     private var footerSection: some View {
         HStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 4) {
@@ -161,7 +161,7 @@ extension RecommendedCard {
             .buttonStyle(.plain)
         }
     }
-
+    
     private func transportItem(icon: String, label: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
@@ -171,3 +171,4 @@ extension RecommendedCard {
         .foregroundColor(.primary)
     }
 }
+

@@ -16,10 +16,10 @@ struct DestinationCard: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             
-            if let firstPhoto = poi.photos.first {
+            if let firstPhoto = poi.photoUrls.first {
                 Color.clear
                     .overlay(
-                        Image(firstPhoto.url)
+                        Image(firstPhoto)
                             .resizable()
                             .scaledToFill()
                     )
@@ -67,9 +67,15 @@ struct DistrictCard: View {
             
             Color.clear
                 .overlay(
-                    Image(district.photoUrls[0])
-                        .resizable()
-                        .scaledToFill()
+                    Group {
+                        if let first = district.photoUrls.first {
+                            Image(first)
+                                .resizable()
+                                .scaledToFill()
+                        } else {
+                            Color(.systemGray5)
+                        }
+                    }
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             
@@ -123,12 +129,11 @@ struct DistrictCard: View {
             .font(.caption)
         
         DestinationCard(poi: POI(
-            id: "1",
             name: "Buddha Tooth Relic",
             desc: "Temple",
-            location: "Chinatown",
-            district: sampleDistrict,
-            photo: Photo(id: "p1", url: "buddha-tooth-relic-temple.png")
+            address: "Chinatown",
+            photoUrls: ["buddha-tooth-relic-temple.png"],
+            district: sampleDistrict
         ))
         .frame(width: 150, height: 150)
     }

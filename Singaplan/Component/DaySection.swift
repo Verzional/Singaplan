@@ -167,28 +167,28 @@ extension DaySection {
 }
 
 // MARK: Preview
-#Preview {
-    // 1. Create a schema and container
-    let schema = Schema([ItineraryDay.self, POI.self, District.self])
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: schema, configurations: [config])
-    
-    // 2. Setup sample data
-    let marina = District(
-        name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
-    let day = ItineraryDay(dayNumber: 1)
-    let gardens = POI(
-        id: "p1", name: "Gardens by the Bay", desc: "", location: "", district: marina)
-    gardens.itineraryDay = day
-    
-    // 3. Add to container
-    container.mainContext.insert(day)
-    
-    return DaySection(
-        day: day,
-        viewMode: .grid,
-        expandedDays: .constant([day.id])
-    )
-    .modelContainer(container)  // CRITICAL: This must be active if @Query is used
-    .padding()
-}
+//#Preview {
+//    // 1. Create a schema and container
+//    let schema = Schema([ItineraryDay.self, POI.self, District.self])
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: schema, configurations: [config])
+//    
+//    // 2. Setup sample data
+//    let marina = District(
+//        name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
+//    let day = ItineraryDay(dayNumber: 1)
+//    let gardens = POI(
+//        id: "p1", name: "Gardens by the Bay", desc: "", address: "", district: marina)
+//    gardens.itineraryDay = day
+//    
+//    // 3. Add to container
+//    container.mainContext.insert(day)
+//    
+//    DaySection(
+//        day: day,
+//        viewMode: .grid,
+//        expandedDays: .constant([day.id])
+//    )
+//    .modelContainer(container)  // CRITICAL: This must be active if @Query is used
+//    .padding()
+//}

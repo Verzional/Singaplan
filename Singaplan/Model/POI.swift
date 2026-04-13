@@ -10,36 +10,46 @@ import SwiftData
 
 @Model
 final class POI {
-    @Attribute(.unique) var id: String
+    @Attribute(.unique) var id: UUID
     var name: String
     var desc: String
-    var location: String
-
-    // Relasi ke model lainnya
+    var address: String
+    var openTime: String?
+    var closeTime: String?
+    
     var district: District?
-    var subcategory: Category?
     var itineraryDay: ItineraryDay?
     
-    @Relationship(deleteRule: .cascade)
-    var photos: [Photo] = []
+    @Relationship(deleteRule: .nullify)
+    var priorities: [Priority]? = []
     
+    @Relationship(deleteRule: .nullify)
+    var categories: [Category]? = []
+    
+    @Relationship(deleteRule: .cascade)
+    var photoUrls: [String]
+
     init(
-        id: String,
+        id: UUID = UUID(),
         name: String,
         desc: String,
-        location: String,
+        address: String,
+        photoUrls: [String],
+        openTime: String? = nil,
+        closeTime: String? = nil,
         district: District? = nil,
-        subcategory: Category? = nil,
-        photo: Photo? = nil
+        priorities: [Priority]? = nil,
+        categories: [Category]? = nil
     ) {
         self.id = id
         self.name = name
         self.desc = desc
-        self.location = location
+        self.address = address
+        self.photoUrls = photoUrls
+        self.openTime = openTime
+        self.closeTime = closeTime
         self.district = district
-        self.subcategory = subcategory
-        if let photo = photo {
-            self.photos = [photo]
-        }
+        self.priorities = priorities
+        self.categories = categories
     }
 }
