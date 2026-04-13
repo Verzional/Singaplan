@@ -119,13 +119,32 @@ extension RecommendedCard {
     }
     
     private var categorySection: some View {
-        HStack(spacing: 0) {
-            ForEach(result.categories) { category in
+        let categories = result.categories
+        let visible = categories.prefix(1)
+        let extraCount = max(categories.count - visible.count, 0)
+
+        return HStack(spacing: 0) {
+            ForEach(Array(visible)) { category in
                 CategoryCapsule(child: category, isSelected: false)
                     .scaleEffect(0.8)
             }
+
+            if extraCount > 0 {
+                HStack(spacing: 4) {
+                    Text("+ \(extraCount)")
+                }
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.blue)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(
+                    Capsule().fill(Color.blue.opacity(0.12))
+                )
+//                .scaleEffect(0.8, anchor: .leading)
+            }
         }
         .padding(.top, 4)
+        .padding(.leading, -10)
     }
     
     private var placeDescription: some View {
@@ -151,9 +170,9 @@ extension RecommendedCard {
     private var footerSection: some View {
         HStack(alignment: .bottom) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(result.categories.isEmpty ? "" : "Options:")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(.secondary)
+//                Text(result.categories.isEmpty ? "" : "Options:")
+//                    .font(.system(size: 11, weight: .semibold))
+//                    .foregroundColor(.secondary)
                 
                 HStack(spacing: 10) {
                     if case .district = result {
@@ -184,6 +203,46 @@ extension RecommendedCard {
         }
         .font(.system(size: 13))
         .foregroundColor(.primary)
+    }
+}
+
+// MARK: - Preview
+#Preview("District") {
+    let mockDistrict = District(
+        name: "Marina Bay",
+        address: "Marina Bay, Singapore",
+        desc: "Iconic skyline, waterfront promenade, and world-class attractions.",
+        photoUrls: ["singapore"],
+        priorities: [],
+        categories: [
+            Category(title: "Scenic", icon: "camera.fill"),
+            Category(title: "Nightlife", icon: "moon.stars.fill"),
+            Category(title: "Nature", icon: "leaf.fill")
+        ]
+    )
+    
+    RecommendedCard(district: mockDistrict) {
+        print("Add district tapped")
+    }
+}
+
+#Preview("POI") {
+    let mockPOI = POI(
+        name: "Gardens by the Bay",
+        desc: "Futuristic park featuring Supertree Grove and climate-controlled conservatories.",
+        address: "18 Marina Gardens Dr, Singapore",
+        photoUrls: ["singapore"],
+        openTime: "09:00",
+        closeTime: "21:00",
+        priorities: [],
+        categories: [
+            Category(title: "Nature", icon: "leaf.fill"),
+            Category(title: "Attraction", icon: "star.fill")
+        ]
+    )
+    
+    RecommendedCard(poi: mockPOI) {
+        print("Add POI tapped")
     }
 }
 

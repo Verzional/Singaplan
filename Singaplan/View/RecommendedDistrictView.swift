@@ -22,9 +22,9 @@ struct RecommendedDistrictView: View {
                 } else {
                     ForEach(topDistricts) { district in
                         RecommendedCard(district: district)
-                            .onTapGesture {
-                                // Action: Navigate to RecommendedPOIView for this district
-                            }
+                        .onTapGesture {
+                            // Action: Navigate to RecommendedPOIView for this district
+                        }
                     }
                 }
             }
