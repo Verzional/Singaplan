@@ -12,6 +12,7 @@ struct CategoryPresetCard: View {
     let isSelected: Bool
     let onEdit: () -> Void
     
+    // MARK: - Body
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
@@ -41,11 +42,7 @@ struct CategoryPresetCard: View {
             }
             
             // Category Capsules
-            FlowLayout(spacing: 8) {
-                ForEach(preset.categories) { category in
-                    CategoryCapsule(child: category, isSelected: true)
-                }
-            }
+            categoryCapsules
         }
         .padding()
         .background {
@@ -61,4 +58,67 @@ struct CategoryPresetCard: View {
         }
         .animation(.snappy, value: isSelected)
     }
+}
+
+// MARK: - View Components
+private extension CategoryPresetCard {
+    private var categoryCapsules: some View {
+        let categories = preset.categories
+        let visible = categories.prefix(4)
+        let extraCount = max(categories.count - visible.count, 0)
+        
+        return FlowLayout {
+            ForEach(Array(visible)) { category in
+                CategoryCapsule(child: category, isSelected: false)
+            }
+            
+            if extraCount > 0 {
+                HStack(spacing: 4) {
+                    Text("+ \(extraCount)")
+                }
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(.blue)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(
+                    Capsule().fill(Color.blue.opacity(0.12))
+                )
+                .padding(.top, 2)
+            }
+        }
+    }
+}
+
+// MARK: - Preview
+#Preview("Category Preset Card") {
+    // Mock categories
+    let categories: [Category] = [
+        Category(title: "Nature", icon: "leaf.fill"),
+        Category(title: "Food", icon: "fork.knife.circle.fill"),
+        Category(title: "Family", icon: "figure.2.and.child.holdinghands"),
+        Category(title: "Nightlife", icon: "moon.stars.fill"),
+        Category(title: "Scenic", icon: "camera.fill")
+    ]
+
+    // Mock preset
+    let preset = CategoryPreset(
+        title: "Weekend Getaway",
+        desc: "A relaxed mix for a short trip.",
+        categories: categories
+    )
+
+    VStack(spacing: 20) {
+        CategoryPresetCard(
+            preset: preset,
+            isSelected: false,
+            onEdit: { print("Edit tapped (unselected)") }
+        )
+
+        CategoryPresetCard(
+            preset: preset,
+            isSelected: true,
+            onEdit: { print("Edit tapped (selected)") }
+        )
+    }
+    .padding()
 }

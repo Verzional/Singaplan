@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct DaySection: View {
+    @Environment(FlowManager.self) private var flowManager
     // Variable
     let day: ItineraryDay
     let viewMode: ItineraryViewMode
@@ -119,6 +120,9 @@ extension DaySection {
         Menu {
             NavigationLink {
                 CategoryPresetView()
+                    .onAppear {
+                        flowManager.targetDay = day
+                    }
             } label: {
                 Label("Discover", systemImage: "globe")
                     .foregroundStyle(Color.primary)
@@ -172,7 +176,7 @@ extension DaySection {
 //    let schema = Schema([ItineraryDay.self, POI.self, District.self])
 //    let config = ModelConfiguration(isStoredInMemoryOnly: true)
 //    let container = try! ModelContainer(for: schema, configurations: [config])
-//    
+//
 //    // 2. Setup sample data
 //    let marina = District(
 //        name: "Marina South", address: "", desc: "", photoUrls: ["singapore", "marina-bg"])
@@ -180,10 +184,10 @@ extension DaySection {
 //    let gardens = POI(
 //        id: "p1", name: "Gardens by the Bay", desc: "", address: "", district: marina)
 //    gardens.itineraryDay = day
-//    
+//
 //    // 3. Add to container
 //    container.mainContext.insert(day)
-//    
+//
 //    DaySection(
 //        day: day,
 //        viewMode: .grid,

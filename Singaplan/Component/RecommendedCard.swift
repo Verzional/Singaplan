@@ -169,19 +169,19 @@ extension RecommendedCard {
     
     private var footerSection: some View {
         HStack(alignment: .bottom) {
-            VStack(alignment: .leading, spacing: 4) {
-//                Text(result.categories.isEmpty ? "" : "Options:")
-//                    .font(.system(size: 11, weight: .semibold))
-//                    .foregroundColor(.secondary)
-                
-                HStack(spacing: 10) {
-                    if case .district = result {
-                        transportItem(icon: "building.2.fill", label: "District")
-                    } else {
-                        transportItem(icon: "mappin.circle.fill", label: "POI")
-                    }
-                }
-            }
+//            VStack(alignment: .leading, spacing: 4) {
+////                Text(result.categories.isEmpty ? "" : "Options:")
+////                    .font(.system(size: 11, weight: .semibold))
+////                    .foregroundColor(.secondary)
+//                
+//                HStack(spacing: 10) {
+//                    if case .district = result {
+//                        transportItem(icon: "building.2.fill", label: "District")
+//                    } else {
+//                        transportItem(icon: "mappin.circle.fill", label: "POI")
+//                    }
+//                }
+//            }
             
             Spacer()
             

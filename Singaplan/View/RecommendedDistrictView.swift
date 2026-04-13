@@ -22,10 +22,14 @@ struct RecommendedDistrictView: View {
                 } else {
                     ForEach(topDistricts) { district in
                         RecommendedCard(district: district, onAdd: {
-                            guard let targetDay = flowManager.targetDay else { return }
+                            print("onAdd tapped for district:", district.name)
+                            guard let targetDay = flowManager.targetDay else {
+                                print("No targetDay set in FlowManager")
+                                return
+                            }
                             
+
                             let service = ItineraryService(modelContext: modelContext)
-                            
                             service.addDistrict(district, to: targetDay)
                         })
                         .onTapGesture {
@@ -39,6 +43,11 @@ struct RecommendedDistrictView: View {
         .navigationTitle("Top Districts")
         .onAppear {
             calculateRecommendations()
+        }
+        .onAppear {
+            print("RecommendedDistrictView appear. targetDay:", flowManager.targetDay as Any)
+            print(flowManager.selectedCategoryPreset as Any)
+            print(flowManager.selectedPriorityPreset as Any)
         }
     }
     

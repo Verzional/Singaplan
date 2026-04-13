@@ -16,13 +16,13 @@ enum ItineraryViewMode {
 struct ItineraryDetailView: View {
     // MARK: Model
     @Environment(\.modelContext) private var modelContext
+    @Environment(FlowManager.self) private var flowManager
     
     var folder: Itinerary
     
     // MARK: State Variables
     @State private var viewMode: ItineraryViewMode = .grid
     @State private var expandedDays: Set<UUID> = []
-    @State private var flowManager = FlowManager()
     
     // filter: Ambil hari miliki folder ini
     var filteredDays: [ItineraryDay] {
@@ -45,7 +45,6 @@ struct ItineraryDetailView: View {
         .toolbar {
             toolbarContent
         }
-        .environment(flowManager)
         
     }
 }
@@ -127,20 +126,20 @@ private extension ItineraryDetailView {
 }
 
 // MARK: Preview
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, District.self, Category.self, Photo.self, configurations: config)
-    
-    let context = container.mainContext
-    let previewFolder = Itinerary(folderName: "Girls Trip Preview")
-    context.insert(previewFolder)
-    
-    let day1 = ItineraryDay(dayNumber: 1)
-    day1.itineraryFolder = previewFolder
-    context.insert(day1)
-    
-    return NavigationStack {
-        ItineraryDetailView(folder: previewFolder)
-            .modelContainer(container)
-    }
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, District.self, Category.self, Photo.self, configurations: config)
+//    
+//    let context = container.mainContext
+//    let previewFolder = Itinerary(folderName: "Girls Trip Preview")
+//    context.insert(previewFolder)
+//    
+//    let day1 = ItineraryDay(dayNumber: 1)
+//    day1.itineraryFolder = previewFolder
+//    context.insert(day1)
+//    
+//    return NavigationStack {
+//        ItineraryDetailView(folder: previewFolder)
+//            .modelContainer(container)
+//    }
+//}

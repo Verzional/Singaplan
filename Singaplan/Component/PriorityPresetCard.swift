@@ -12,6 +12,7 @@ struct PriorityPresetCard: View {
     let isSelected: Bool
     let onEdit: () -> Void
     
+    // MARK: - Body
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
@@ -40,7 +41,7 @@ struct PriorityPresetCard: View {
                 .contentShape(Circle())
             }
             
-            // Category Capsules
+            // Priority Capsules
             FlowLayout(spacing: 8) {
                 ForEach(preset.priorities) { priority in
                     PriorityCapsule(child: priority)
@@ -62,3 +63,76 @@ struct PriorityPresetCard: View {
         .animation(.snappy, value: isSelected)
     }
 }
+
+// MARK: - Preview
+#Preview("Priority Preset Card") {
+    let mockPriorities: [Priority] = [
+        Priority(
+            title: "Budget",
+            desc: "Overall cost",
+            segments: [
+                PrioritySegment(label: "$", weight: 0.1),
+                PrioritySegment(label: "$$", weight: 0.5),
+                PrioritySegment(label: "$$$", weight: 1.0)
+            ]
+        ),
+        Priority(
+            title: "Popularity",
+            desc: "How popular it is",
+            segments: [
+                PrioritySegment(label: "Low", weight: 0.1),
+                PrioritySegment(label: "Mixed", weight: 0.5),
+                PrioritySegment(label: "High", weight: 1.0)
+            ]
+        ),
+        Priority(
+            title: "Pace",
+            desc: "Activity speed",
+            segments: [
+                PrioritySegment(label: "Relaxed", weight: 0.1),
+                PrioritySegment(label: "Balanced", weight: 0.5),
+                PrioritySegment(label: "Fast", weight: 1.0)
+            ]
+        ),
+        Priority(
+            title: "Mobility",
+            desc: "Accessibility needs",
+            segments: [
+                PrioritySegment(label: "Wheelchair", weight: 0.1),
+                PrioritySegment(label: "Some stairs", weight: 0.5),
+                PrioritySegment(label: "Stairs OK", weight: 1.0)
+            ]
+        ),
+        Priority(
+            title: "Proximity",
+            desc: "Location to destination",
+            segments: [
+                PrioritySegment(label: "Wheelchair", weight: 0.1),
+                PrioritySegment(label: "Some stairs", weight: 0.5),
+                PrioritySegment(label: "Stairs OK", weight: 1.0)
+            ]
+            )
+    ]
+
+    let mockPreset = PriorityPreset(
+        title: "Balanced Day",
+        desc: "A good mix for most travelers.",
+        priorities: mockPriorities
+    )
+
+    return VStack(spacing: 20) {
+        PriorityPresetCard(
+            preset: mockPreset,
+            isSelected: false,
+            onEdit: { print("Edit tapped (unselected)") }
+        )
+
+        PriorityPresetCard(
+            preset: mockPreset,
+            isSelected: true,
+            onEdit: { print("Edit tapped (selected)") }
+        )
+    }
+    .padding()
+}
+

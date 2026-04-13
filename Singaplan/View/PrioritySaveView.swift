@@ -86,6 +86,9 @@ extension PrioritySaveView {
                 } label: {
                     Image(systemName: "checkmark")
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
+                .clipShape(Circle())
                 .disabled(presetTitle.isEmpty)
             }
         }
