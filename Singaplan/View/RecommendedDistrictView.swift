@@ -21,7 +21,13 @@ struct RecommendedDistrictView: View {
                     ProgressView("Analyzing recommendations...")
                 } else {
                     ForEach(topDistricts) { district in
-                        RecommendedCard(district: district)
+                        RecommendedCard(district: district, onAdd: {
+                            guard let targetDay = flowManager.targetDay else { return }
+                            
+                            let service = ItineraryService(modelContext: modelContext)
+                            
+                            service.addDistrict(district, to: targetDay)
+                        })
                         .onTapGesture {
                             // Action: Navigate to RecommendedPOIView for this district
                         }
