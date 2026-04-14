@@ -4,12 +4,14 @@ struct TravelPointDetailView: View {
     var district: District? = nil
     var poi: POI? = nil
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     // Tracks which priority cards are currently expanded
     @State private var isPriorityExpanded: Bool = false
     @State private var showSavedItineraryMessage: Bool = false
     
     var body: some View {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     headerSection
@@ -32,33 +34,31 @@ struct TravelPointDetailView: View {
             .toolbar {
                 // Top Left Button (Close)
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { presentationMode.wrappedValue.dismiss() }) {
+                    Button {
+                        dismiss()
+                    } label: {
                         Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.black)
-                            .frame(width: 36, height: 36)
-                            .background(Color.white.opacity(0.9))
-                            .clipShape(Circle())
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        withAnimation { showSavedItineraryMessage = true }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            withAnimation { showSavedItineraryMessage = false
-                            }
-                        }
-                    })
-                    {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(width: 36, height: 36)
-                            .background(Color.blue)
-                            .clipShape(Circle())
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: {
+//                        withAnimation { showSavedItineraryMessage = true }
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                            withAnimation { showSavedItineraryMessage = false
+//                            }
+//                        }
+//                    })
+//                    {
+//                        Image(systemName: "square.and.arrow.up")
+//                            .font(.system(size: 16, weight: .bold))
+//                            .foregroundColor(.white)
+//                            .frame(width: 36, height: 36)
+//                            .background(Color.blue)
+//                            .clipShape(Circle())
+//                    }
+//                }
             }
+        }
         .overlay(
             VStack {
                 Spacer() //so the animation is pushed down on the screen
