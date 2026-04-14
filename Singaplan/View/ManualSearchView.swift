@@ -11,6 +11,9 @@ struct ManualSearchView: View {
     @Query private var allDistricts: [District]
     @Query private var allPOIs: [POI]
     
+    // 1. Track the selected result for the detail sheet
+    @State private var selectedResult: SearchResult?
+    
     // Combine and filter results
     var filteredResults: [SearchResult] {
         if searchText.isEmpty { return [] }
@@ -20,11 +23,11 @@ struct ManualSearchView: View {
         let matchingDistricts = allDistricts
             .filter { $0.name.localizedLowercase.contains(lowerSearch) }
             .map { SearchResult.district($0) }
-            
+        
         let matchingPOIs = allPOIs
             .filter { $0.name.localizedLowercase.contains(lowerSearch) }
             .map { SearchResult.poi($0) }
-            
+        
         return matchingDistricts + matchingPOIs
     }
     
@@ -49,6 +52,15 @@ struct ManualSearchView: View {
         }
         .edgesIgnoringSafeArea(.top)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: searchText.isEmpty)
+        // 2. Attach the sheet modifier using the selected item
+        .sheet(item: $selectedResult) { resultToShow in
+            switch resultToShow {
+            case .district(let district):
+                TravelPointDetailView(district: district)
+            case .poi(let poi):
+                TravelPointDetailView(poi: poi)
+            }
+        }
     }
 }
 
@@ -61,12 +73,12 @@ extension ManualSearchView {
             .frame(height: 240)
             .clipped()
     }
-
+    
     private var searchBarSection: some View {
         SearchBar(text: $searchText, placeholder: "Search Districts & POIs")
             .padding(.vertical, 20)
     }
-
+    
     private var recentSearchesList: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -86,7 +98,7 @@ extension ManualSearchView {
         .padding(.horizontal, 25)
         .padding(.top, 10)
     }
-
+    
     private var searchResultsSection: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -96,20 +108,27 @@ extension ManualSearchView {
                         .padding(.top, 40)
                 } else {
                     ForEach(filteredResults) { result in
-                        RecommendedCard(result: result, onAdd: {
-                            guard let targetDay = targetDay else { return }
-                            
-                            let service = ItineraryService(modelContext: modelContext)
-                            
-                            switch result {
-                            case .district(let district):
-                                service.addDistrict(district, to: targetDay)
-                            case .poi(let poi):
-                                service.addPOI(poi, to: targetDay)
+                        RecommendedCard(
+                            result: result,
+                            onAdd: {
+                                guard let targetDay = targetDay else { return }
+                                
+                                let service = ItineraryService(modelContext: modelContext)
+                                
+                                switch result {
+                                case .district(let district):
+                                    service.addDistrict(district, to: targetDay)
+                                case .poi(let poi):
+                                    service.addPOI(poi, to: targetDay)
+                                }
+                                
+                                dismiss()
+                            },
+                            // 3. Set the state variable when the info button is tapped
+                            onInfoTapped: {
+                                selectedResult = result
                             }
-                            
-                            dismiss()
-                        })
+                        )
                     }
                 }
             }

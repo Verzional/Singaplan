@@ -22,16 +22,22 @@ struct RecommendedDistrictView: View {
                     ProgressView("Analyzing recommendations...")
                 } else {
                     ForEach(topDistricts) { district in
-                        RecommendedCard(district: district, isSelected: selectedDistrict?.id == district.id, onAdd: {
-                            print("onAdd tapped for district:", district.name)
-                            guard let targetDay = flowManager.targetDay else {
-                                print("No targetDay set in FlowManager")
-                                return
-                            }
-
-                            let service = ItineraryService(modelContext: modelContext)
-                            service.addDistrict(district, to: targetDay)
-                        })
+                        RecommendedCard(
+                            district: district,
+                            isSelected: selectedDistrict?.id == district.id,
+                            onAdd: {
+                                print("onAdd tapped for district:", district.name)
+                                guard let targetDay = flowManager.targetDay else {
+                                    print("No targetDay set in FlowManager")
+                                    return
+                                }
+                                
+                                let service = ItineraryService(modelContext: modelContext)
+                                service.addDistrict(district, to: targetDay)
+                            },
+                            onInfoTapped: {
+                                selectedDistrict = district
+                            })
                         .onTapGesture {
                             selectedDistrict = district
                             flowManager.selectedDistrict = district
@@ -49,16 +55,17 @@ struct RecommendedDistrictView: View {
         .onAppear {
             calculateRecommendations()
         }
+        .sheet(item: $selectedDistrict) { district in
+            TravelPointDetailView(district: district)
+        }
     }
 }
 
 // MARK: - View Components
 extension RecommendedDistrictView {
     fileprivate var continueButton: some View {
-        NavigationLink {
-            RecommendedPOIView()
-        } label: {
-            Text("Continue")
+        Button("Continue") {
+            flowManager.navigationPath.append(DiscoverRoute.recommendedPOIs)
         }
         .buttonStyle(.borderedProminent)
         .disabled(selectedDistrict == nil)
@@ -98,10 +105,10 @@ extension RecommendedDistrictView {
         PriorityPreset.self,
         configurations: config
     )
-
+    
     // 2) Seed minimal data needed for recommendations
     let context = container.mainContext
-
+    
     // Categories
     let categories: [Category] = [
         Category(title: "Nature", icon: "leaf.fill"),
@@ -109,7 +116,7 @@ extension RecommendedDistrictView {
         Category(title: "Family", icon: "figure.2.and.child.holdinghands")
     ]
     categories.forEach { context.insert($0) }
-
+    
     // Priorities (very small set)
     let priorities: [Priority] = [
         Priority(
@@ -132,7 +139,7 @@ extension RecommendedDistrictView {
         )
     ]
     priorities.forEach { context.insert($0) }
-
+    
     // Districts
     let districts: [District] = [
         District(
@@ -161,7 +168,7 @@ extension RecommendedDistrictView {
         )
     ]
     districts.forEach { context.insert($0) }
-
+    
     // 3) Create presets used by the view’s recommendation logic
     let categoryPreset = CategoryPreset(
         title: "Explorer",
@@ -169,24 +176,24 @@ extension RecommendedDistrictView {
         categories: categories
     )
     context.insert(categoryPreset)
-
+    
     let priorityPreset = PriorityPreset(
         title: "Balanced",
         desc: "Good for most travelers.",
         priorities: priorities
     )
     context.insert(priorityPreset)
-
+    
     // 4) Create a day and set it as targetDay
     let day = ItineraryDay(dayNumber: 1)
     context.insert(day)
-
+    
     // 5) Configure FlowManager environment
     let flow = FlowManager()
     flow.selectedCategoryPreset = categoryPreset
     flow.selectedPriorityPreset = priorityPreset
     flow.targetDay = day
-
+    
     // 6) Compose the preview
     return NavigationStack {
         RecommendedDistrictView()

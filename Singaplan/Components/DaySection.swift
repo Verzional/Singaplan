@@ -118,14 +118,11 @@ extension DaySection {
     // Pull down button
     private var addDestinationMenu: some View {
         Menu {
-            NavigationLink {
-                CategoryPresetView()
-                    .onAppear {
-                        flowManager.targetDay = day
-                    }
+            Button {
+                flowManager.targetDay = day
+                flowManager.navigationPath.append(DiscoverRoute.categoryPreset)
             } label: {
                 Label("Discover", systemImage: "globe")
-                    .foregroundStyle(Color.primary)
             }
             
             NavigationLink {

@@ -15,6 +15,7 @@ struct RecommendedPOIView: View {
     @Environment(FlowManager.self) private var flowManager
     
     @State private var topPOIs: [POI] = []
+    @State private var selectedPOI: POI?
     
     // MARK: - Body
     var body: some View {
@@ -25,11 +26,17 @@ struct RecommendedPOIView: View {
                         .padding(.top, 40)
                 } else {
                     ForEach(topPOIs) { poi in
-                        RecommendedCard(poi: poi, onAdd: {
-                            guard let targetDay = flowManager.targetDay else { return }
-                            let service = ItineraryService(modelContext: modelContext)
-                            service.addPOI(poi, to: targetDay)
-                        })
+                        RecommendedCard(
+                            poi: poi,
+                            onAdd: {
+                                guard let targetDay = flowManager.targetDay else { return }
+                                let service = ItineraryService(modelContext: modelContext)
+                                service.addPOI(poi, to: targetDay)
+                            },
+                            onInfoTapped: {
+                                selectedPOI = poi
+                            }
+                        )
                     }
                 }
             }
@@ -42,6 +49,9 @@ struct RecommendedPOIView: View {
         .toolbar {
             navigationToolbar
         }
+        .sheet(item: $selectedPOI) { poiToShow in
+            TravelPointDetailView(poi: poiToShow)
+        }
     }
 }
 
@@ -50,7 +60,8 @@ extension RecommendedPOIView {
     fileprivate var navigationToolbar: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
             Button {
-                
+                flowManager.reset()
+                flowManager.popToItineraryDetail()
             } label: {
                 Image(systemName: "checkmark")
             }
