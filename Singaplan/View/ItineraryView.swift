@@ -10,26 +10,19 @@ import SwiftUI
 
 struct ItineraryView: View {
     @Environment(\.modelContext) private var modelContext
-
+    
     @Query(sort: \Itinerary.folderName) private var allFolders: [Itinerary]
-
+    
     @State private var showModal = false
     @State private var folderNameInput = ""
     @State private var dayCountInput = 1
-
+    
     // MARK: - Body
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
                 headerSection
-
-                if allFolders.isEmpty {
-                    emptyStateCard
-                } else {
-                    cardList
-                }
-
-                Spacer()
+                cardList
             }
             .padding(.horizontal)
             .sheet(isPresented: $showModal) {
@@ -54,23 +47,23 @@ extension ItineraryView {
         folderNameInput = ""
         dayCountInput = 1
     }
-
+    
     fileprivate func saveNewItinerary() {
         guard !folderNameInput.isEmpty, dayCountInput > 0 else { return }
-
+        
         let newFolder = Itinerary(folderName: folderNameInput)
         modelContext.insert(newFolder)
-
+        
         for i in 1...dayCountInput {
             let newDay = ItineraryDay(dayNumber: i)
             newDay.itineraryFolder = newFolder
             modelContext.insert(newDay)
         }
-
+        
         try? modelContext.save()
         showModal = false
     }
-
+    
     fileprivate func deleteFolder(_ folder: Itinerary) {
         modelContext.delete(folder)
         try? modelContext.save()
@@ -84,15 +77,13 @@ extension ItineraryView {
             Text("Itinerary")
                 .font(.system(size: 34))
                 .fontWeight(.bold)
-
+            
             Spacer()
-
-            if !allFolders.isEmpty {
-                addButton
-            }
+            
+            addButton
         }
     }
-
+    
     fileprivate var addButton: some View {
         Button(action: {
             prepareNewInput()
@@ -109,7 +100,7 @@ extension ItineraryView {
                 }
         }
     }
-
+    
     fileprivate var emptyStateCard: some View {
         VStack(spacing: 8) {
             Image(systemName: "plus")
@@ -121,11 +112,11 @@ extension ItineraryView {
                         .fill(.white)
                         .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                 }
-
+            
             Text("Make your trip happen")
                 .font(.headline)
                 .foregroundColor(.black)
-
+            
             Text("Add your first itinerary")
                 .font(.caption)
                 .foregroundColor(.black)
@@ -141,35 +132,44 @@ extension ItineraryView {
             showModal = true
         }
     }
-
+    
+    @ViewBuilder
     fileprivate var cardList: some View {
-        List {
-            ForEach(allFolders) { folder in
-                ZStack {
-                    ItineraryFolder(
-                        folderName: folder.folderName,
-                        days: "\(folder.days.count)",
-                        backgroundImageName: "singapore",
-                        onBack: {}
-                    )
-                    NavigationLink(destination: ItineraryDetailView(folder: folder)) {
-                        EmptyView()
+        if allFolders.isEmpty {
+            ContentUnavailableView(
+                "No Itineraries",
+                systemImage: "tray",
+                description: Text("Tap + to create a new itinerary.")
+            )
+        } else {
+            List {
+                ForEach(allFolders) { folder in
+                    ZStack {
+                        ItineraryFolder(
+                            folderName: folder.folderName,
+                            days: "\(folder.days.count)",
+                            backgroundImageName: "singapore",
+                            onBack: {}
+                        )
+                        NavigationLink(destination: ItineraryDetailView(folder: folder)) {
+                            EmptyView()
+                        }
+                        .opacity(0)
                     }
-                    .opacity(0)
-                }
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button(role: .destructive) {
-                        deleteFolder(folder)
-                    } label: {
-                        Image(systemName: "trash")
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            deleteFolder(folder)
+                        } label: {
+                            Image(systemName: "trash")
+                        }
                     }
                 }
             }
+            .listStyle(.plain)
         }
-        .listStyle(.plain)
     }
 }
 
@@ -178,11 +178,11 @@ extension ItineraryView {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(
         for: Itinerary.self, ItineraryDay.self, POI.self, configurations: config)
-
+    
     let context = container.mainContext
     let dummyItinerary = Itinerary(folderName: "Bali Trip")
     context.insert(dummyItinerary)
-
+    
     return ItineraryView()
         .modelContainer(container)
 }

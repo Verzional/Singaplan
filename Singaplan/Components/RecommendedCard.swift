@@ -174,7 +174,7 @@ extension RecommendedCard {
     
     private var priceRatingSection: some View {
         HStack(spacing: 2) {
-            ForEach(0..<5) { index in
+            ForEach(0..<3) { index in
                 Image(systemName: "dollarsign.circle.fill")
                     .font(.system(size: 12))
                     .foregroundColor(index < 2 ? .gray : Color(.systemGray4))

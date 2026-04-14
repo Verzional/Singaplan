@@ -108,10 +108,13 @@ private extension ItineraryDetailView {
     func deleteDay(_ day: ItineraryDay) {
         if folder.days.contains(day) {
             withAnimation {
+                let keepDay = folder.days
+                    .filter { $0.id != day.id }
+                    .sorted { $0.dayNumber < $1.dayNumber }
+                
                 modelContext.delete(day)
                 
-                let remainingDays = folder.days.sorted { $0.dayNumber < $1.dayNumber }
-                for (index, item) in remainingDays.enumerated() {
+                for (index, item) in keepDay.enumerated() {
                     item.dayNumber = index + 1
                 }
                 
@@ -125,21 +128,7 @@ private extension ItineraryDetailView {
     }
 }
 
-// MARK: Preview
-//#Preview {
-//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//    let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, District.self, Category.self, Photo.self, configurations: config)
-//    
-//    let context = container.mainContext
-//    let previewFolder = Itinerary(folderName: "Girls Trip Preview")
-//    context.insert(previewFolder)
-//    
-//    let day1 = ItineraryDay(dayNumber: 1)
-//    day1.itineraryFolder = previewFolder
-//    context.insert(day1)
-//    
-//    return NavigationStack {
-//        ItineraryDetailView(folder: previewFolder)
-//            .modelContainer(container)
-//    }
-//}
+// MARK: - Preview
+#Preview {
+
+}

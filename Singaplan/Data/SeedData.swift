@@ -107,7 +107,7 @@ struct SeedData {
         name: "Marina Bay",
         address: "Singapore",
         desc: "The crown jewel of Singapore’s skyline. A futuristic waterfront area home to world-class resorts, high-end shopping, and iconic architecture.",
-        photoUrls: ["marina-bay_1", "marina-bay_2"]
+        photoUrls: ["marina-bay_1", "marina-bay_2"],
     )
     
     static let marina_south = District(

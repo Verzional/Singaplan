@@ -38,6 +38,9 @@ struct RecommendedDistrictView: View {
                         }
                     }
                 }
+                
+                Spacer()
+                
                 continueButton
             }
             .padding()
