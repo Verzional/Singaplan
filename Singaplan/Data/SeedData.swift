@@ -102,12 +102,51 @@ struct SeedData {
         return experiences + accessibility
     }
     
+    /// Helper function to create district priorities
+    static func createDistrictPriorities(
+        popularity: Double,
+        proximity: Double,
+        pace: Double,
+        mobility: Double,
+        transport: Double,
+        walkability: Double
+    ) -> [Priority] {
+        
+        let pop = Priority(title: experiences[0].title, desc: experiences[0].desc, segments: experiences[0].segments)
+        pop.selectedWeight = popularity
+        
+        let prox = Priority(title: experiences[1].title, desc: experiences[1].desc, segments: experiences[1].segments)
+        prox.selectedWeight = proximity
+        
+        let pa = Priority(title: experiences[2].title, desc: experiences[2].desc, segments: experiences[2].segments)
+        pa.selectedWeight = pace
+        
+        let mob = Priority(title: accessibility[0].title, desc: accessibility[0].desc, segments: accessibility[0].segments)
+        mob.selectedWeight = mobility
+        
+        let trans = Priority(title: accessibility[1].title, desc: accessibility[1].desc, segments: accessibility[1].segments)
+        trans.selectedWeight = transport
+        
+        let walk = Priority(title: accessibility[2].title, desc: accessibility[2].desc, segments: accessibility[2].segments)
+        walk.selectedWeight = walkability
+        
+        return [pop, prox, pa, mob, trans, walk]
+    }
+    
     // MARK: - Districts
     static let marina_bay = District(
         name: "Marina Bay",
         address: "Singapore",
         desc: "The crown jewel of Singapore’s skyline. A futuristic waterfront area home to world-class resorts, high-end shopping, and iconic architecture.",
         photoUrls: ["marina-bay_1", "marina-bay_2"],
+        priorities: createDistrictPriorities(
+            popularity: 1.0,
+            proximity: 0.8,
+            pace: 0.5,
+            mobility: 1.0,
+            transport: 1.0,
+            walkability: 0.9
+        )
     )
     
     static let marina_south = District(
