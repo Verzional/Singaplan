@@ -12,6 +12,7 @@ struct CategoryPresetView: View {
     // MARK: - File Properties
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(FlowManager.self) private var flowManager
 
     @State private var presetToEdit: CategoryPreset?
     @State private var selectedPreset: UUID?
@@ -64,6 +65,7 @@ extension CategoryPresetView {
                         )
                         .onTapGesture {
                             selectedPreset = preset.id
+                            flowManager.selectedCategoryPreset = preset
                         }
                     }
                 }
@@ -97,31 +99,31 @@ extension CategoryPresetView {
 }
 
 // MARK: - Preview
-#Preview {
-    let container: ModelContainer = {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-
-        let container = try! ModelContainer(
-            for: Category.self, CategoryPreset.self, configurations: config)
-
-        let context = container.mainContext
-
-        for category in SeedData.categoryData {
-            context.insert(category)
-        }
-
-        let selectedCategories = Array(SeedData.categories.prefix(3))
-
-        let dummyPreset = CategoryPreset(
-            title: "Weekend Getaway",
-            desc: "Essential categories for a short 3-day trip to Singapore.",
-            categories: selectedCategories
-        )
-        context.insert(dummyPreset)
-
-        return container
-    }()
-
-    CategoryPresetView()
-        .modelContainer(container)
-}
+//#Preview {
+//    let container: ModelContainer = {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//
+//        let container = try! ModelContainer(
+//            for: Category.self, CategoryPreset.self, configurations: config)
+//
+//        let context = container.mainContext
+//
+//        for category in SeedData.categoryData {
+//            context.insert(category)
+//        }
+//
+//        let selectedCategories = Array(SeedData.categories.prefix(3))
+//
+//        let dummyPreset = CategoryPreset(
+//            title: "Weekend Getaway",
+//            desc: "Essential categories for a short 3-day trip to Singapore.",
+//            categories: selectedCategories
+//        )
+//        context.insert(dummyPreset)
+//
+//        return container
+//    }()
+//
+//    CategoryPresetView()
+//        .modelContainer(container)
+//}

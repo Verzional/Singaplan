@@ -116,7 +116,7 @@ struct TravelPointDetailView: View {
                 Text(currentPOI.name).font(.title).fontWeight(.bold)
                 
                 // checks if the POI has open and close time
-                if let open = currentPOI.openTime, let close = currentPOI.closeTime {
+                if let _ = currentPOI.openTime, let close = currentPOI.closeTime {
                     HStack(spacing: 4) {
                         Text("Open").fontWeight(.semibold).foregroundColor(.green)
                         Text("- Closes \(close)").foregroundColor(.secondary)

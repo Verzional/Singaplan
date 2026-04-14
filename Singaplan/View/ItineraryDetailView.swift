@@ -16,6 +16,7 @@ enum ItineraryViewMode {
 struct ItineraryDetailView: View {
     // MARK: Model
     @Environment(\.modelContext) private var modelContext
+    @Environment(FlowManager.self) private var flowManager
     
     var folder: Itinerary
     
@@ -41,7 +42,10 @@ struct ItineraryDetailView: View {
         .listStyle(.plain)
         .navigationTitle(folder.folderName)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar { toolbarContent }
+        .toolbar {
+            toolbarContent
+        }
+        
     }
 }
 
@@ -122,20 +126,20 @@ private extension ItineraryDetailView {
 }
 
 // MARK: Preview
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, District.self, Category.self, Photo.self, configurations: config)
-    
-    let context = container.mainContext
-    let previewFolder = Itinerary(folderName: "Girls Trip Preview")
-    context.insert(previewFolder)
-    
-    let day1 = ItineraryDay(dayNumber: 1)
-    day1.itineraryFolder = previewFolder
-    context.insert(day1)
-    
-    return NavigationStack {
-        ItineraryDetailView(folder: previewFolder)
-            .modelContainer(container)
-    }
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: Itinerary.self, ItineraryDay.self, POI.self, District.self, Category.self, Photo.self, configurations: config)
+//    
+//    let context = container.mainContext
+//    let previewFolder = Itinerary(folderName: "Girls Trip Preview")
+//    context.insert(previewFolder)
+//    
+//    let day1 = ItineraryDay(dayNumber: 1)
+//    day1.itineraryFolder = previewFolder
+//    context.insert(day1)
+//    
+//    return NavigationStack {
+//        ItineraryDetailView(folder: previewFolder)
+//            .modelContainer(container)
+//    }
+//}

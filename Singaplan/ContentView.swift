@@ -10,28 +10,36 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-
+    
     var body: some View {
         ItineraryView()
             .task {
                 seedDataIfNeeded()
             }
     }
-
+    
     private func seedDataIfNeeded() {
         do {
             var descriptor = FetchDescriptor<Category>()
             descriptor.fetchLimit = 1
-
+            
             if try modelContext.fetch(descriptor).isEmpty {
                 for category in SeedData.categoryData {
                     modelContext.insert(category)
                 }
-
+                
                 for priority in SeedData.priorityData {
                     modelContext.insert(priority)
                 }
-
+                
+                for district in SeedData.districtData {
+                    modelContext.insert(district)
+                }
+                
+                for poi in SeedData.poiData {
+                    modelContext.insert(poi)
+                }
+                
                 try? modelContext.save()
             }
         } catch {
@@ -53,7 +61,8 @@ struct ContentView: View {
         PriorityPreset.self,
         configurations: config
     )
-
-    return ContentView()
+    
+    ContentView()
         .modelContainer(container)
+        .environment(FlowManager())
 }

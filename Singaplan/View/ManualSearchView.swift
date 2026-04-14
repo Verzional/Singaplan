@@ -8,7 +8,6 @@ struct ManualSearchView: View {
     @State private var searchText = ""
     var targetDay: ItineraryDay?
     
-    // Fetch actual database records
     @Query private var allDistricts: [District]
     @Query private var allPOIs: [POI]
     
@@ -102,7 +101,6 @@ extension ManualSearchView {
                             
                             let service = ItineraryService(modelContext: modelContext)
                             
-                            // Check which type it is and save accordingly
                             switch result {
                             case .district(let district):
                                 service.addDistrict(district, to: targetDay)

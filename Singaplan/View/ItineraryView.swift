@@ -48,7 +48,7 @@ struct ItineraryView: View {
     }
 }
 
-// MARK: - Private Functions
+// MARK: - View Functions
 extension ItineraryView {
     fileprivate func prepareNewInput() {
         folderNameInput = ""

@@ -80,6 +80,7 @@ private extension ItineraryCreateView {
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .clipShape(Circle())
+                .disabled(folderName.isEmpty)
             }
         }
     }

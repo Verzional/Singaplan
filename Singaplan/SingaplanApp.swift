@@ -13,6 +13,7 @@ struct SingaplanApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(FlowManager())
         }
         .modelContainer(for: [
             Category.self,
