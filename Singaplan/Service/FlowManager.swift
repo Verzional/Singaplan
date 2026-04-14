@@ -16,8 +16,6 @@ enum DiscoverRoute: Hashable {
     case priorityPreset
     case recommendedDistricts
     case recommendedPOIs
-    case poiDetails(POI)
-    case districtDetails(District)
 }
 
 @Observable

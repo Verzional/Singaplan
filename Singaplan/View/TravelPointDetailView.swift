@@ -10,7 +10,6 @@ struct TravelPointDetailView: View {
     @State private var showSavedItineraryMessage: Bool = false
     
     var body: some View {
-        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     headerSection
@@ -60,9 +59,6 @@ struct TravelPointDetailView: View {
                     }
                 }
             }
-            // toolbar bg invincible
-            .toolbarBackground(.hidden, for: .navigationBar)
-        }
         .overlay(
             VStack {
                 Spacer() //so the animation is pushed down on the screen

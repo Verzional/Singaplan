@@ -15,6 +15,7 @@ struct RecommendedPOIView: View {
     @Environment(FlowManager.self) private var flowManager
     
     @State private var topPOIs: [POI] = []
+    @State private var selectedPOI: POI?
     
     // MARK: - Body
     var body: some View {
@@ -33,7 +34,7 @@ struct RecommendedPOIView: View {
                                 service.addPOI(poi, to: targetDay)
                             },
                             onInfoTapped: {
-                                flowManager.navigationPath.append(DiscoverRoute.poiDetails(poi))
+                                selectedPOI = poi
                             }
                         )
                     }
@@ -47,6 +48,9 @@ struct RecommendedPOIView: View {
         }
         .toolbar {
             navigationToolbar
+        }
+        .sheet(item: $selectedPOI) { poiToShow in
+            TravelPointDetailView(poi: poiToShow)
         }
     }
 }

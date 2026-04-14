@@ -36,7 +36,7 @@ struct RecommendedDistrictView: View {
                                 service.addDistrict(district, to: targetDay)
                             },
                             onInfoTapped: {
-                                flowManager.navigationPath.append(DiscoverRoute.districtDetails(district))
+                                selectedDistrict = district
                             })
                         .onTapGesture {
                             selectedDistrict = district
@@ -54,6 +54,9 @@ struct RecommendedDistrictView: View {
         .navigationTitle("Top Districts")
         .onAppear {
             calculateRecommendations()
+        }
+        .sheet(item: $selectedDistrict) { district in
+            TravelPointDetailView(district: district)
         }
     }
 }
