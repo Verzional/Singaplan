@@ -48,25 +48,44 @@ struct RecommendedCard: View {
     let result: SearchResult
     let isSelected: Bool
     var onAdd: (() -> Void)? = nil
+    var onInfoTapped: (() -> Void)? = nil
 
     @State private var isAdded: Bool = false
     
-    init(district: District, isSelected: Bool = false, onAdd: (() -> Void)? = nil) {
+    init(
+        district: District,
+        isSelected: Bool = false,
+        onAdd: (() -> Void)? = nil,
+        onInfoTapped: (() -> Void)? = nil
+    ) {
         self.result = .district(district)
         self.isSelected = isSelected
         self.onAdd = onAdd
+        self.onInfoTapped = onInfoTapped
     }
     
-    init(poi: POI, isSelected: Bool = false, onAdd: (() -> Void)? = nil) {
+    init(
+        poi: POI,
+        isSelected: Bool = false,
+        onAdd: (() -> Void)? = nil,
+        onInfoTapped: (() -> Void)? = nil
+    ) {
         self.result = .poi(poi)
         self.isSelected = isSelected
         self.onAdd = onAdd
+        self.onInfoTapped = onInfoTapped
     }
     
-    init(result: SearchResult, isSelected: Bool = false, onAdd: (() -> Void)? = nil) {
+    init(
+        result: SearchResult,
+        isSelected: Bool = false,
+        onAdd: (() -> Void)? = nil,
+        onInfoTapped: (() -> Void)? = nil
+    ) {
         self.result = result
         self.isSelected = isSelected
         self.onAdd = onAdd
+        self.onInfoTapped = onInfoTapped
     }
     
     var body: some View {
@@ -123,7 +142,7 @@ extension RecommendedCard {
                 .lineLimit(1)
             Spacer()
             Button {
-                print("Info tapped for \(result.name)")
+                onInfoTapped?()
             } label: {
                 Image(systemName: "info.circle")
                     .foregroundColor(.secondary)
@@ -242,9 +261,9 @@ extension RecommendedCard {
         ]
     )
     
-    RecommendedCard(district: mockDistrict) {
+    RecommendedCard(district: mockDistrict, onInfoTapped:  {
         print("Add district tapped")
-    }
+    })
 }
 
 #Preview("POI") {
@@ -262,8 +281,8 @@ extension RecommendedCard {
         ]
     )
     
-    RecommendedCard(poi: mockPOI) {
+    RecommendedCard(poi: mockPOI, onInfoTapped:  {
         print("Add POI tapped")
-    }
+    })
 }
 

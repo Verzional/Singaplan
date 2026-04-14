@@ -25,11 +25,17 @@ struct RecommendedPOIView: View {
                         .padding(.top, 40)
                 } else {
                     ForEach(topPOIs) { poi in
-                        RecommendedCard(poi: poi, onAdd: {
-                            guard let targetDay = flowManager.targetDay else { return }
-                            let service = ItineraryService(modelContext: modelContext)
-                            service.addPOI(poi, to: targetDay)
-                        })
+                        RecommendedCard(
+                            poi: poi,
+                            onAdd: {
+                                guard let targetDay = flowManager.targetDay else { return }
+                                let service = ItineraryService(modelContext: modelContext)
+                                service.addPOI(poi, to: targetDay)
+                            },
+                            onInfoTapped: {
+                                flowManager.navigationPath.append(DiscoverRoute.poiDetails(poi))
+                            }
+                        )
                     }
                 }
             }

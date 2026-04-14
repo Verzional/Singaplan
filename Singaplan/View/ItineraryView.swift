@@ -40,6 +40,10 @@ struct ItineraryView: View {
                     RecommendedDistrictView()
                 case .recommendedPOIs:
                     RecommendedPOIView()
+                case .poiDetails(let poi):
+                    TravelPointDetailView(poi: poi)
+                case .districtDetails(let district):
+                    TravelPointDetailView(district: district)
                 }
             }
             .padding(.horizontal)

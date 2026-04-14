@@ -20,11 +20,11 @@ struct ManualSearchView: View {
         let matchingDistricts = allDistricts
             .filter { $0.name.localizedLowercase.contains(lowerSearch) }
             .map { SearchResult.district($0) }
-            
+        
         let matchingPOIs = allPOIs
             .filter { $0.name.localizedLowercase.contains(lowerSearch) }
             .map { SearchResult.poi($0) }
-            
+        
         return matchingDistricts + matchingPOIs
     }
     
@@ -61,12 +61,12 @@ extension ManualSearchView {
             .frame(height: 240)
             .clipped()
     }
-
+    
     private var searchBarSection: some View {
         SearchBar(text: $searchText, placeholder: "Search Districts & POIs")
             .padding(.vertical, 20)
     }
-
+    
     private var recentSearchesList: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -86,7 +86,7 @@ extension ManualSearchView {
         .padding(.horizontal, 25)
         .padding(.top, 10)
     }
-
+    
     private var searchResultsSection: some View {
         ScrollView {
             VStack(spacing: 16) {
