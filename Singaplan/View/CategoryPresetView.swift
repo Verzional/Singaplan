@@ -13,30 +13,28 @@ struct CategoryPresetView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(FlowManager.self) private var flowManager
-
+    
     @State private var presetToEdit: CategoryPreset?
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
-
+    
     @Query(sort: \CategoryPreset.createdAt, order: .reverse)
     private var savedPresets: [CategoryPreset]
-
+    
     // MARK: - Body
     var body: some View {
-        NavigationStack {
-            VStack {
-                presetList
-                Spacer()
-                continueButton
-            }
-            .navigationTitle("Category Preset")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                navigationToolbar
-            }
-            .sheet(isPresented: $isShowingSheet) {
-                CategorySelectView(preset: presetToEdit)
-            }
+        VStack {
+            presetList
+            Spacer()
+            continueButton
+        }
+        .navigationTitle("Category Preset")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            navigationToolbar
+        }
+        .sheet(isPresented: $isShowingSheet) {
+            CategorySelectView(preset: presetToEdit)
         }
     }
 }
@@ -73,17 +71,15 @@ extension CategoryPresetView {
             }
         }
     }
-
+    
     fileprivate var continueButton: some View {
-        NavigationLink {
-            PriorityPresetView()
-        } label: {
-            Text("Continue")
+        Button("Continue") {
+            flowManager.navigationPath.append(DiscoverRoute.priorityPreset)
         }
         .buttonStyle(.borderedProminent)
         .disabled(selectedPreset == nil)
     }
-
+    
     fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .primaryAction) {

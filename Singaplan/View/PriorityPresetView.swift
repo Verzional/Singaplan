@@ -12,30 +12,28 @@ struct PriorityPresetView: View {
     // MARK: - File Properties
     @Environment(\.dismiss) private var dismiss
     @Environment(FlowManager.self) private var flowManager
-
+    
     @State private var presetToEdit: PriorityPreset?
     @State private var selectedPreset: UUID?
     @State private var isShowingSheet = false
-
+    
     @Query(sort: \PriorityPreset.createdAt, order: .reverse)
     private var savedPresets: [PriorityPreset]
-
+    
     // MARK: - Body
     var body: some View {
-        NavigationStack {
-            VStack {
-                presetList
-                Spacer()
-                continueButton
-            }
-            .navigationTitle("Priority Preset")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                navigationToolbar
-            }
-            .sheet(isPresented: $isShowingSheet) {
-                PrioritySelectView(preset: presetToEdit)
-            }
+        VStack {
+            presetList
+            Spacer()
+            continueButton
+        }
+        .navigationTitle("Priority Preset")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            navigationToolbar
+        }
+        .sheet(isPresented: $isShowingSheet) {
+            PrioritySelectView(preset: presetToEdit)
         }
     }
 }
@@ -70,17 +68,15 @@ extension PriorityPresetView {
             }
         }
     }
-
+    
     fileprivate var continueButton: some View {
-        NavigationLink {
-            RecommendedDistrictView()
-        } label: {
-            Text("Continue")
+        Button("Continue") {
+            flowManager.navigationPath.append(DiscoverRoute.recommendedDistricts)
         }
         .buttonStyle(.borderedProminent)
         .disabled(selectedPreset == nil)
     }
-
+    
     fileprivate var navigationToolbar: some ToolbarContent {
         Group {
             ToolbarItem(placement: .primaryAction) {

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ItineraryView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(FlowManager.self) private var flowManager
     
     @Query(sort: \Itinerary.folderName) private var allFolders: [Itinerary]
     
@@ -19,10 +20,27 @@ struct ItineraryView: View {
     
     // MARK: - Body
     var body: some View {
-        NavigationStack {
+        @Bindable var flowManagerBindable = flowManager
+        
+        NavigationStack(path: $flowManagerBindable.navigationPath) {
             VStack(alignment: .leading, spacing: 12) {
                 headerSection
                 cardList
+            }
+            .navigationDestination(for: Itinerary.self) { folder in
+                ItineraryDetailView(folder: folder)
+            }
+            .navigationDestination(for: DiscoverRoute.self) { route in
+                switch route {
+                case .categoryPreset:
+                    CategoryPresetView()
+                case .priorityPreset:
+                    PriorityPresetView()
+                case .recommendedDistricts:
+                    RecommendedDistrictView()
+                case .recommendedPOIs:
+                    RecommendedPOIView()
+                }
             }
             .padding(.horizontal)
             .sheet(isPresented: $showModal) {
@@ -151,7 +169,7 @@ extension ItineraryView {
                             backgroundImageName: "singapore",
                             onBack: {}
                         )
-                        NavigationLink(destination: ItineraryDetailView(folder: folder)) {
+                        NavigationLink(value: folder) {
                             EmptyView()
                         }
                         .opacity(0)
@@ -174,15 +192,15 @@ extension ItineraryView {
 }
 
 // MARK: - Preview
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(
-        for: Itinerary.self, ItineraryDay.self, POI.self, configurations: config)
-    
-    let context = container.mainContext
-    let dummyItinerary = Itinerary(folderName: "Bali Trip")
-    context.insert(dummyItinerary)
-    
-    return ItineraryView()
-        .modelContainer(container)
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(
+//        for: Itinerary.self, ItineraryDay.self, POI.self, configurations: config)
+//
+//    let context = container.mainContext
+//    let dummyItinerary = Itinerary(folderName: "Bali Trip")
+//    context.insert(dummyItinerary)
+//
+//    return ItineraryView()
+//        .modelContainer(container)
+//}

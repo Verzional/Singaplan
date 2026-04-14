@@ -50,7 +50,8 @@ extension RecommendedPOIView {
     fileprivate var navigationToolbar: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
             Button {
-                
+                flowManager.reset()
+                flowManager.popToItineraryDetail()
             } label: {
                 Image(systemName: "checkmark")
             }

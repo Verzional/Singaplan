@@ -55,10 +55,8 @@ struct RecommendedDistrictView: View {
 // MARK: - View Components
 extension RecommendedDistrictView {
     fileprivate var continueButton: some View {
-        NavigationLink {
-            RecommendedPOIView()
-        } label: {
-            Text("Continue")
+        Button("Continue") {
+            flowManager.navigationPath.append(DiscoverRoute.recommendedPOIs)
         }
         .buttonStyle(.borderedProminent)
         .disabled(selectedDistrict == nil)
