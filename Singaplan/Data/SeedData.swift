@@ -275,6 +275,20 @@ struct SeedData {
         photoUrls: ["punggol_1", "punggol_2"]
     )
     
+    static let central = District(
+        name: "Central",
+        address: "Singapore",
+        desc: "Singapore’s premier eco-town. A modern residential district built around a beautiful waterway, perfect for cycling and outdoor fun.",
+        photoUrls: ["punggol_1", "punggol_2"]
+    )
+    
+    static let river_valley = District(
+        name: "River Valley",
+        address: "Singapore",
+        desc: "Singapore’s premier eco-town. A modern residential district built around a beautiful waterway, perfect for cycling and outdoor fun.",
+        photoUrls: ["punggol_1", "punggol_2"]
+    )
+    
     static var districtData: [District] {
         return [marina_bay, marina_south, civic_district, downtown, orchard_road, chinatown, sentosa_island, harbourfront, bukit_merah, little_india, kampong_glam, east_coast, changi, mandai, jurong, lim_chu_kang, bukit_timah, bugis, punggol]
     }
@@ -287,7 +301,7 @@ struct SeedData {
         photoUrls: ["national-orchird-garden_1", "national-orchird-garden_2"],
         openTime: "8:30",
         closeTime: "19:00",
-        district: nil,
+        district: central,
         categories: [nature]
     )
     
@@ -298,7 +312,7 @@ struct SeedData {
         photoUrls: ["macritchie-reservoir_1", "macritchie-reservoir_2"],
         openTime: "7:00",
         closeTime: "19:00",
-        district: nil,
+        district: central,
         categories: [nature]
     )
     
@@ -309,7 +323,7 @@ struct SeedData {
         photoUrls: ["henderson-waves_1", "henderson-waves_2"],
         openTime: "0:00",
         closeTime: "23:59",
-        district: nil,
+        district: bukit_merah,
         categories: [nature]
     )
     
@@ -331,7 +345,7 @@ struct SeedData {
         photoUrls: ["art-science-museum_1", "art-science-museum_2"],
         openTime: "10:00",
         closeTime: "19:00",
-        district: nil,
+        district: civic_district,
         categories: [categories[4]]
     )
     
@@ -411,18 +425,7 @@ struct SeedData {
         district: sentosa_island,
         categories: [metro]
     )
-    
-    static let poi_duck_tours_14 = POI(
-        name: "Duck Tours",
-        desc: "An amphibious tour vehicle that travels on both land and water to see Singapore’s landmarks.",
-        address: "3 Temasek Blvd, Suntec City",
-        photoUrls: ["duck-tours_1", "duck-tours_2"],
-        openTime: "9:00",
-        closeTime: "18:30",
-        district: nil,
-        categories: [culture]
-    )
-    
+
     static let poi_the_hive_15 = POI(
         name: "The Hive",
         desc: "Award-winning architectural marvel at Nanyang Technological University.",
@@ -477,7 +480,7 @@ struct SeedData {
         district: punggol,
         categories: [nature]
     )
-    
+
     static let poi_victoria_theatre_20 = POI(
         name: "Victoria Theatre",
         desc: "A historic concert hall and performing arts venue.",
@@ -485,7 +488,7 @@ struct SeedData {
         photoUrls: ["victoria-theatre_1", "victoria-theatre_2"],
         openTime: "10:00",
         closeTime: "21:00",
-        district: nil,
+        district: central,
         categories: [categories[4]]
     )
     
@@ -498,17 +501,6 @@ struct SeedData {
         closeTime: "9:00",
         district: marina_bay,
         categories: [metro]
-    )
-    
-    static let poi_the_intan_22 = POI(
-        name: "The Intan",
-        desc: "A private home-museum dedicated to Peranakan culture.",
-        address: "69 Joo Chiat Terrace, S427231",
-        photoUrls: ["the-intan_1", "the-intan_2"],
-        openTime: "7:00",
-        closeTime: "22:00",
-        district: nil,
-        categories: [categories[4]]
     )
     
     static let poi_snow_city_23 = POI(
@@ -606,7 +598,7 @@ struct SeedData {
         photoUrls: ["clarke-quay_1", "clarke-quay_2"],
         openTime: "10:00",
         closeTime: "23:00",
-        district: nil,
+        district: civic_district,
         categories: [metro]
     )
     
@@ -617,7 +609,7 @@ struct SeedData {
         photoUrls: ["botanic-gardens_1", "botanic-gardens_2"],
         openTime: "5:00",
         closeTime: "12:00",
-        district: nil,
+        district: central,
         categories: [nature]
     )
     
@@ -639,7 +631,7 @@ struct SeedData {
         photoUrls: ["little-india_1", "little-india_2"],
         openTime: "0:00",
         closeTime: "23:59",
-        district: nil,
+        district: little_india,
         categories: [culture]
     )
     
@@ -684,17 +676,6 @@ struct SeedData {
         openTime: "11:00",
         closeTime: "22:00",
         district: kampong_glam,
-        categories: [culture]
-    )
-    
-    static let poi_singapore_flyer_39 = POI(
-        name: "Singapore Flyer",
-        desc: "A giant observation wheel offering panoramic city views.",
-        address: "30 Raffles Ave, S039803",
-        photoUrls: ["singapore-flyer_1", "singapore-flyer_2"],
-        openTime: "10:00",
-        closeTime: "22:00",
-        district: nil,
         categories: [culture]
     )
     
@@ -760,7 +741,7 @@ struct SeedData {
         photoUrls: ["fort-canning-park_1", "fort-canning-park_2"],
         openTime: "0:00",
         closeTime: "23:59",
-        district: nil,
+        district: central,
         categories: [culture]
     )
     
@@ -852,17 +833,6 @@ struct SeedData {
         categories: [categories[1]]
     )
     
-    static let poi_haw_par_villa_54 = POI(
-        name: "Haw Par Villa",
-        desc: "A cultural park depicting scenes from Chinese mythology.",
-        address: "262 Pasir Panjang Rd, S118628",
-        photoUrls: ["haw-par-villa_1", "haw-par-villa_2"],
-        openTime: "9:00",
-        closeTime: "20.00",
-        district: nil,
-        categories: [culture]
-    )
-    
     static let poi_bird_paradise_55 = POI(
         name: "Bird Paradise",
         desc: "Modern bird park with massive walk-through aviaries.",
@@ -892,7 +862,7 @@ struct SeedData {
         photoUrls: ["macritchie_1", "macritchie_2"],
         openTime: "7:00",
         closeTime: "19:00",
-        district: nil,
+        district: central,
         categories: [nature]
     )
     
@@ -951,17 +921,6 @@ struct SeedData {
         categories: [metro]
     )
     
-    static let poi_newton_food_centre_63 = POI(
-        name: "Newton Food Centre",
-        desc: "A famous open-air food court featured in \"Crazy Rich Asians\".",
-        address: "500 Clemenceau Ave N, S229495",
-        photoUrls: ["newton-food-centre_1", "newton-food-centre_2"],
-        openTime: "12:00",
-        closeTime: "2:00",
-        district: nil,
-        categories: [culinary]
-    )
-    
     static let poi_emerald_hill_64 = POI(
         name: "Emerald Hill",
         desc: "A historic neighborhood with colorful Peranakan-style houses.",
@@ -1015,28 +974,6 @@ struct SeedData {
         closeTime: "18:00",
         district: sentosa_island,
         categories: [categories[4]]
-    )
-    
-    static let poi_chijmes_69 = POI(
-        name: "CHIJMES",
-        desc: "Historic convent complex transformed into a chic dining and lifestyle venue.",
-        address: "30 Victoria St",
-        photoUrls: ["chijmes_1", "chijmes_2"],
-        openTime: "9:00",
-        closeTime: "23:00",
-        district: nil,
-        categories: [culinary]
-    )
-    
-    static let poi_southern_ridges_70 = POI(
-        name: "Southern Ridges",
-        desc: "A 10km trail connecting several parks with scenic bridges.",
-        address: "Henderson Rd, S159557",
-        photoUrls: ["southern-ridges_1", "southern-ridges_2"],
-        openTime: "0:00",
-        closeTime: "23:59",
-        district: nil,
-        categories: [nature]
     )
     
     static let poi_vivocity_sky_park_71 = POI(
@@ -1160,28 +1097,6 @@ struct SeedData {
         categories: [categories[1]]
     )
     
-    static let poi_wild_wild_wet_82 = POI(
-        name: "Wild Wild Wet",
-        desc: "One of Singapore's largest water parks with thrill rides.",
-        address: "1 Pasir Ris Cl, S519599",
-        photoUrls: ["wild-wild-wet_1", "wild-wild-wet_2"],
-        openTime: "12:00",
-        closeTime: "18:00",
-        district: nil,
-        categories: [metro]
-    )
-    
-    static let poi_lee_kong_chian_nat_hist_museum_83 = POI(
-        name: "Lee Kong Chian Nat. Hist. Museum",
-        desc: "A natural history museum showcasing dinosaur fossils.",
-        address: "2 Conservatory Dr, S117377",
-        photoUrls: ["lee-kong-chian-nat-hist-museum_1", "lee-kong-chian-nat-hist-museum_2"],
-        openTime: "10:00",
-        closeTime: "18:00",
-        district: nil,
-        categories: [categories[4]]
-    )
-    
     static let poi_mint_museum_of_toys_84 = POI(
         name: "Mint Museum of Toys",
         desc: "A private museum with a world-class collection of vintage toys.",
@@ -1191,17 +1106,6 @@ struct SeedData {
         closeTime: "18:30",
         district: civic_district,
         categories: [categories[4]]
-    )
-    
-    static let poi_geylang_serai_market_85 = POI(
-        name: "Geylang Serai Market",
-        desc: "A cultural hub for the Malay community with a wet market.",
-        address: "1 Geylang Serai, S402001",
-        photoUrls: ["geylang-serai-market_1", "geylang-serai-market_2"],
-        openTime: "6:00",
-        closeTime: "21:00",
-        district: nil,
-        categories: [culinary]
     )
     
     static let poi_fort_siloso_86 = POI(
@@ -1222,19 +1126,8 @@ struct SeedData {
         photoUrls: ["chomp-chomp-food-centre_1", "chomp-chomp-food-centre_2"],
         openTime: "16:00",
         closeTime: "0:30",
-        district: nil,
+        district: little_india,
         categories: [culinary]
-    )
-    
-    static let poi_lazarus_island_88 = POI(
-        name: "Lazarus Island",
-        desc: "A tranquil offshore island with pristine white sand beaches.",
-        address: "Southern Islands (via Marina South Pier)",
-        photoUrls: ["lazarus-island_1", "lazarus-island_2"],
-        openTime: "0:00",
-        closeTime: "23:59",
-        district: nil,
-        categories: [categories[1]]
     )
     
     static let poi_changi_chapel_museum_89 = POI(
@@ -1259,17 +1152,6 @@ struct SeedData {
         categories: [nature]
     )
     
-    static let poi_the_oval_seletar_91 = POI(
-        name: "The Oval @ Seletar",
-        desc: "A lifestyle hub in a former British colonial airbase.",
-        address: "3 Park Ln, S798387",
-        photoUrls: ["the-oval-seletar_1", "the-oval-seletar_2"],
-        openTime: "0:00",
-        closeTime: "23:59",
-        district: nil,
-        categories: [culinary]
-    )
-    
     static let poi_malay_heritage_centre_92 = POI(
         name: "Malay Heritage Centre",
         desc: "A museum exploring the history and culture of Malay locals.",
@@ -1292,28 +1174,6 @@ struct SeedData {
         categories: [categories[4]]
     )
     
-    static let poi_kranji_marshes_94 = POI(
-        name: "Kranji Marshes",
-        desc: "One of Singapore's largest freshwater marshland habitats.",
-        address: "11 Neo Tiew Lane 2, S718814",
-        photoUrls: ["kranji-marshes_1", "kranji-marshes_2"],
-        openTime: "7:00",
-        closeTime: "19:00",
-        district: nil,
-        categories: [nature]
-    )
-    
-    static let poi_kampong_lorong_buangkok_95 = POI(
-        name: "Kampong Lorong Buangkok",
-        desc: "The last surviving traditional village (kampong) in Singapore.",
-        address: "7 Lor Buangkok, S547557",
-        photoUrls: ["kampong-lorong-buangkok_1", "kampong-lorong-buangkok_2"],
-        openTime: "0:00",
-        closeTime: "23:59",
-        district: nil,
-        categories: [culture]
-    )
-    
     static let poi_east_coast_lagoon_food_village_96 = POI(
         name: "East Coast Lagoon Food Village",
         desc: "An iconic beachfront food centre for seafood and satay.",
@@ -1322,17 +1182,6 @@ struct SeedData {
         openTime: "16:00",
         closeTime: "22:30",
         district: east_coast,
-        categories: [culinary]
-    )
-    
-    static let poi_dempsey_hill_97 = POI(
-        name: "Dempsey Hill",
-        desc: "A dining and lifestyle destination in lush greenery.",
-        address: "Dempsey Rd, S249679",
-        photoUrls: ["dempsey-hill_1", "dempsey-hill_2"],
-        openTime: "0:00",
-        closeTime: "23:59",
-        district: nil,
         categories: [culinary]
     )
     
@@ -1695,7 +1544,7 @@ struct SeedData {
         photoUrls: ["asian-civilisations-museum_1", "asian-civilisations-museum_2"],
         openTime: "10:00",
         closeTime: "19:00",
-        district: nil,
+        district: civic_district,
         categories: [culture]
     )
     
@@ -1934,24 +1783,24 @@ struct SeedData {
         return [
             poi_national_orchird_garden_2, poi_macritchie_reservoir_3, poi_henderson_waves_4, poi_sands_skypark_observation_deck_5, poi_art_science_museum_6,
             poi_joo_chiat_7, poi_sungei_buloh_wetland_reserve_8, poi_east_coast_park_9, poi_ion_orchard_10, poi_mustafa_centre_11,
-            poi_bugis_junction_12, poi_wings_of_time_13, poi_duck_tours_14, poi_the_hive_15, poi_marina_barrage_16,
+            poi_bugis_junction_12, poi_wings_of_time_13, poi_the_hive_15, poi_marina_barrage_16,
             poi_science_centre_17, poi_bukit_timah_nature_reserve_18, poi_punggol_waterway_park_19, poi_victoria_theatre_20, poi_spectra_light_water_show_21,
-            poi_the_intan_22, poi_snow_city_23, poi_chinese_garden_24, poi_gardens_by_the_bay_25, poi_buddha_tooth_relic_26,
+            poi_snow_city_23, poi_chinese_garden_24, poi_gardens_by_the_bay_25, poi_buddha_tooth_relic_26,
             poi_marina_bay_sands_27, poi_merlion_park_28, poi_universal_studios_29, poi_jewel_changi_airport_30, poi_clarke_quay_31,
             poi_botanic_gardens_32, poi_chinatown_market_33, poi_little_india_34, poi_artscience_museum_35, poi_national_gallery_36,
-            poi_night_safari_37, poi_haji_lane_38, poi_singapore_flyer_39, poi_sentosa_luge_40, poi_lau_pa_sat_41,
+            poi_night_safari_37, poi_haji_lane_38, poi_sentosa_luge_40, poi_lau_pa_sat_41,
             poi_henderson_waves_42, poi_s_e_a_aquarium_43, poi_orchard_road_44, poi_fort_canning_park_45, poi_asian_civ_museum_46,
             poi_esplanade_47, poi_mount_faber_park_48, poi_national_museum_49, poi_river_wonders_50, poi_tiong_bahru_51,
-            poi_suntec_fountain_52, poi_palawan_beach_53, poi_haw_par_villa_54, poi_bird_paradise_55, poi_singapore_zoo_56,
+            poi_suntec_fountain_52, poi_palawan_beach_53, poi_bird_paradise_55, poi_singapore_zoo_56,
             poi_macritchie_57, poi_helix_bridge_58, poi_peranakan_museum_59, poi_sri_mariamman_60, poi_sultan_mosque_61,
-            poi_adventure_cove_62, poi_newton_food_centre_63, poi_emerald_hill_64, poi_library_orchard_65, poi_old_hill_police_stn_66,
-            poi_siloso_beach_67, poi_madame_tussauds_68, poi_chijmes_69, poi_southern_ridges_70, poi_vivocity_sky_park_71,
+            poi_adventure_cove_62, poi_emerald_hill_64, poi_library_orchard_65, poi_old_hill_police_stn_66,
+            poi_siloso_beach_67, poi_madame_tussauds_68, poi_vivocity_sky_park_71,
             poi_jurong_lake_garden_72, poi_maxwell_food_ctr_73, poi_skyhelix_sentosa_74, poi_plaza_singapura_75, poi_pulau_ubin_76,
             poi_arab_street_77, poi_tekka_centre_78, poi_rail_corridor_79, poi_singapore_cable_car_80, poi_tanjong_beach_81,
-            poi_wild_wild_wet_82, poi_lee_kong_chian_nat_hist_museum_83, poi_mint_museum_of_toys_84, poi_geylang_serai_market_85, poi_fort_siloso_86,
-            poi_chomp_chomp_food_centre_87, poi_lazarus_island_88, poi_changi_chapel_museum_89, poi_coney_island_90, poi_the_oval_seletar_91,
-            poi_malay_heritage_centre_92, poi_trick_eye_museum_93, poi_kranji_marshes_94, poi_kampong_lorong_buangkok_95, poi_east_coast_lagoon_food_village_96,
-            poi_dempsey_hill_97, poi_funan_mall_98, poi_battlebox_99, poi_national_design_centre_100, poi_istana_heritage_gallery_101,
+            poi_mint_museum_of_toys_84, poi_fort_siloso_86,
+            poi_chomp_chomp_food_centre_87, poi_changi_chapel_museum_89, poi_coney_island_90,
+            poi_malay_heritage_centre_92, poi_trick_eye_museum_93, poi_east_coast_lagoon_food_village_96,
+            poi_funan_mall_98, poi_battlebox_99, poi_national_design_centre_100, poi_istana_heritage_gallery_101,
             poi_armenian_church_102, poi_hortpark_103, poi_woodlands_waterfront_jetty_104, poi_lower_peirce_reservoir_105, poi_upper_seletar_reservoir_106,
             poi_chesnut_nature_park_107, poi_labrador_nature_reserve_108, poi_pasir_ris_park_109, poi_hydrodash_110, poi_jewel_canopy_park_111,
             poi_changi_experience_studio_112, poi_air_force_museum_113, poi_science_centre_singapore_114, poi_keppel_bay_115, poi_design_orchard_116,
