@@ -38,7 +38,6 @@ struct ManualSearchView: View {
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
             
-            searchBarSection
             
             if searchText.isEmpty {
                 recentSearchesList
@@ -46,9 +45,12 @@ struct ManualSearchView: View {
             } else {
                 searchResultsSection
                     .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .padding(.top, 76)
             }
             
             Spacer()
+            
+            searchBarSection
         }
         .edgesIgnoringSafeArea(.top)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: searchText.isEmpty)

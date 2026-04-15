@@ -5,14 +5,14 @@
 
 struct SeedData {
     // MARK: - Categories
-    static let nature = Category(title: "Nature & Outdoors")
-    static let culture = Category(title: "Culture & History")
-    static let metro = Category(title: "Metropolitan")
-    static let supernatural = Category(title: "Supernatural")
-    static let culinary = Category(title: "Culinary")
-    static let shopping = Category(title: "Shopping")
-    static let entertainment = Category(title: "Entertainment")
-    static let kids = Category(title: "Kids & Family")
+    static let nature = Category(title: "Nature & Outdoors", icon: "leaf")
+    static let culture = Category(title: "Culture & History", icon: "book")
+    static let metro = Category(title: "Metropolitan", icon: "house.fill")
+    static let supernatural = Category(title: "Supernatural", icon: "moon.stars")
+    static let culinary = Category(title: "Culinary", icon: "fork.knife")
+    static let shopping = Category(title: "Shopping", icon: "cart")
+    static let entertainment = Category(title: "Entertainment", icon: "tv")
+    static let kids = Category(title: "Kids & Family", icon: "person.2.fill")
     
     // Subcategories
     static let categories: [Category] = [

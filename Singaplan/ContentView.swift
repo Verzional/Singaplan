@@ -20,30 +20,78 @@ struct ContentView: View {
     
     private func seedDataIfNeeded() {
         do {
-            var descriptor = FetchDescriptor<Category>()
-            descriptor.fetchLimit = 1
-            
-            if try modelContext.fetch(descriptor).isEmpty {
-                for category in SeedData.categoryData {
-                    modelContext.insert(category)
-                }
-                
-                for priority in SeedData.priorityData {
-                    modelContext.insert(priority)
-                }
-                
-                for district in SeedData.districtData {
-                    modelContext.insert(district)
-                }
-                
-                for poi in SeedData.poiData {
-                    modelContext.insert(poi)
-                }
-                
-                try? modelContext.save()
+            let descriptor = FetchDescriptor<District>()
+            if try !modelContext.fetch(descriptor).isEmpty { return }
+
+            var categoryMap: [String: Category] = [:]
+            for categoryTemplate in SeedData.categoryData {
+                let newCategory = Category(title: categoryTemplate.title, icon: categoryTemplate.icon)
+                modelContext.insert(newCategory)
+                categoryMap[newCategory.title] = newCategory
             }
+            
+            for categoryTemplate in SeedData.categoryData {
+                if let parentTemplate = categoryTemplate.parent {
+                    let current = categoryMap[categoryTemplate.title]
+                    current?.parent = categoryMap[parentTemplate.title]
+                }
+            }
+            
+            try modelContext.save()
+
+            var districtMap: [String: District] = [:]
+            for districtTemplate in SeedData.districtData {
+                let newDistrict = District(
+                    name: districtTemplate.name,
+                    address: districtTemplate.address,
+                    desc: districtTemplate.desc,
+                    photoUrls: districtTemplate.photoUrls
+                )
+                
+                if let templateCats = districtTemplate.categories {
+                    newDistrict.categories = templateCats.compactMap { categoryMap[$0.title] }
+                }
+                
+                if let templatePriorities = districtTemplate.priorities {
+                    newDistrict.priorities = templatePriorities.map { p in
+                        let newP = Priority(title: p.title, desc: p.desc, segments: p.segments)
+                        newP.selectedWeight = p.selectedWeight
+                        return newP
+                    }
+                }
+                
+                modelContext.insert(newDistrict)
+                districtMap[newDistrict.name] = newDistrict
+            }
+
+            try modelContext.save()
+
+            for poiTemplate in SeedData.poiData {
+                let newPOI = POI(
+                    name: poiTemplate.name,
+                    desc: poiTemplate.desc,
+                    address: poiTemplate.address,
+                    photoUrls: poiTemplate.photoUrls,
+                    openTime: poiTemplate.openTime,
+                    closeTime: poiTemplate.closeTime
+                )
+                
+                if let templateDist = poiTemplate.district {
+                    newPOI.district = districtMap[templateDist.name]
+                }
+                
+                if let templateCats = poiTemplate.categories {
+                    newPOI.categories = templateCats.compactMap { categoryMap[$0.title] }
+                }
+                
+                modelContext.insert(newPOI)
+            }
+            
+            try modelContext.save()
+            print("✅ Seeding Success: All relationships stitched.")
+            
         } catch {
-            print("Failed to fetch or seed data: \(error)")
+            print("❌ Seeding Error: \(error)")
         }
     }
 }
