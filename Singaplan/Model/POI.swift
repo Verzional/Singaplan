@@ -31,8 +31,9 @@ final class POI {
         openTime: String? = nil,
         closeTime: String? = nil,
         district: District? = nil,
-        priorities: [Priority]? = nil,
-        categories: [Category]? = nil
+        categories: [Category]? = nil,
+        priorities: [Priority]? = nil
+        
     ) {
         self.id = id
         self.name = name
@@ -42,7 +43,7 @@ final class POI {
         self.openTime = openTime
         self.closeTime = closeTime
         self.district = district
-        self.priorities = priorities
         self.categories = categories
+        self.priorities = priorities
     }
 }
