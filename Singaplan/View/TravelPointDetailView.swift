@@ -195,34 +195,36 @@ struct TravelPointDetailView: View {
     
     // MARK: - 5. Make Priority Row Function
     private func makePriorityCard(for priority: Priority) -> some View {
-    // Find the text label that matches the user's selected weight
-            // Works for the final data too later.
-            let selectedSegment = priority.segments.first(where: { $0.weight == priority.selectedWeight })
+        
+        // 1. Find the segment with the closest weight to the selectedWeight
+        let closestSegment = priority.segments.min(by: { segment1, segment2 in
+            let difference1 = abs(segment1.weight - priority.selectedWeight)
+            let difference2 = abs(segment2.weight - priority.selectedWeight)
+            return difference1 < difference2
+        })
+        
+        // 2. Safely unwrap the label
+        let chosenText = closestSegment?.label ?? ""
+        
+        return HStack {
+            Text(priority.title)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
             
-            // DUMMY DATA, forces $$ from the priority mock data
-            let chosenText = selectedSegment?.label ?? ""
+            Rectangle()
+                .fill(Color.gray.opacity(0.3))
+                .frame(height: 1)
+                .padding(.horizontal, 8)
             
-            //
-            return HStack {
-                // Left side (e.g., "Popularity", "Mobility", "Budget")
-                Text(priority.title)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                // line to separated, not a must, can be removable
-                Rectangle()
-                    .fill(Color.gray.opacity(0.3)) // A very faint, low-opacity gray
-                    .frame(height: 1)
-                    .padding(.horizontal, 8)
-                Spacer()
-                
-                // Right side (e.g., "Mixed", "Standard", "$$")
-                Text(chosenText)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-            }
-            .padding(.vertical, 2)
+            Spacer()
+            
+            Text(chosenText)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.primary)
         }
+        .padding(.vertical, 2)
+    }
     
     // MARK: - Preview Provider
     struct TravelPointDetailView_Previews: PreviewProvider {
