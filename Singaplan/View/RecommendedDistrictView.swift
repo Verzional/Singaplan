@@ -14,6 +14,7 @@ struct RecommendedDistrictView: View {
     
     @State private var topDistricts: [District] = []
     @State private var selectedDistrict: District?
+    @State private var tappedDistrict: District?
     
     var body: some View {
         ScrollView {
@@ -36,7 +37,7 @@ struct RecommendedDistrictView: View {
                                 service.addDistrict(district, to: targetDay)
                             },
                             onInfoTapped: {
-                                selectedDistrict = district
+                                tappedDistrict = district
                             })
                         .onTapGesture {
                             selectedDistrict = district
@@ -55,7 +56,7 @@ struct RecommendedDistrictView: View {
         .onAppear {
             calculateRecommendations()
         }
-        .sheet(item: $selectedDistrict) { district in
+        .sheet(item: $tappedDistrict) { district in
             TravelPointDetailView(district: district)
         }
     }

@@ -276,6 +276,9 @@ struct TravelPointDetailView: View {
                 openTime: "10:00 am", // ✅ POI gets the times!
                 closeTime: "19:00 pm",
                 // Note: I left photo nil here, but you can pass a dummy Photo object if you have one!
+                categories: [
+                    Category(title: "Attraction", icon: "star.fill")
+                ],
                 priorities: [
                     SeedData.experiences[0], // Popularity
                     SeedData.experiences[1], // Proximity
@@ -284,9 +287,6 @@ struct TravelPointDetailView: View {
                     SeedData.accessibility[1], // Transport
                     SeedData.accessibility[2], // Walkability
                 ],
-                categories: [
-                    Category(title: "Attraction", icon: "star.fill")
-                ]
             )
             
             // --- 3. SHOW BOTH IN PREVIEW ---

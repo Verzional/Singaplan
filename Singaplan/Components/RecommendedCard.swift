@@ -274,11 +274,11 @@ extension RecommendedCard {
         photoUrls: ["singapore"],
         openTime: "09:00",
         closeTime: "21:00",
-        priorities: [],
         categories: [
             Category(title: "Nature", icon: "leaf.fill"),
             Category(title: "Attraction", icon: "star.fill")
-        ]
+        ],
+        priorities: [],
     )
     
     RecommendedCard(poi: mockPOI, onInfoTapped:  {
